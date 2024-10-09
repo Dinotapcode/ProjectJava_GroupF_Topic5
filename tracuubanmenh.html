@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra Cứu Bản Mệnh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/header.css">
+    <link rel="stylesheet" href="./assets/css/footer.css">
+    <link rel="stylesheet" href="./assets/css/tracuubanmenh.css">
+</head>
+
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="grid">
+                <nav class="header__navbar header__navbar--top">
+                    <ul class="header__navbar-list">
+                        <li class="header__navbar-item"></li>
+                    </ul>
+
+                    <ul class="header__navbar-list">
+                        <li class="header__navbar-item-left header__navbar-item--separate">
+                            <div class="header__navbar-icon-link">
+                                <i class="fa-regular fa-clock"></i> 7:30 - 21:00
+                            </div>
+                        </li>
+                        <li class="header__navbar-item-left header__navbar-item--separate">
+                            <div class="header__navbar-icon-link">
+                                <i class="fa-solid fa-phone"></i> 19008080
+                            </div>
+                        </li>
+                        <li class="header__navbar-item  header__navbar-item--bold">Đăng ký</li>
+                        <li class="header__navbar-item header__navbar-item--bold">Đăng nhập</li>
+                    </ul>
+                </nav>
+
+                <nav class="header__navbar">
+                    <ul class="header__navbar-list">
+                        <li class="header__navbar-item">
+                            <a href="" class="header__navbar-logo">
+                                <img src="./assets/img/logo.png" alt="">
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="header__navbar-list">
+                        <li class="header__navbar-item header__navbar-item--strong">
+                            <a href="">GIỚI THIỆU</a>
+                        </li>
+                        <li class="header__navbar-item header__navbar-item--strong">
+                            <a href="">DỊCH VỤ TƯ VẤN</a>
+                        </li>
+                        <li class="header__navbar-item header__navbar-item--strong">
+                            <a href="">BLOG TIN TỨC</a>
+                        </li>
+                        <li class="header__navbar-item header__navbar-item--strong">
+                            <a href="">SẢN PHẨM</a>
+                        </li>
+                        <li class="header__navbar-item header__navbar-item--strong"></li>
+                        <i class="header__navbar-search fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <hr>
+        </header>
+
+        <article class="container">
+            <section class="functionality">
+                <input type="radio" id="functionality__btn-tuVan" name="toggle" checked>
+                <button class="functionality__btn" onclick="document.getElementById('functionality__btn-tuVan').checked = true; showSection('tuVan')">Tư
+                    Vấn</button>
+
+                <input type="radio" id="functionality__btn-traCuu" name="toggle">
+                <button class="functionality__btn" onclick="document.getElementById('functionality__btn-traCuu').checked = true; showSection('traCuu')">Đánh
+                    Giá</button>
+            </section>
+
+            <section id="tuVan" class="section active">
+                <article class="layout">
+                    <section class="layout__input">
+                        <h2 class="input-title">Tư vấn cá Koi phong thủy</h2>
+                        <form class="input-group">
+                            <label for="birthDate">Ngày sinh:</label>
+                            <fieldset class="birthDate">
+                                <select class="birthDay" name="day"></select>
+                                <select class="birthMonth" name="month"></select>
+                                <select class="birthYear" name="year"></select>
+                            </fieldset>
+                        </form>
+                        <form class="input-group">
+                            <label for="birthHour">Giờ sinh:</label>
+                            <select id="birthHour">
+                                <option value="23g-1g">Tý (23g - 1g)</option>
+                                <option value="1g-3g">Sửu (1g - 3g)</option>
+                                <option value="3g-5g">Dần (3g - 5g)</option>
+                                <option value="5g-7g">Mão (5g - 7g)</option>
+                                <option value="7g-9g">Thìn (7g - 9g)</option>
+                                <option value="9g-11g">Tý (9g - 11g)</option>
+                                <option value="11g-13g">Ngọ (11g - 13g)</option>
+                                <option value="13g-15g">Mùi (13g - 15g)</option>
+                                <option value="15g-17g">Thân (15g - 17g)</option>
+                                <option value="17g-19g">Dậu (17g - 19g)</option>
+                                <option value="19g-21g">Tuất (19g - 21g)</option>
+                                <option value="21g-23g">Hợi (21g - 23g)</option>
+                            </select>
+                        </form>
+                        <form class="input-group">
+                            <label for="gender">Giới tính:</label>
+                            <select id="gender">
+                                <option value="male">Nam</option>
+                                <option value="female">Nữ</option>
+                            </select>
+                        </form>
+                        <button class="btnResult" onclick="tuVanKoi()">Tư Vấn</button>
+                    </section>
+                    <section class="layout__result">
+                        <section id="tuVanResult" class="result"></section>
+                        <section id="koiInfo" class="koi-info"></section>
+                    </section>
+                </article>
+            </section>
+
+            <section id="traCuu" class="section">
+                <article class="layout">
+                    <section class="layout__input">
+                        <h2 class="input-title">Tra Cứu Độ Phù Hợp</h2>
+                        <form class="input-group">
+                            <label for="birthDate">Ngày sinh:</label>
+                            <fieldset class="birthDate">
+                                <select class="birthDay" name="day"></select>
+                                <select class="birthMonth" name="month"></select>
+                                <select class="birthYear" name="year"></select>
+                            </fieldset>
+                        </form>
+                        <form class="input-group">
+                            <label for="birthHour">Giờ sinh:</label>
+                            <select id="birthHour">
+                                <option value="23g-1g">Tý (23g - 1g)</option>
+                                <option value="1g-3g">Sửu (1g - 3g)</option>
+                                <option value="3g-5g">Dần (3g - 5g)</option>
+                                <option value="5g-7g">Mão (5g - 7g)</option>
+                                <option value="7g-9g">Thìn (7g - 9g)</option>
+                                <option value="9g-11g">Tý (9g - 11g)</option>
+                                <option value="11g-13g">Ngọ (11g - 13g)</option>
+                                <option value="13g-15g">Mùi (13g - 15g)</option>
+                                <option value="15g-17g">Thân (15g - 17g)</option>
+                                <option value="17g-19g">Dậu (17g - 19g)</option>
+                                <option value="19g-21g">Tuất (19g - 21g)</option>
+                                <option value="21g-23g">Hợi (21g - 23g)</option>
+                            </select>
+                        </form>
+                        <form class="input-group">
+                            <label for="gender">Giới tính:</label>
+                            <select id="gender">
+                                <option value="male">Nam</option>
+                                <option value="female">Nữ</option>
+                            </select>
+                        </form>
+                        <form class="input-group">
+                            <label for="species">Loài cá Koi hiện tại:</label>
+                            <select id="species">
+                                <option value="">Chọn loài cá Koi</option>
+                            </select>
+                        </form>
+
+                        <form class="input-group">
+                            <label for="quantity">Số lượng:</label>
+                            <select id="quantity">
+                                <option value="">Chọn số lượng</option>
+                                <option value="even">Chẵn</option> 
+                                <option value="odd">Lẻ</option>  
+                            </select>
+                        </form>
+
+                        <form class="input-group">
+                            <label for="pondShape">Hình dạng ao:</label>
+                            <select id="pondShape">
+                                <option value="">Chọn hình dạng ao</option>
+                            </select>
+                        </form>
+
+                        <form class="input-group">
+                            <label for="location">Vị trí ao:</label>
+                            <select id="location">
+                                <option value="">Chọn vị trí ao</option>
+                            </select>
+                        </form>
+
+                        <form class="input-group">
+                            <label for="direction">Hướng ao:</label>
+                            <select id="direction">
+                                <option value="">Chọn hướng ao</option>
+                            </select>
+                        </form>
+                        <button class="btnResult" onclick="traCuu()">Tra Cứu</button>
+                    </section>
+                    <section class="layout__result">
+                        <section id="traCuuResult" class="result"></section>
+                    </section>
+                </article>
+            </section>
+        </article>
+
+        <footer class="footer">
+            <div class="grid">
+                <nav class="footer__navbar">
+                    <ul class="footer__navbar-list">
+                        <li class="footer__navbar-item footer__navbar-item--separate">Copyright 2024 Feng Shui KOI</li>
+                        <li class="footer__navbar-item footer__navbar-item--separate">
+                            <a href="" class="footer__navbar-icon-link">
+                                <i class="fa-solid fa-shield-halved"></i> Privacy Policy
+                            </a>
+                        </li>
+                        <li class="footer__navbar-item">
+                            <a href="" class="footer__navbar-icon-link">
+                                <i class="fa-solid fa-phone"></i> Contact us
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="footer__navbar-list">
+                        <li class="footer__navbar-item">
+                            <a href="" class="footer__navbar-icon-link">
+                                <i class="footer__navbar-icon fa-brands fa-facebook"></i>
+                            </a>
+                        </li>
+                        <li class="footer__navbar-item">
+                            <a href="" class="footer__navbar-icon-link">
+                                <i class="footer__navbar-icon fa-brands fa-x-twitter"></i>
+                            </a>
+                        </li>
+                        <li class="footer__navbar-item">
+                            <a href="" class="footer__navbar-icon-link">
+                                <i class="footer__navbar-icon fa-brands fa-instagram"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </footer>
+    </div>
+    <button id="backToTop" class="back-to-top">
+            <i class="fa-solid fa-arrow-up"></i>
+        </button>
+</body>
+<script src="./assets/js/main.js"></script>
+<script src="./assets/js/tracuubanmenh.js"></script>
+
+</html>

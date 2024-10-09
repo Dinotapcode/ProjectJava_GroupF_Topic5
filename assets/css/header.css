@@ -1,0 +1,126 @@
+/* Header */
+
+.header {
+    height: 120px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: white;
+    transition: height 0.8s ease, background-color 0.8s ease;
+}
+
+
+/* Thu nho khi cuon */
+
+.header.shrink {
+    height: 70px;
+}
+
+.header__navbar--top {
+    transition: opacity 0.6s ease, visibility 0.6s ease, height 0.6s ease;
+}
+
+
+/* Bo navbar thu 1 khi cuon */
+
+.header.shrink .header__navbar--top {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+}
+
+.header__navbar-logo img {
+    transition: width 0.8s ease, height 0.8s ease;
+}
+
+.header.shrink .header__navbar-logo img {
+    width: 200px;
+    height: 40px;
+}
+
+.header__navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.header__navbar-search {
+    font-size: 20px;
+}
+
+.header__navbar-search:hover {
+    color: rgba(26, 26, 26, 0.7);
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+}
+
+.header__navbar-logo img {
+    width: 300px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.header__navbar-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+}
+
+.header__navbar-item {
+    display: inline-block;
+    font-size: 1.4rem;
+    color: black;
+    margin: 0 5px;
+    position: relative;
+}
+
+.header__navbar-item-left {
+    display: inline-block;
+    font-size: 1.4rem;
+    color: black;
+    margin: 0 5px;
+    position: relative;
+    text-decoration: none;
+}
+
+.header__navbar-item a {
+    text-decoration: none;
+    color: black;
+}
+
+.header__navbar-item:hover {
+    color: rgba(26, 26, 26, 0.7);
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+}
+
+.header__navbar-item:hover a {
+    color: rgba(26, 26, 26, 0.7);
+    cursor: pointer;
+    transition: all 0.4s ease-in-out;
+}
+
+.header__navbar-item--bold {
+    font-weight: 550;
+}
+
+.header__navbar-item--strong {
+    font-weight: 750;
+    font-size: 1.8rem;
+    margin-left: 10px;
+}
+
+.header__navbar-item--separate::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-left: 1px solid black;
+    height: 14px;
+    right: -7px;
+    top: 50%;
+    transform: translateY(-50%);
+}

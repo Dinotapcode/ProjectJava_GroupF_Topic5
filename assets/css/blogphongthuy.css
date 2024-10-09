@@ -1,0 +1,176 @@
+.container {
+    height: 100%;
+    width: 100%;
+    min-height: calc(100vh - 120px - 64px);
+    margin-top: 110px;
+    padding-bottom: 20px;
+}
+/*Post slider*/
+.post-slider .next{
+    position: absolute;
+    top: 35%;
+    right: 400px;
+    font-size: 3em;
+    color: black;
+    cursor: pointer;
+}
+
+.post-slider .prev{
+    position: absolute;
+    top: 35%;
+    left: 400px;
+    font-size: 3em;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+.post-slider{
+    border: 1px solid white;
+}
+
+.post-slider .slider-title{
+    text-align: center;
+    margin: 50px auto;
+    font-size: 40px;
+}
+
+.post-slider .post-wrapper{
+    width: 60%;
+    height: 250px;
+    margin: 0px auto;
+    overflow: hidden;
+    padding: 10px 10px 10px 10px;
+}
+
+.post-slider .post-wrapper .post{
+    height: 250px;
+    width: 300px;
+    margin: 0px 10px;
+    display: inline-block;
+    background-color: rgb(244, 96, 96); 
+    border-radius: 10px;
+    box-shadow: 0.6rem 0.02rem 0.3rem 0.02rem rgb(248, 197, 197);
+}
+
+h1, h2, h3, h4, h5, h6{
+    font-family: 'Candal', serif;
+    color: rgb(245, 91, 91);
+    font-size: 20px;
+    margin: 4px;
+
+}
+
+h4{
+    color: rgb(255, 255, 255);
+}
+
+.post-info .fa-user, .post-info .fa-calendar {
+    color: white;
+    font-size: 12px;
+}
+
+
+a{
+    text-decoration: none;
+    color: inherit ;
+}
+
+.post-slider .post-wrapper .post .slider-image{
+    width: 90%;
+    height: 150px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.post-slider .post-wrapper .post .post-info{
+    height: 130px;
+    border: 0.5px solid rgb(255, 255, 255);
+    padding: 0px 10px;
+}
+
+.page-wrapper a:hover{
+    color: rgb(5, 5, 5);
+}
+/*Post slider*/
+
+/*Content*/
+
+.clearfix::after{
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.btn {
+    padding: .5rem 1rem;
+    background: rgb(249, 249, 249);
+    color: rgb(255, 17, 0);
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+
+.btn:hover {
+    color: rgb(255, 255, 255) !important;
+    background:rgb(255, 0, 0);
+}
+
+.content{
+    width: 90%;
+    margin: 30px auto 30px;
+}
+
+.content .main-content{
+    width: 70%;
+    float: left;
+}
+
+.content .main-content .post{
+    width: 95%;
+    height: 270px;
+    margin: 20px auto;
+    border-radius: 5px;
+    background: rgb(252, 194, 194);
+    position: relative;
+}
+
+.content .main-content .recent-post-title{
+    margin: 20px;
+}
+
+.content .main-content .post .post-image{
+    width: 40%;
+    height: 100%;
+    float: left;
+}
+
+.content .main-content .post .post-review{
+    width: 60%;
+    padding: 10px;
+    float: right;
+}
+
+
+.content .main-content .post .read-more{
+    position: absolute; 
+    bottom: 10px;
+    right: 10px;
+    border: 1px solid wheat;
+    background: transparent;
+    border-radius: 0px;
+    color: blue !important;
+}
+
+.content .main-content .post .read-more:hover{
+    background: transparent;
+    color: white !important;
+    transition: .25s;
+}
+
+.content .sidebar{
+    width: 30%;
+    float: left;
+    border: 1px dashed green;
+    height: 300px;
+}
+
+/*Content*/
