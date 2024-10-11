@@ -1,4 +1,116 @@
-.header__top {
-    background-color: #ff0000;
-    height: 120px;
+// Biến màu
+$primary-color: black;
+$hover-color: rgba(26, 26, 26, 0.7);
+$header-height: 120px;
+$header-height-shrink: 70px;
+
+// Header
+.header {
+    height: $header-height;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: white;
+    transition: height 0.8s ease, background-color 0.8s ease;
+
+    &.shrink {
+        height: $header-height-shrink; // Chiều cao khi thu nhỏ
+    }
+
+    .header__navbar--top {
+        transition: opacity 0.6s ease, visibility 0.6s ease, height 0.6s ease;
+
+        // Ẩn navbar khi thu nhỏ
+        &.shrink {
+            opacity: 0;
+            visibility: hidden;
+            height: 0;
+            overflow: hidden;
+        }
+    }
+
+    .header__navbar-logo {
+        img {
+            transition: width 0.8s ease, height 0.8s ease;
+
+            &.shrink {
+                width: 200px; // Chiều rộng khi thu nhỏ
+                height: 40px; // Chiều cao khi thu nhỏ
+            }
+        }
+    }
+
+    .header__navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+
+        .header__navbar-search {
+            font-size: 20px;
+
+            &:hover {
+                color: $hover-color;
+                cursor: pointer;
+                transition: all 0.4s ease-in-out;
+            }
+        }
+
+        .header__navbar-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+
+            .header__navbar-item,
+            .header__navbar-item-left {
+                display: inline-block;
+                font-size: 1.4rem;
+                color: $primary-color;
+                margin: 0 5px;
+                position: relative;
+
+                a {
+                    text-decoration: none;
+                    color: $primary-color;
+
+                    &:hover {
+                        color: $hover-color;
+                        cursor: pointer;
+                        transition: all 0.4s ease-in-out;
+                    }
+                }
+
+                &:hover {
+                    color: $hover-color;
+                    cursor: pointer;
+                    transition: all 0.4s ease-in-out;
+                }
+
+                &--bold {
+                    font-weight: 550;
+                }
+
+                &--strong {
+                    font-weight: 750;
+                    font-size: 1.8rem;
+                    margin-left: 10px;
+                }
+
+                &--separate {
+                    &::after {
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        border-left: 1px solid $primary-color;
+                        height: 14px;
+                        right: -7px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                    }
+                }
+            }
+        }
+    }
 }
