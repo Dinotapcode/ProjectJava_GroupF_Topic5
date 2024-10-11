@@ -1,9 +1,10 @@
+// src/index.js
 import { Link } from "react-router-dom";
-import "./style.scss";
+import './style.scss';
 
-// Post Component
-export function Post({ img }) {
-  return (
+// Combined components as a single constant
+export const BlogComponents = {
+  Post: ({ img }) => (
     <div className="post">
       <img className="postImg" src={img} alt="" />
       <div className="postInfo">
@@ -17,25 +18,19 @@ export function Post({ img }) {
       </div>
       <p className="postDesc">Lots of Koi fish</p>
     </div>
-  );
-}
-
-// Posts Component
-export function Posts() {
-  return (
+  ),
+  
+  Posts: () => (
     <div className="posts">
-      <Post img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTChRK-CfIjQUIkhOOJ9R-F5p7NuCssA8h5sA&s" />
-      <Post img="https://upload.wikimedia.org/wikipedia/commons/1/10/Ojiya_Nishikigoi_no_Sato_ac_%283%29.jpg" />
-      <Post img="https://nonbo.net.vn/wp-content/uploads/2019/03/Cac-loai-ca-koi-duoc-nuoi-nhieu-nhat.jpg" />
-      <Post img="https://ran.com.vn/wp-content/uploads/2021/02/Ca-Koi-Nhat-Ban-1.jpeg" />
-      <Post img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBow9xg4vKizGV6UoXHcHFdSeSLMMWBvSp_Q&s" />
+      <BlogComponents.Post img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTChRK-CfIjQUIkhOOJ9R-F5p7NuCssA8h5sA&s" />
+      <BlogComponents.Post img="https://upload.wikimedia.org/wikipedia/commons/1/10/Ojiya_Nishikigoi_no_Sato_ac_%283%29.jpg" />
+      <BlogComponents.Post img="https://nonbo.net.vn/wp-content/uploads/2019/03/Cac-loai-ca-koi-duoc-nuoi-nhieu-nhat.jpg" />
+      <BlogComponents.Post img="https://ran.com.vn/wp-content/uploads/2021/02/Ca-Koi-Nhat-Ban-1.jpeg" />
+      <BlogComponents.Post img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBow9xg4vKizGV6UoXHcHFdSeSLMMWBvSp_Q&s" />
     </div>
-  );
-}
+  ),
 
-// SinglePost Component
-export function SinglePost() {
-  return (
+  SinglePost: () => (
     <div className="singlePost">
       <div className="singlePostWrapper">
         <img
@@ -74,5 +69,5 @@ export function SinglePost() {
         </p>
       </div>
     </div>
-  );
-}
+  ),
+};
