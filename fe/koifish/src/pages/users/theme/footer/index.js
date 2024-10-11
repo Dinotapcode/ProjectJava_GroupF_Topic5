@@ -1,8 +1,11 @@
 import { memo } from 'react';
+import './footer.scss';
 
 const Footer = () => {
     return (
-        <h1 className="container">Footer</h1>
+        <div className="footer__bottom">
+            <h1 className="container">Footer</h1>
+        </div>
     )
 };
 
