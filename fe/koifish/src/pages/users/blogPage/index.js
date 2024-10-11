@@ -1,0 +1,11 @@
+import { memo } from 'react';
+
+const BlogPage = () => {
+    return (
+        <>
+            <h1>Blog</h1>
+        </>
+    );
+};
+
+export default memo(BlogPage);
