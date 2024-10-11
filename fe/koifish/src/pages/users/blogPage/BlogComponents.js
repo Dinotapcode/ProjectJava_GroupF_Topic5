@@ -1,5 +1,5 @@
 // src/pages/users/blogPage.js
-import { BlogComponents } from '../../index'; // Đảm bảo đường dẫn đúng
+import { BlogComponents } from './index'; // Đảm bảo đường dẫn đúng
 
 // Tạo một component BlogPage
 const BlogPage = () => {
