@@ -2,9 +2,10 @@
 import { Link } from "react-router-dom";
 import './style.scss';
 
-// Combined components as a single constant
-export const BlogComponents = {
-  Post: ({ img }) => (
+// Component Cha
+const BlogPage = () => {
+  // Định nghĩa Post component
+  const Post = ({ img }) => (
     <div className="post">
       <img className="postImg" src={img} alt="" />
       <div className="postInfo">
@@ -18,19 +19,21 @@ export const BlogComponents = {
       </div>
       <p className="postDesc">Lots of Koi fish</p>
     </div>
-  ),
-  
-  Posts: () => (
-    <div className="posts">
-      <BlogComponents.Post img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTChRK-CfIjQUIkhOOJ9R-F5p7NuCssA8h5sA&s" />
-      <BlogComponents.Post img="https://upload.wikimedia.org/wikipedia/commons/1/10/Ojiya_Nishikigoi_no_Sato_ac_%283%29.jpg" />
-      <BlogComponents.Post img="https://nonbo.net.vn/wp-content/uploads/2019/03/Cac-loai-ca-koi-duoc-nuoi-nhieu-nhat.jpg" />
-      <BlogComponents.Post img="https://ran.com.vn/wp-content/uploads/2021/02/Ca-Koi-Nhat-Ban-1.jpeg" />
-      <BlogComponents.Post img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBow9xg4vKizGV6UoXHcHFdSeSLMMWBvSp_Q&s" />
-    </div>
-  ),
+  );
 
-  SinglePost: () => (
+  // Định nghĩa Posts component
+  const Posts = () => (
+    <div className="posts">
+      <Post img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTChRK-CfIjQUIkhOOJ9R-F5p7NuCssA8h5sA&s" />
+      <Post img="https://upload.wikimedia.org/wikipedia/commons/1/10/Ojiya_Nishikigoi_no_Sato_ac_%283%29.jpg" />
+      <Post img="https://nonbo.net.vn/wp-content/uploads/2019/03/Cac-loai-ca-koi-duoc-nuoi-nhieu-nhat.jpg" />
+      <Post img="https://ran.com.vn/wp-content/uploads/2021/02/Ca-Koi-Nhat-Ban-1.jpeg" />
+      <Post img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBow9xg4vKizGV6UoXHcHFdSeSLMMWBvSp_Q&s" />
+    </div>
+  );
+
+  // Định nghĩa SinglePost component
+  const SinglePost = () => (
     <div className="singlePost">
       <div className="singlePostWrapper">
         <img
@@ -69,5 +72,13 @@ export const BlogComponents = {
         </p>
       </div>
     </div>
-  ),
+  );
+
+  return (
+    <div>
+      <h1>Blog Page</h1>
+      <Posts />
+      <SinglePost />
+    </div>
+  );
 };
