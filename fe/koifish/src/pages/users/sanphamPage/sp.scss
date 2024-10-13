@@ -1,7 +1,64 @@
-.container {
-    margin-top: 140px;
-    width: 93vw;
+.main {
+    margin: 120px auto 0 auto;
+    width: 90vw;
     padding-bottom: 20px;
+}
+
+.btn-sort {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+
+    .button-choice-type {
+        display: flex;
+        justify-content: left;
+        text-align: center;
+        margin-bottom: 5px;
+        flex-direction: row;
+    
+        button {
+            background-color: white;
+            color: black;
+            padding: 0px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 5px;
+            border: 2px #ccc solid;
+            height: 40px;
+    
+            &:hover {
+                background-color: #ccc;
+            }
+        }
+    }
+    .button-sort-product {
+        display: flex;
+        justify-content: end;
+        text-align: center;
+        margin-bottom: 20px;
+        flex-direction: row;
+    
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 10px;
+    
+            &:hover {
+                background-color: #138d17;
+            }
+        }
+    }
+}
+
+.hr-sort {
+    margin-bottom: 20px;
 }
 
 .back-to-top {
@@ -37,7 +94,6 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr); // 4 cột, mỗi cột 1 sản phẩm
     gap: 20px;
-    margin-left: 10vw;
 }
 
 .product {
@@ -89,64 +145,4 @@
     &:hover {
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
-}
-
-.button-sort-product {
-    display: flex;
-    justify-content: end;
-    text-align: center;
-    margin-bottom: 20px;
-    flex-direction: row;
-
-    button {
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        margin: 0 10px;
-
-        &:hover {
-            background-color: #138d17;
-        }
-    }
-}
-
-.button-choice-type {
-    display: flex;
-    justify-content: left;
-    text-align: center;
-    margin-bottom: 5px;
-    flex-direction: row;
-    margin-left: 11vw;
-
-    button {
-        background-color: white;
-        color: black;
-        padding: 0px 20px;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 16px;
-        margin: 0 5px;
-        border: 2px #ccc solid;
-        height: 40px;
-
-        &:hover {
-            background-color: #ccc;
-        }
-    }
-}
-
-.btn-sort {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-}
-
-.hr-sort {
-    margin-left: 10vw;
-    margin-bottom: 20px;
 }

@@ -4,6 +4,10 @@ $hover-color: rgba(26, 26, 26, 0.7);
 $header-height: 120px;
 $header-height-shrink: 70px;
 
+// Biến màu cho nút "Back to Top"
+$back-to-top-bg-color: black; // Màu nền cho nút
+$back-to-top-text-color: white; // Màu chữ cho nút
+
 // Header
 .header {
     height: $header-height;
@@ -11,6 +15,8 @@ $header-height-shrink: 70px;
     width: 100%;
     top: 0;
     left: 0;
+    display: flex;
+    flex-direction: column;
     z-index: 1000;
     background-color: white;
     transition: height 0.8s ease, background-color 0.8s ease;
@@ -20,6 +26,7 @@ $header-height-shrink: 70px;
     }
 
     .header__navbar--top {
+        align-self: end;
         transition: opacity 0.6s ease, visibility 0.6s ease, height 0.6s ease;
 
         // Ẩn navbar khi thu nhỏ
@@ -33,6 +40,9 @@ $header-height-shrink: 70px;
 
     .header__navbar-logo {
         img {
+            width: 300px;
+            height: 60px;
+            object-fit: cover;
             transition: width 0.8s ease, height 0.8s ease;
 
             &.shrink {
@@ -112,5 +122,25 @@ $header-height-shrink: 70px;
                 }
             }
         }
+    }
+}
+
+// Back to top button
+.back-to-top {
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+    background-color: $back-to-top-bg-color; // Sử dụng biến màu
+    color: $back-to-top-text-color; // Sử dụng biến màu
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 1001;
+    display: none;
+
+    &.show {
+        display: block;
     }
 }
