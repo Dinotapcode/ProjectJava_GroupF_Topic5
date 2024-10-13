@@ -18,7 +18,7 @@ const TracuuPage = () => {
 
     return (
         <div className="container">
-            <article className="main">
+            <article className="tracuuPage">
                 <section className="functionality">
                     <input
                         type="radio"

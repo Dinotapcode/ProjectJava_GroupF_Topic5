@@ -1,9 +1,10 @@
 import { memo } from 'react';
-import './footer.scss';
+import './style.scss';
 
 const Footer = () => {
     return (
-        <div className="container">Footer</div>
+        <>
+        </>
     )
 };
 

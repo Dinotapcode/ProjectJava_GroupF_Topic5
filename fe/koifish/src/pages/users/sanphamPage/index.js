@@ -52,7 +52,7 @@ const SanphamPage = () => {
 
     return (
         <div className="container">
-            <article className="main">
+            <article className="sanphamPage">
                 <div className="btn-sort">
                     <div className="button-choice-type">
                         <button className="choice-all" onClick={() => handleFilter('all')}>Tất cả</button>

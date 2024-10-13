@@ -34,7 +34,7 @@ const Header = () => {
     };
 
     return (
-        <div className="container">
+        <>
             <header className={`header ${isShrunk ? 'shrink' : ''}`}>
                 {/* Thanh navbar trên cùng */}
                 <nav className={`header__top-navbar ${isShrunk ? 'shrink' : ''}`}>
@@ -91,7 +91,7 @@ const Header = () => {
                     ↑
                 </button>
             )}
-        </div>
+        </>
     );
 };
 
