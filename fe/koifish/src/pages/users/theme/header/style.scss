@@ -9,6 +9,7 @@ $back-to-top-bg-color: black; // Màu nền cho nút
 $back-to-top-text-color: white; // Màu chữ cho nút
 
 // Header
+
 .header {
     height: $header-height;
     position: fixed;
@@ -25,107 +26,142 @@ $back-to-top-text-color: white; // Màu chữ cho nút
         height: $header-height-shrink; // Chiều cao khi thu nhỏ
     }
 
-    .header__navbar--top {
-        align-self: end;
+    // Navbar trên cùng
+    &__top-navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-self: flex-end;
         transition: opacity 0.6s ease, visibility 0.6s ease, height 0.6s ease;
 
         // Ẩn navbar khi thu nhỏ
-        &.shrink {
+        &.shrink {      
             opacity: 0;
             visibility: hidden;
             height: 0;
             overflow: hidden;
         }
-    }
 
-    .header__navbar-logo {
-        img {
-            width: 300px;
-            height: 60px;
-            object-fit: cover;
-            transition: width 0.8s ease, height 0.8s ease;
-
-            &.shrink {
-                width: 200px; // Chiều rộng khi thu nhỏ
-                height: 40px; // Chiều cao khi thu nhỏ
-            }
+        // Các mục trong navbar
+        &-list {
+            display: flex;
+            margin: 10px 40px 0 0;
         }
-    }
 
-    .header__navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px;
-
-        .header__navbar-search {
-            font-size: 20px;
-
+        &-item {
+            display: inline-block;
+            font-size: 1.4rem;
+            color: $primary-color;
+            margin: 0 5px;
+            position: relative;
             &:hover {
                 color: $hover-color;
                 cursor: pointer;
                 transition: all 0.4s ease-in-out;
             }
-        }
-
-        .header__navbar-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 10px 0 0 0;
-
-            .header__navbar-item,
-            .header__navbar-item-left {
-                display: inline-block;
-                font-size: 1.4rem;
-                color: $primary-color;
-                margin: 0 5px;
-                position: relative;
-
-                a {
-                    text-decoration: none;
-                    color: $primary-color;
-
-                    &:hover {
-                        color: $hover-color;
-                        cursor: pointer;
-                        transition: all 0.4s ease-in-out;
-                    }
-                }
-
-                &:hover {
-                    color: $hover-color;
-                    cursor: pointer;
-                    transition: all 0.4s ease-in-out;
-                }
-
-                &--bold {
-                    font-weight: 550;
-                }
-
-                &--strong {
-                    font-weight: 750;
-                    font-size: 1.8rem;
-                    margin-left: 10px;
-                }
-
-                &--separate {
-                    &::after {
-                        content: "";
-                        display: block;
-                        position: absolute;
-                        border-left: 1px solid $primary-color;
-                        height: 14px;
-                        right: -7px;
-                        top: 50%;
-                        transform: translateY(-50%);
-                    }
-                }
+            &--bold {
+                font-weight: 550;
             }
         }
     }
-}
 
-// Back to top button
+    // Navbar chính
+    .header__main-navbar {
+        display: flex;
+        justify-content:space-between;
+        align-items: center;
+
+        
+        &-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px;
+        }
+
+        &-item {
+            display: inline-block;
+            font-size: 1.4rem;
+            color: $primary-color;
+            position: relative;
+            a {
+                text-decoration: none;
+                color: $primary-color;
+            }
+        }
+
+        &-logo {
+            img {
+                width: 300px;
+                height: 60px;
+                object-fit: cover;
+                transition: width 0.8s ease, height 0.8s ease;
+        
+                &.shrink {
+                    width: 200px; // Chiều rộng khi thu nhỏ
+                    height: 40px; // Chiều cao khi thu nhỏ
+                }
+            }
+        }
+        
+        &-link {
+            font-weight: 750;
+            font-size: 1.6rem;  
+            padding: 10px;
+            display: block; /* Thay đổi từ float: left sang display: block */
+            transition: .5s linear;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            background: transparent;
+            cursor: pointer;
+
+            &:before {
+                position: absolute;
+                content: '';
+                left: 0;
+                bottom: 0;
+                height: 4px;
+                width: 100%;
+                border-bottom: 2px solid transparent;
+                border-left: 2px solid transparent;
+                box-sizing: border-box;
+                transform: translateX(100%);
+            }
+
+            &:after {
+                position: absolute;
+                content: '';
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 4px;
+                border-top: 2px solid transparent;
+                border-right: 2px solid transparent;
+                box-sizing: border-box;
+                transform: translateX(-100%);
+            }
+            &:hover {
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+                
+                &:before {
+                    border-color: #262626;
+                    height: 100%;
+                    transform: translateX(0);
+                    transition: .3s transform linear, .3s height linear .3s;
+                  }
+                  
+                  &:after {
+                    border-color: #262626;
+                    height: 100%;
+                    transform: translateX(0);
+                    transition: .3s transform linear, .3s height linear .5s;
+                  }
+            }
+          }          
+        }
+    }
+
+// Nút quay lại đầu trang
 .back-to-top {
     position: fixed;
     bottom: 50px;

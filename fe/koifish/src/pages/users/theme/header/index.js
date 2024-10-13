@@ -1,5 +1,5 @@
 import React, { memo, useState, useEffect } from 'react';
-import './style.scss'; // SCSS định nghĩa cho header
+import './style.scss';
 import logo from '../../../../assets/images/logo.png';
 
 const Header = () => {
@@ -10,20 +10,11 @@ const Header = () => {
     useEffect(() => {
         const handleScroll = () => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            // Kiểm tra trạng thái thu nhỏ header
-            if (scrollTop > 100) {
-                setIsShrunk(true);
-            } else {
-                setIsShrunk(false);
-            }
 
+            // Kiểm tra trạng thái thu nhỏ header
+            setIsShrunk(scrollTop > 100);
             // Hiển thị nút quay lại đầu trang khi cuộn quá 200px
-            if (scrollTop > 200) {
-                setShowBackToTop(true);
-            } else {
-                setShowBackToTop(false);
-            }
+            setShowBackToTop(scrollTop > 200);
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -46,45 +37,44 @@ const Header = () => {
         <div className="container">
             <header className={`header ${isShrunk ? 'shrink' : ''}`}>
                 {/* Thanh navbar trên cùng */}
-                <nav className={`header__navbar header__navbar--top ${isShrunk ? 'shrink' : ''}`}>
-                    <ul className="header__navbar-list">
-                        <li className="header__navbar-item-left">
+                <nav className={`header__top-navbar ${isShrunk ? 'shrink' : ''}`}>
+                    <ul className="header__top-navbar-list">
+                        <li className="header__top-navbar-item">
                             <i className="fa-regular fa-clock"></i>
                             7:30 - 21:00
                         </li>
-                        <li className="header__navbar-item-left">
+                        <li className="header__top-navbar-item">
                             <i className="fa-solid fa-phone"></i>
                             19008080
                         </li>
-                        <li className="header__navbar-item header__navbar-item--bold">Đăng ký</li>
-                        <li className="header__navbar-item header__navbar-item--bold">Đăng nhập</li>
+                        <li className="header__top-navbar-item header__top-navbar-item--bold">Đăng ký</li>
+                        <li className="header__top-navbar-item header__top-navbar-item--bold">Đăng nhập</li>
                     </ul>
                 </nav>
 
                 {/* Thanh navbar chính */}
-                <nav className="header__navbar">
-                    <ul className="header__navbar-list">
-                        <li className="header__navbar-item">
-                            <a href="#" className="header__navbar-logo">
-                                <img src={logo} alt="logo" className={isShrunk ? 'shrink' : ''}
-                                />
+                <nav className="header__main-navbar">
+                    <ul className="header__main-navbar-list">
+                        <li className="header__main-navbar-item">
+                            <a href="/" className='header__main-navbar-logo'>
+                                <img src={logo} alt="logo" className={`${isShrunk ? 'shrink' : ''}`} />
                             </a>
                         </li>
                     </ul>
-                    <ul className="header__navbar-list">
-                        <li className="header__navbar-item header__navbar-item--strong">
-                            <a href="#">GIỚI THIỆU</a>
+                    <ul className="header__main-navbar-list">
+                        <li className="header__main-navbar-item">
+                            <a href="/gioi-thieu" className="header__main-navbar-link">GIỚI THIỆU</a>
                         </li>
-                        <li className="header__navbar-item header__navbar-item--strong">
-                            <a href="#">DỊCH VỤ TƯ VẤN</a>
+                        <li className="header__main-navbar-item">
+                            <a href="/tra-cuu-phong-thuy" className="header__main-navbar-link">DỊCH VỤ TƯ VẤN</a>
                         </li>
-                        <li className="header__navbar-item header__navbar-item--strong">
-                            <a href="#">BLOG TIN TỨC</a>
+                        <li className="header__main-navbar-item">
+                            <a href="/blog" className="header__main-navbar-link">BLOG TIN TỨC</a>
                         </li>
-                        <li className="header__navbar-item header__navbar-item--strong">
-                            <a href="#">SẢN PHẨM</a>
+                        <li className="header__main-navbar-item">
+                            <a href="/san-pham-phong-thuy" className="header__main-navbar-link">SẢN PHẨM</a>
                         </li>
-                        <li className="header__navbar-item">
+                        <li className="header__main-navbar-item">
                             <i className="header__navbar-search fa-solid fa-magnifying-glass"></i>
                         </li>
                     </ul>
