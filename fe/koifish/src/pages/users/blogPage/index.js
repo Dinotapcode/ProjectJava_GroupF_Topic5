@@ -1,122 +1,78 @@
-// src/index.js
-import { Link } from "react-router-dom";
+import React from 'react';
 import './style.scss';
 
-// Component Cha
+const blogPosts = [
+  {
+    title: 'Understanding Koi Fish in Feng Shui',
+    date: 'October 12, 2024',
+    content: 'Koi fish have long been associated with good fortune and abundance. In Feng Shui, they are believed to bring wealth and success...',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUnkBilMPFx4I0f58fTUKNAEg3AKxpTZoxmA&s'
+  },
+  {
+    title: 'How to Choose the Right Pond for Your Koi',
+    date: 'October 10, 2024',
+    content: 'Selecting the appropriate pond size, depth, and location is essential for the well-being of your Koi fish and enhancing Feng Shui benefits...',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHRiwoMGHbzvuJvQ9HV6r6M0OZwUeSpHHckg&s'
+  },
+  {
+    title: 'The Five Elements and Koi Fish Selection',
+    date: 'October 8, 2024',
+    content: 'Each element (wood, fire, earth, metal, water) plays a crucial role in determining the best type of Koi fish for your pond based on your destiny...',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9xwu48pYVrEuhp_rFY-hjn30zIt0nQtKiDg&s'
+  }
+];
+
+// Danh sách bài viết gần đây
+const recentPosts = blogPosts.slice(0, 3); // Lấy 3 bài viết gần đây
+
+function BlogPost({ title, date, content, image }) {
+  return (
+    <div className="blog-post">
+      <img src={image} alt={title} className="blog-image" />
+      <h2>{title}</h2>
+      <p className="date">{date}</p>
+      <p>{content}</p>
+    </div>
+  );
+}
+
+function RecentPost({ title, date }) {
+  return (
+    <div className="recent-post">
+      <h4>{title}</h4>
+      <p className="date">{date}</p>
+    </div>
+  );
+}
+
 function BlogPage() {
   return (
-    <div>
-      <h1>Blog Page</h1>
-
-      {/* Posts Component */}
-      <div className="posts">
-        <div className="post">
-          <img className="postImg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTChRK-CfIjQUIkhOOJ9R-F5p7NuCssA8h5sA&s" alt="" />
-          <div className="postInfo">
-            <span className="postTitle">
-              <Link to="/post/abc" className="link">
-                KOI KOI FENG SHUI
-              </Link>
-            </span>
-            <hr />
-            <span className="postDate">1 hour ago</span>
-          </div>
-          <p className="postDesc">Lots of Koi fish</p>
-        </div>
-
-        <div className="post">
-          <img className="postImg" src="https://upload.wikimedia.org/wikipedia/commons/1/10/Ojiya_Nishikigoi_no_Sato_ac_%283%29.jpg" alt="" />
-          <div className="postInfo">
-            <span className="postTitle">
-              <Link to="/post/abc" className="link">
-                KOI KOI FENG SHUI
-              </Link>
-            </span>
-            <hr />
-            <span className="postDate">1 hour ago</span>
-          </div>
-          <p className="postDesc">Lots of Koi fish</p>
-        </div>
-
-        <div className="post">
-          <img className="postImg" src="https://nonbo.net.vn/wp-content/uploads/2019/03/Cac-loai-ca-koi-duoc-nuoi-nhieu-nhat.jpg" alt="" />
-          <div className="postInfo">
-            <span className="postTitle">
-              <Link to="/post/abc" className="link">
-                KOI KOI FENG SHUI
-              </Link>
-            </span>
-            <hr />
-            <span className="postDate">1 hour ago</span>
-          </div>
-          <p className="postDesc">Lots of Koi fish</p>
-        </div>
-
-        <div className="post">
-          <img className="postImg" src="https://ran.com.vn/wp-content/uploads/2021/02/Ca-Koi-Nhat-Ban-1.jpeg" alt="" />
-          <div className="postInfo">
-            <span className="postTitle">
-              <Link to="/post/abc" className="link">
-                KOI KOI FENG SHUI
-              </Link>
-            </span>
-            <hr />
-            <span className="postDate">1 hour ago</span>
-          </div>
-          <p className="postDesc">Lots of Koi fish</p>
-        </div>
-
-        <div className="post">
-          <img className="postImg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBow9xg4vKizGV6UoXHcHFdSeSLMMWBvSp_Q&s" alt="" />
-          <div className="postInfo">
-            <span className="postTitle">
-              <Link to="/post/abc" className="link">
-                KOI KOI FENG SHUI
-              </Link>
-            </span>
-            <hr />
-            <span className="postDate">1 hour ago</span>
-          </div>
-          <p className="postDesc">Lots of Koi fish</p>
-        </div>
+    <div className="blog-page">
+      <div className="navbar">
+        <h2>BLOG</h2>
       </div>
-
-      {/* SinglePost Component */}
-      <div className="singlePost">
-        <div className="singlePostWrapper">
-          <img
-            className="singlePostImg"
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4Hv6UUYk3tTxS_w5zyT1Pzd4KsRA5r2bVoQ&s"
-            alt=""
-          />
-          <h1 className="singlePostTitle">
-            Lorem ipsum dolor
-            <div className="singlePostEdit">
-              <i className="singlePostIcon far fa-edit"></i>
-              <i className="singlePostIcon far fa-trash-alt"></i>
-            </div>
-          </h1>
-          <div className="singlePostInfo">
-            <span>
-              Author:
-              <b className="singlePostAuthor">
-                <Link className="link" to="/posts?username=Safak">
-                  Safak
-                </Link>
-              </b>
-            </span>
-            <span>1 day ago</span>
-          </div>
-          <p className="singlePostDesc">
-            Koi koi koi koi koi koi koi koi Koi koi koi koi koi koi koi koi
-            Koi koi koi koi koi koi koi koi Koi koi koi koi koi koi koi koi
-            Koi koi koi koi koi koi koi koi Koi koi koi koi koi koi koi koi
-            <br />
-            <br />
-            Koi koi koi koi koi koi koi koi Koi koi koi koi koi koi koi koi
-            Koi koi koi koi koi koi koi koi Koi koi koi koi koi koi koi koi
-            Koi koi koi koi koi koi koi koi Koi koi koi koi koi koi koi koi
-          </p>
+      <div className="blog-layout">
+        <div className="blog-container">
+          <h1>Feng Shui Koi Fish Blog</h1>
+          {blogPosts.map((post, index) => (
+            <BlogPost
+              key={index}
+              title={post.title}
+              date={post.date}
+              content={post.content}
+              image={post.image}
+            />
+          ))}
+        </div>
+        <div className="recent-posts">
+          <h3>Recent Posts</h3>
+          {recentPosts.map((post, index) => (
+            <RecentPost
+              key={index}
+              title={post.title}
+              date={post.date}
+            />
+          ))}
         </div>
       </div>
     </div>
