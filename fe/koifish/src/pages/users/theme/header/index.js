@@ -1,6 +1,6 @@
 import React, { memo, useState, useEffect } from 'react';
 import './style.scss'; // SCSS định nghĩa cho header
-import logo from './logo.png'; // Import logo nếu cần
+import logo from '../../../../assets/images/logo.png';
 
 const Header = () => {
     const [isShrunk, setIsShrunk] = useState(false);
@@ -43,7 +43,7 @@ const Header = () => {
     };
 
     return (
-        <>
+        <div className="container">
             <header className={`header ${isShrunk ? 'shrink' : ''}`}>
                 {/* Thanh navbar trên cùng */}
                 <nav className={`header__navbar header__navbar--top ${isShrunk ? 'shrink' : ''}`}>
@@ -66,10 +66,7 @@ const Header = () => {
                     <ul className="header__navbar-list">
                         <li className="header__navbar-item">
                             <a href="#" className="header__navbar-logo">
-                                <img
-                                    src={logo}
-                                    alt="Logo"
-                                    className={isShrunk ? 'shrink' : ''}
+                                <img src={logo} alt="logo" className={isShrunk ? 'shrink' : ''}
                                 />
                             </a>
                         </li>
@@ -104,7 +101,7 @@ const Header = () => {
                     ↑
                 </button>
             )}
-        </>
+        </div>
     );
 };
 

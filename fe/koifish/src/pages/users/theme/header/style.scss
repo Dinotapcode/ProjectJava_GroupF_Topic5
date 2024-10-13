@@ -15,6 +15,8 @@ $back-to-top-text-color: white; // Màu chữ cho nút
     width: 100%;
     top: 0;
     left: 0;
+    display: flex;
+    flex-direction: column;
     z-index: 1000;
     background-color: white;
     transition: height 0.8s ease, background-color 0.8s ease;
@@ -24,6 +26,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
     }
 
     .header__navbar--top {
+        align-self: end;
         transition: opacity 0.6s ease, visibility 0.6s ease, height 0.6s ease;
 
         // Ẩn navbar khi thu nhỏ

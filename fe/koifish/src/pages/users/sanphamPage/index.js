@@ -1,7 +1,5 @@
 import React, { memo, useState, useMemo } from 'react';
-import './style.scss';
 import './sp.scss';
-import Header from '../theme/header';
 
 // Danh sách sản phẩm ban đầu
 const initialProducts = [
@@ -53,10 +51,8 @@ const SanphamPage = () => {
     };
 
     return (
-        <div className="app">
-           <Header />
-
-            <article className="container">
+        <div className="container">
+            <article className="main">
                 <div className="btn-sort">
                     <div className="button-choice-type">
                         <button className="choice-all" onClick={() => handleFilter('all')}>Tất cả</button>
