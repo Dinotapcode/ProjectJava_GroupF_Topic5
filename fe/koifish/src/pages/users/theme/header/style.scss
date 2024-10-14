@@ -19,8 +19,10 @@ $back-to-top-text-color: white; // Màu chữ cho nút
     display: flex;
     flex-direction: column;
     z-index: 1000;
-    background-color: white;
-    transition: height 0.8s ease, background-color 0.8s ease;
+    background-color: rgb(255, 255, 255);
+    transition:
+        height 0.8s ease,
+        background-color 0.8s ease;
 
     &.shrink {
         height: $header-height-shrink; // Chiều cao khi thu nhỏ
@@ -32,10 +34,13 @@ $back-to-top-text-color: white; // Màu chữ cho nút
         justify-content: space-between;
         align-items: center;
         align-self: flex-end;
-        transition: opacity 0.6s ease, visibility 0.6s ease, height 0.6s ease;
+        transition:
+            opacity 0.6s ease,
+            visibility 0.6s ease,
+            height 0.6s ease;
 
         // Ẩn navbar khi thu nhỏ
-        &.shrink {      
+        &.shrink {
             opacity: 0;
             visibility: hidden;
             height: 0;
@@ -68,10 +73,9 @@ $back-to-top-text-color: white; // Màu chữ cho nút
     // Navbar chính
     .header__main-navbar {
         display: flex;
-        justify-content:space-between;
+        justify-content: space-between;
         align-items: center;
 
-        
         &-list {
             list-style-type: none;
             padding: 0;
@@ -94,21 +98,23 @@ $back-to-top-text-color: white; // Màu chữ cho nút
                 width: 300px;
                 height: 60px;
                 object-fit: cover;
-                transition: width 0.8s ease, height 0.8s ease;
-        
+                transition:
+                    width 0.8s ease,
+                    height 0.8s ease;
+
                 &.shrink {
                     width: 200px; // Chiều rộng khi thu nhỏ
                     height: 40px; // Chiều cao khi thu nhỏ
                 }
             }
         }
-        
+
         &-link {
             font-weight: 750;
-            font-size: 1.6rem;  
+            font-size: 1.6rem;
             padding: 10px;
             display: block; /* Thay đổi từ float: left sang display: block */
-            transition: .5s linear;
+            transition: 0.5s linear;
             position: relative;
             overflow: hidden;
             text-align: center;
@@ -117,7 +123,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
 
             &:before {
                 position: absolute;
-                content: '';
+                content: "";
                 left: 0;
                 bottom: 0;
                 height: 4px;
@@ -130,7 +136,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
 
             &:after {
                 position: absolute;
-                content: '';
+                content: "";
                 top: 0;
                 left: 0;
                 width: 100%;
@@ -142,24 +148,28 @@ $back-to-top-text-color: white; // Màu chữ cho nút
             }
             &:hover {
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-                
+
                 &:before {
                     border-color: #262626;
                     height: 100%;
                     transform: translateX(0);
-                    transition: .3s transform linear, .3s height linear .3s;
-                  }
-                  
-                  &:after {
+                    transition:
+                        0.3s transform linear,
+                        0.3s height linear 0.3s;
+                }
+
+                &:after {
                     border-color: #262626;
                     height: 100%;
                     transform: translateX(0);
-                    transition: .3s transform linear, .3s height linear .5s;
-                  }
+                    transition:
+                        0.3s transform linear,
+                        0.3s height linear 0.5s;
+                }
             }
-          }          
         }
     }
+}
 
 // Nút quay lại đầu trang
 .back-to-top {
