@@ -47,8 +47,12 @@ const Header = () => {
                             <i className="fa-solid fa-phone"></i>
                             19008080
                         </li>
-                        <li className="header__top-navbar-item header__top-navbar-item--bold">Đăng ký</li>
-                        <li className="header__top-navbar-item header__top-navbar-item--bold">Đăng nhập</li>
+                        <li className="header__top-navbar-item header__top-navbar-item--bold">
+                            <a href="dang-ky">Đăng ký</a>
+                        </li>
+                        <li className="header__top-navbar-item header__top-navbar-item--bold">
+                            <a href="dang-nhap">Đăng nhập</a>
+                        </li>
                     </ul>
                 </nav>
 

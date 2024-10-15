@@ -1,6 +1,4 @@
 $background-tracuu: "/assets/users/images/backgrounds/Tracuu.jpg";
-.tracuuPage {
-}
 .functionality {
     height: 40px;
     width: 100%;
@@ -9,7 +7,9 @@ $background-tracuu: "/assets/users/images/backgrounds/Tracuu.jpg";
     justify-content: center;
     gap: 2%;
     // background-image: url(../../assets/img/whiteFan.jpg), url(../../assets/img/blackFan.jpg);
-    background-position: 10% 50%, 90% 50%;
+    background-position:
+        10% 50%,
+        90% 50%;
     background-repeat: no-repeat;
     background-size: contain;
     &__btn {
@@ -19,12 +19,12 @@ $background-tracuu: "/assets/users/images/backgrounds/Tracuu.jpg";
         border: none;
         background: none;
         font-weight: 600;
-        font-family: 'Poppins', sans-serif;
+        font-family: "Poppins", sans-serif;
         position: relative;
         cursor: pointer;
         &::before,
         &::after {
-            content: '';
+            content: "";
             width: 0%;
             height: 2px;
             background: #fd1100;
