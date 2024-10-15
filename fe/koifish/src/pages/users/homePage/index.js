@@ -1,62 +1,117 @@
 import { memo } from 'react';
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './style.scss'
+import './style.scss';
 const HomePage = () => {
     return (
-        <>
-            <h1>Hello</h1>
-        </>
+        <div classname="container">
+            <div classname="homePage">
+                <div classname="product-sections">
+                    <div className="title">
+                        Sản Phẩm
+                    </div>
+                    <div className="product-cards">
+                        <div className="product-card">
+                            <div className="product-card-image">
+                                <img src="/aquarium.jpg" alt="product 1" />
+                            </div>
+                            <div className="product-card-title">
+                                Sản Phẩm 1
+                            </div>
+                            <div className="product-card-description">
+                                
+                            </div>
+                        </div>
+                        <div className="product-card">
+                            <div className="product-card-image">
+                                <img src="" alt="product 2" />
+                            </div>
+                            <div className="product-card-title">
+                                Sản Phẩm 2
+                            </div>
+                            <div className="product-card-description">
+                                
+                            </div>
+                        </div>
+                        <div className="product-card">
+                            <div className="product-card-image">
+                                <img src="aquarium.jpg" alt="product 3" />
+                            </div>
+                            <div className="product-card-title">
+                                Sản Phẩm 3
+                            </div>
+                            <div className="product-card-description">
+                                
+                            </div>
+                        </div>
+                        <div className="product-card">
+                            <div className="product-card-image">
+                                <img src="aquarium.jpg" alt="product 4" />
+                            </div>
+                            <div className="product-card-title">
+                                Sản Phẩm 4
+                            </div>
+                            <div className="product-card-description">
+                               
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div classname="news-sections">
+                    <div className="title">
+                        Blog Tin Tức
+                    </div>
+                    <div className="news-cards">
+                        <div className="news-card">
+                            <div className="news-card-image">
+                                <img src="/aquarium.jpg" alt="news 1" />
+                            </div>
+                            <div className="news-card-title">
+                                Tin 1
+                            </div>
+                            <div className="news-card-description">
+                                
+                            </div>
+                        </div>
+                        <div className="news-card">
+                            <div className="news-card-image">
+                                <img src="" alt="news 2" />
+                            </div>
+                            <div className="news-card-title">
+                                Tin 2
+
+                            </div>
+                            <div className="news-card-description">
+                                
+                            </div>
+                        </div>
+                        <div className="news-card">
+                            <div className="news-card-image">
+                                <img src="aquarium.jpg" alt="news 3" />
+                            </div>
+                            <div className="news-card-title">
+                                Tin 4
+
+                            </div>
+                            <div className="news-card-description">
+                                
+                            </div>
+                        </div>
+                        <div className="news-card">
+                            <div className="news-card-image">
+                                <img src="aquarium.jpg" alt="news 4" />
+                            </div>
+                            <div className="news-card-title">
+                                Tin 4
+                            </div>
+                            <div className="news-card-description">
+                               
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
     );
 };
-
 export default memo(HomePage);
-function App() {
-    return (
-    <div className="home">
-    <Header/>
-    <Main/>
-    <Footer/>
-    </div>
-    )
-    }
-    
-    function Header() {
-    return (
-    <header>
-    <h1>Logo</h1>
-    <a><img src="logo.jpg" /></a>
-    <nav>
-    <ul>
-        <li><a href="#">TRANG CHỦ</a></li>
-        <li><a href="#">GIỚI THIỆU</a></li>
-        <li><a href="#">BLOG</a></li>
-        <li><a href="#">SẢN PHẨM</a></li>
-        <li><a href="#">TRA CỨU</a></li>
-        <li>Đăng nhập</li>
-
-    </ul>
-    </nav>
-    </header>
-    )
-    }
-    
-    function Main() {
-    return (
-    <main>
-     <h2>Welcome to our site!</h2>
-    <p>Lorem ipsum dolor sit amet...</p> 
-    </main>
-    )
-    }
-    
-    function Footer() {
-    return (
-    <footer>
-    <p>© 2023 Company Name</p>
-    </footer>
-    )
-    }
-    
-    const root = ReactDOM.createRoot(document.getElementById('root'))
-    root.render(<App />)
