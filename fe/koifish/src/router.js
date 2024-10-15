@@ -1,6 +1,6 @@
 import HomePage from './pages/users/homePage';
 import GioithieuPage from './pages/users/gioithieuPage';
-import BlogPage from './pages/users/blogPage';
+import BlogPage from './pages/users/blogPage/BlogPage';
 import TracuuPage from './pages/users/tracuuPage';
 import SanphamPage from './pages/users/sanphamPage';
 import LoginPage from './pages/users/loginPage';

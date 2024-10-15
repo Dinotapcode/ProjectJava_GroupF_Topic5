@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import BlogPage from './pages/users/blogPage/BlogPage'; // Ensure this matches the file name exactly
-import BlogDetail from './BlogDetail'; // Ensure this matches the file name exactly
+import BlogPage from './BlogPage';
+import BlogDetail from './BlogDetail';
 import './style.scss'; // Import các style cho ứng dụng
 
 function App() {

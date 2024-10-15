@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import 'src/pages/users/blogPage/style.scss';
+import './style.scss';
+import img1 from '../../../assets/users/images/img_blog/anh1.jpg';
+import img2 from '../../../assets/users/images/img_blog/anh2.jpg';
+import img3 from '../../../assets/users/images/img_blog/anh3.jpg';
 
 const blogPosts = [
   {
@@ -8,21 +11,21 @@ const blogPosts = [
     title: 'Understanding Koi Fish in Feng Shui',
     date: 'October 12, 2024',
     content: 'Koi fish have long been associated with good fortune and abundance. In Feng Shui, they are believed to bring wealth and success...',
-    img: require('../../../assets/users/images/img_sp/1.png')
+    // image: img1
   },
   {
     id: 2,
     title: 'How to Choose the Right Pond for Your Koi',
     date: 'October 10, 2024',
     content: 'Selecting the appropriate pond size, depth, and location is essential for the well-being of your Koi fish and enhancing Feng Shui benefits...',
-    img: require('../../../assets/users/images/img_sp/1.png')
+    // image: img2
   },
   {
     id: 3,
     title: 'The Five Elements and Koi Fish Selection',
     date: 'October 8, 2024',
     content: 'Each element (wood, fire, earth, metal, water) plays a crucial role in determining the best type of Koi fish for your pond based on your destiny...',
-    img: require('../../../assets/users/images/img_sp/1.png')
+    // image: img3
   }
 ];
 
