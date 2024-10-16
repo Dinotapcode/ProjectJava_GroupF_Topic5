@@ -11,21 +11,21 @@ const blogPosts = [
     title: 'Understanding Koi Fish in Feng Shui',
     date: 'October 12, 2024',
     content: 'Koi fish have long been associated with good fortune and abundance. In Feng Shui, they are believed to bring wealth and success...',
-    // image: img1
+    image: img1
   },
   {
     id: 2,
     title: 'How to Choose the Right Pond for Your Koi',
     date: 'October 10, 2024',
     content: 'Selecting the appropriate pond size, depth, and location is essential for the well-being of your Koi fish and enhancing Feng Shui benefits...',
-    // image: img2
+    image: img2
   },
   {
     id: 3,
     title: 'The Five Elements and Koi Fish Selection',
     date: 'October 8, 2024',
     content: 'Each element (wood, fire, earth, metal, water) plays a crucial role in determining the best type of Koi fish for your pond based on your destiny...',
-    // image: img3
+    image: img3
   }
 ];
 

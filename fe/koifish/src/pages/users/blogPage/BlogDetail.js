@@ -30,23 +30,26 @@ const blogPosts = [
 ];
 
 const BlogDetail = () => {
-    const { id } = useParams(); // Lấy id từ URL
-    const post = blogPosts.find(post => post.id === parseInt(id)); // Tìm bài viết theo id
+  const { id } = useParams(); // Lấy id từ URL
+  const post = blogPosts.find(post => post.id === parseInt(id)); // Tìm bài viết theo id
   
-    if (!post) {
+  console.log("Selected Post:", post); // Debugging line
+
+  if (!post) {
       return <h2>Post not found!</h2>;
-    }
-  
-    return (
+  }
+
+  return (
       <div className='container'>
       <div className="blog-detail">
-        <h1>{post.title}</h1>
-        <p className="date">{post.date}</p>
-        <img src={post.image} alt={post.title} className="blog-image" />
-        <p>{post.content}</p>
+          <h1>{post.title}</h1>
+          <p className="date">{post.date}</p>
+          <img src={post.image} alt={post.title} className="blog-image" />
+          <p>{post.content}</p>
       </div>
       </div>
-    );
-  }
+  );
+}
+
   
   export default BlogDetail;

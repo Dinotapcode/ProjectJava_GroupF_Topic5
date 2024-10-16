@@ -1,6 +1,6 @@
 .blog-page {
   .navbar {
-    background-color: #3498db;
+    background-color: #000000;
     padding: 10px;
     text-align: center;
 
@@ -26,8 +26,9 @@
 
     h1 {
       text-align: center;
-      color: #3498db;
+      color: #000000;
       margin-bottom: 30px;
+      font-size: 2.5em;
     }
   }
 
@@ -40,7 +41,8 @@
 
     h3 {
       text-align: center;
-      color: #3498db;
+      color: #000000;
+      font-size: 2em;
       margin-bottom: 20px;
     }
   }
@@ -54,27 +56,40 @@
     }
 
     h2 {
-      color: #2c3e50;
+      color: #f53b3b;
       margin: 0;
     }
 
     .date {
-      font-size: 0.9em;
-      color: darken(#2c3e50, 20%);
+      font-size: 1.2em;
+      color: darken(#000000, 20%);
       margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 2em; // Adjust font size
+      line-height: 1.6; // Adjust line height for better readability
+      color: #4d4d4d; // Adjust text color if needed
+      margin-bottom: 20px; // Add more spacing
     }
 
     .read-more {
       display: inline-block;
       margin-top: 10px;
-      color: #3498db;
+      padding: 8px 12px; // Add padding to create a box
+      color: #000000;
       text-decoration: none;
       font-weight: bold;
-
+      border: 2px solid #fa4242; // Add border around the link
+      border-radius: 5px; // Optional: rounded corners
+      transition: background-color 0.3s ease, color 0.3s ease; // Smooth transition
+    
       &:hover {
-        text-decoration: underline;
+        background-color: #f84444; // Change background color on hover
+        color: white; // Change text color on hover
       }
     }
+
   }
 
   .recent-post {
@@ -82,11 +97,11 @@
 
     h4 {
       margin: 0;
-      font-size: 1.1em;
+      font-size: 2em;
       color: #2c3e50;
 
       a {
-        color: #3498db;
+        color: #ff3232;
         text-decoration: none;
 
         &:hover {
@@ -96,8 +111,15 @@
     }
 
     .date {
-      font-size: 0.8em;
+      font-size: 1.5em;
       color: darken(#2c3e50, 20%);
+    }
+
+    p {
+      color: #2c3e50;
+      font-size: 10em;
+      line-height: 1.6;
+      margin-bottom: 10px;
     }
   }
 
@@ -128,7 +150,7 @@
   }
 
   .date {
-    font-size: 0.9em;
+    font-size: 1em;
     color: darken(#2c3e50, 20%);
     margin-bottom: 20px;
   }
@@ -140,11 +162,5 @@
     margin-bottom: 20px;
     border-radius: 10px;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  }
-
-  p {
-    color: #2c3e50;
-    font-size: 1.1em;
-    line-height: 1.6;
   }
 }
