@@ -1,6 +1,7 @@
 import HomePage from './pages/users/homePage';
 import GioithieuPage from './pages/users/gioithieuPage';
 import BlogPage from './pages/users/blogPage/BlogPage';
+import BlogDetail from './pages/users/blogPage/BlogDetail';
 import TracuuPage from './pages/users/tracuuPage';
 import SanphamPage from './pages/users/sanphamPage';
 import LoginPage from './pages/users/loginPage';
@@ -33,6 +34,11 @@ const renderUserRouter = () => {
         {
             path: ROUTERS.USER.LOGIN,
             Component: <LoginPage />,
+        },
+
+        {
+            path: '/post/:id',
+            Component: <BlogDetail />,
         },
     ]
     return (

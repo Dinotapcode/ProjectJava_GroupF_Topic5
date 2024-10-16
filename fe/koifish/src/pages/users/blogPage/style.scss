@@ -135,9 +135,11 @@
 }
 
 /* Style cho trang chi tiết bài viết */
+/* Style cho trang chi tiết bài viết */
+/* Style cho trang chi tiết bài viết */
 .blog-detail {
-  max-width: 800px;
-  margin: 40px auto;
+  width: 70%; /* Adjust the width for the main content */
+  margin-right: 30px; /* Add some margin to the right */
   padding: 20px;
   background-color: white;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -145,22 +147,71 @@
   text-align: center;
 
   h1 {
-    color: #3498db;
-    margin-bottom: 20px;
+      color: #3498db;
+      margin-bottom: 20px;
   }
 
   .date {
-    font-size: 1em;
-    color: darken(#2c3e50, 20%);
-    margin-bottom: 20px;
+      font-size: 1em;
+      color: darken(#2c3e50, 20%);
+      margin-bottom: 20px;
   }
 
   .blog-image {
-    width: 100%;
-    height: auto;
-    max-width: 600px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      height: auto;
+      max-width: 600px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
   }
 }
+
+/* Layout for BlogDetail and RecentPosts on the same line */
+.blog-layout {
+  display: flex; /* Aligns the blog detail and recent posts side by side */
+  justify-content: space-between; /* Space between blog detail and recent posts */
+  margin-top: 20px; /* Add some spacing above recent posts */
+}
+
+/* Recent Posts section */
+.recent-posts {
+  width: 25%; /* Width for the recent posts section */
+  padding: 20px;
+  background-color: #ecf0f1;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    text-align: center;
+    color: #000000;
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  .recent-post {
+    margin-bottom: 15px;
+
+    h4 {
+      margin: 0;
+      font-size: 2em;
+      color: #2c3e50;
+
+      a {
+        color: #ff3232;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .date {
+      font-size: 1.5em;
+      color: darken(#2c3e50, 20%);
+    }
+  }
+}
+
+

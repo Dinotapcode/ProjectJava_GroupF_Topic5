@@ -1,9 +1,10 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom'; // Add Link import
 import './style.scss';
 import img1 from '../../../assets/users/images/img_blog/anh1.jpg';
 import img2 from '../../../assets/users/images/img_blog/anh2.jpg';
 import img3 from '../../../assets/users/images/img_blog/anh3.jpg';
+
 // Danh sách bài viết
 const blogPosts = [
   {
@@ -29,27 +30,60 @@ const blogPosts = [
   }
 ];
 
+const recentPosts = blogPosts.slice(0, 3); // Lấy 3 bài viết gần đây
+
+function BlogPost({ id, title, date, content, image }) {
+  return (
+    <div className="blog-post">
+      <img src={image} alt={title} className="blog-image" />
+      <h2>{title}</h2>
+      <p className="date">{date}</p>
+      <p>{content}</p>
+      <Link to={`/post/${id}`} className="read-more">Read more</Link>
+    </div>
+  );
+}
+
+function RecentPost({ id, title, date }) {
+  return (
+    <div className="recent-post">
+      <h4><Link to={`/post/${id}`}>{title}</Link></h4>
+      <p className="date">{date}</p>
+    </div>
+  );
+}
+
 const BlogDetail = () => {
   const { id } = useParams(); // Lấy id từ URL
   const post = blogPosts.find(post => post.id === parseInt(id)); // Tìm bài viết theo id
   
-  console.log("Selected Post:", post); // Debugging line
-
   if (!post) {
-      return <h2>Post not found!</h2>;
+    return <h2>Post not found!</h2>;
   }
 
   return (
-      <div className='container'>
-      <div className="blog-detail">
+    <div className='container'>
+      <div className="blog-layout"> {/* Wrap blog-detail and recent-posts in a parent div */}
+        <div className="blog-detail">
           <h1>{post.title}</h1>
           <p className="date">{post.date}</p>
           <img src={post.image} alt={post.title} className="blog-image" />
           <p>{post.content}</p>
+        </div>
+        <div className="recent-posts"> {/* Recent Posts will now be on the right */}
+          <h3>Recent Posts</h3>
+          {recentPosts.map((post) => (
+            <RecentPost
+              key={post.id}
+              id={post.id}
+              title={post.title}
+              date={post.date}
+            />
+          ))}
+        </div>
       </div>
-      </div>
+    </div>
   );
 }
 
-  
-  export default BlogDetail;
+export default BlogDetail;
