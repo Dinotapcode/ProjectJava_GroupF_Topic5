@@ -1,18 +1,31 @@
-import React from "react";
-import TuVanPage from "./TuVanPage";
-import TraCuuPage from "./TraCuuPage";
-import "./style.scss";
+import React, { useState } from 'react';
+import TuVan from '../../../components/TuVan';
+import TraCuu from '../../../components/TraCuu';
+import './style.scss';
 
-const IndexPage = () => {
-    const [activePage, setActivePage] = React.useState("tuVan");
+function TracuuPage() {
+    const [activeSection, setActiveSection] = useState('tuVan'); // Quản lý trạng thái trang hiển thị
 
     return (
-        <div>
-            <button onClick={() => setActivePage("tuVan")}>Tư Vấn</button>
-            <button onClick={() => setActivePage("traCuu")}>Tra Cứu</button>
-            {activePage === "tuVan" ? <TuVanPage /> : <TraCuuPage />}
+        <div className="container">
+            <div className="functionality">
+                <button
+                    className={`functionality__btn ${activeSection === 'tuVan' ? 'active' : ''}`}
+                    onClick={() => setActiveSection('tuVan')}
+                >
+                    Tư Vấn
+                </button>
+                <button
+                    className={`functionality__btn ${activeSection === 'traCuu' ? 'active' : ''}`}
+                    onClick={() => setActiveSection('traCuu')}
+                >
+                    Đánh Giá
+                </button>
+            </div>
+
+            {activeSection === 'tuVan' ? <TuVan /> : <TraCuu />}
         </div>
     );
-};
+}
 
-export default IndexPage;
+export default TracuuPage;
