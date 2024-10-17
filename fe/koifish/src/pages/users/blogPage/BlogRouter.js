@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import BlogPage from './pages/users/blogPage/BlogPage';
 import BlogDetail from './pages/users/blogPage/BlogDetail';
 
-const AppRouter = () => (
+const BlogRouter = () => (
   <Router>
     <Switch>
     <Route exact path="/" component={BlogPage} />
@@ -11,4 +11,4 @@ const AppRouter = () => (
   </Router>
 );
 
-export default AppRouter;
+export default BlogRouter;
