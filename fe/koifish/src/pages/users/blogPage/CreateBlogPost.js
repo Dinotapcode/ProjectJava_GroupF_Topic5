@@ -1,7 +1,9 @@
+// D:\Project Java\ProjectJava_GroupF_Topic5\fe\koifish\src\pages\users\blogPage\component\CreateBlogPostPopup.js
+
 import React, { useState } from 'react';
 import './style.scss';
-
-const CreateBlogPost = ({ onSubmit }) => {
+import PaymentSection from './PaymentSection'; 
+const CreateBlogPostPopup = ({ onClose, onCreate }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [username, setUsername] = useState('');
@@ -14,55 +16,59 @@ const CreateBlogPost = ({ onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const currentDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     const newPost = {
-      id: Date.now(),
+      id: Math.floor(Math.random() * 1000), 
       title,
       content,
       username,
-      date: currentDate,
+      date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
       image: image ? URL.createObjectURL(image) : null,
     };
 
-    onSubmit(newPost);
-    setTitle('');
-    setContent('');
-    setUsername('');
-    setImage(null);
+    onCreate(newPost);
+    onClose();
   };
 
   return (
-    <div className="create-blog-post">
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          placeholder="Enter Title" 
-          value={title} 
-          onChange={(e) => setTitle(e.target.value)} 
-          required 
-        />
-        <input 
-          type="text" 
-          placeholder="Enter Username" 
-          value={username} 
-          onChange={(e) => setUsername(e.target.value)} 
-          required 
-        />
-        <textarea 
-          placeholder="Enter Content" 
-          value={content} 
-          onChange={(e) => setContent(e.target.value)} 
-          required 
-        />
-        <input 
-          type="file" 
-          accept="image/*" 
-          onChange={handleImageChange} 
-        />
-        <button type="submit">Create Post</button>
-      </form>
+    <div className="popup-overlay">
+      <div className="popup-content">
+        <h2>Tạo bài viết</h2>
+        <form onSubmit={handleSubmit}>
+          <label>Tiêu đề:</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+
+          <label>Content:</label>
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+          />
+
+          <label>Tên người tạo:</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+
+          <label>Hình ảnh:</label>
+          <input type="file" onChange={handleImageChange} />
+
+          <div className="popup-buttons">
+            <button type="submit">Tạo</button>
+            <button type="button" onClick={onClose}>Hủy tạo</button>
+          </div>
+        </form>
+      </div>
+      <PaymentSection /> {}
     </div>
   );
 };
 
-export default CreateBlogPost;
+export default CreateBlogPostPopup;

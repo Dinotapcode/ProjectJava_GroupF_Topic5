@@ -1,5 +1,8 @@
+// D:\Project Java\ProjectJava_GroupF_Topic5\fe\koifish\src\pages\users\blogPage\component\CreateBlogPostPopup.js
+
 import React, { useState } from 'react';
-import './style.scss'; // Ensure you have styles to display the popup correctly
+import './style.scss';
+import PaymentSection from './PaymentSection'; 
 
 const CreateBlogPostPopup = ({ onClose, onCreate }) => {
   const [title, setTitle] = useState('');
@@ -14,29 +17,27 @@ const CreateBlogPostPopup = ({ onClose, onCreate }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Create a new blog post object
+ 
     const newPost = {
-      id: Math.floor(Math.random() * 1000), // Temporary ID
+      id: Math.floor(Math.random() * 1000), 
       title,
       content,
       username,
       date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-      image: image ? URL.createObjectURL(image) : null
+      image: image ? URL.createObjectURL(image) : null,
     };
 
-    // Call the onCreate callback function to add the new post
     onCreate(newPost);
 
-    // Close the popup after creating the post
     onClose();
   };
 
   return (
     <div className="popup-overlay">
       <div className="popup-content">
-        <h2>Create Blog Post</h2>
+        <h2>Tạo bài viết</h2>
         <form onSubmit={handleSubmit}>
-          <label>Title:</label>
+          <label>Tiêu đề</label>
           <input
             type="text"
             value={title}
@@ -44,14 +45,14 @@ const CreateBlogPostPopup = ({ onClose, onCreate }) => {
             required
           />
 
-          <label>Content:</label>
+          <label>Nội dung:</label>
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required
           />
 
-          <label>Username:</label>
+          <label>Tên người tạo:</label>
           <input
             type="text"
             value={username}
@@ -59,15 +60,16 @@ const CreateBlogPostPopup = ({ onClose, onCreate }) => {
             required
           />
 
-          <label>Image:</label>
+          <label>Ảnh bài viết:</label>
           <input type="file" onChange={handleImageChange} />
 
           <div className="popup-buttons">
-            <button type="submit">Create</button>
-            <button type="button" onClick={onClose}>Cancel</button>
+            <button type="submit">Tạo</button>
+            <button type="button" onClick={onClose}>Hủy tạo</button>
           </div>
         </form>
       </div>
+      <PaymentSection /> {}
     </div>
   );
 };
