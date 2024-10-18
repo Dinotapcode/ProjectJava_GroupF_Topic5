@@ -6,7 +6,6 @@ import img2 from '../../../assets/users/images/img_blog/anh2.jpg';
 import img3 from '../../../assets/users/images/img_blog/anh3.jpg';
 import CreateBlogPopup from './Popup';
 
-// Initial blog posts
 const initialBlogPosts = [
   {
     id: 1,
@@ -40,7 +39,7 @@ const BlogPage = () => {
   };
 
   const handleCreatePost = (newPost) => {
-    setBlogPosts([newPost, ...blogPosts]); // Add new post to the beginning of the list
+    setBlogPosts([newPost, ...blogPosts]); 
   };
 
   return (
@@ -64,7 +63,7 @@ const BlogPage = () => {
             ))}
           </div>
           <div className="recent-posts">
-            <h3>Recent Posts</h3>
+            <h3>Các bài viết gần đây</h3>
             {blogPosts.slice(0, 3).map((post) => (
               <RecentPost
                 key={post.id}
@@ -76,7 +75,7 @@ const BlogPage = () => {
           </div>
         </div>
         <button className="create-blog-btn" onClick={togglePopup}>
-          + Create Post
+          + Tạo bài viết
         </button>
         {isPopupOpen && (
           <CreateBlogPopup onClose={togglePopup} onCreate={handleCreatePost} />
@@ -86,7 +85,6 @@ const BlogPage = () => {
   );
 };
 
-// RecentPost and BlogPost components (keep these unchanged)
 function RecentPost({ id, title, date }) {
   return (
     <div className="recent-post">
