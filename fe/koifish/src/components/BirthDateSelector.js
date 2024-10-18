@@ -31,7 +31,7 @@ const BirthDateSelector = ({ onBirthDateChange }) => {  // Nhận props từ com
     }, [day, month, year, onBirthDateChange]);
 
     return (
-        <div>
+        <>
             <form className="input-group">
                 <label htmlFor="birthDate">Ngày sinh:</label>
                 <fieldset className="birthDate">
@@ -41,7 +41,7 @@ const BirthDateSelector = ({ onBirthDateChange }) => {  // Nhận props từ com
                         value={day}
                         onChange={(e) => setDay(e.target.value)}
                     >
-                        <option value="">Chọn ngày</option>
+                        <option value="">Ngày</option>
                         {days.map((d) => (
                             <option key={d} value={d}>
                                 {d}
@@ -55,7 +55,7 @@ const BirthDateSelector = ({ onBirthDateChange }) => {  // Nhận props từ com
                         value={month}
                         onChange={(e) => setMonth(e.target.value)}
                     >
-                        <option value="">Chọn tháng</option>
+                        <option value="">Tháng</option>
                         {months.map((m) => (
                             <option key={m} value={m}>
                                 {m}
@@ -69,7 +69,7 @@ const BirthDateSelector = ({ onBirthDateChange }) => {  // Nhận props từ com
                         value={year}
                         onChange={(e) => setYear(e.target.value)}
                     >
-                        <option value="">Chọn năm</option>
+                        <option value="">Năm</option>
                         {years.map((y) => (
                             <option key={y} value={y}>
                                 {y}
@@ -94,7 +94,7 @@ const BirthDateSelector = ({ onBirthDateChange }) => {  // Nhận props từ com
                     ))}
                 </select>
             </form>
-        </div>
+        </>
     );
 };
 

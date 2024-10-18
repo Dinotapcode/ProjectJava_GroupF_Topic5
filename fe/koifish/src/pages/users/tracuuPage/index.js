@@ -8,22 +8,24 @@ function TracuuPage() {
 
     return (
         <div className="container">
-            <div className="functionality">
-                <button
-                    className={`functionality__btn ${activeSection === 'tuVan' ? 'active' : ''}`}
-                    onClick={() => setActiveSection('tuVan')}
-                >
-                    Tư Vấn
-                </button>
-                <button
-                    className={`functionality__btn ${activeSection === 'traCuu' ? 'active' : ''}`}
-                    onClick={() => setActiveSection('traCuu')}
-                >
-                    Đánh Giá
-                </button>
-            </div>
+            <article className="tracuu-container">
+                <div className="functionality">
+                    <button
+                        className={`functionality__btn ${activeSection === 'tuVan' ? 'active' : ''}`}
+                        onClick={() => setActiveSection('tuVan')}
+                    >
+                        Tư Vấn
+                    </button>
+                    <button
+                        className={`functionality__btn ${activeSection === 'traCuu' ? 'active' : ''}`}
+                        onClick={() => setActiveSection('traCuu')}
+                    >
+                        Tra Cứu
+                    </button>
+                </div>
 
-            {activeSection === 'tuVan' ? <TuVan /> : <TraCuu />}
+                {activeSection === 'tuVan' ? <TuVan /> : <TraCuu />}
+            </article>
         </div>
     );
 }

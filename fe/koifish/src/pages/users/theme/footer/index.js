@@ -1,12 +1,12 @@
 import React from "react";
 import "./style.scss";
 import {
-  FaShieldAlt,
-  FaPhoneAlt,
+  FaShieldHalved,
+  FaPhone,
   FaFacebookF,
-  FaTwitter,
+  FaXTwitter,
   FaInstagram,
-} from "react-icons/fa";
+} from "react-icons/fa6";
 
 const Footer = () => {
   return (
@@ -19,13 +19,13 @@ const Footer = () => {
               href="https://example.com/privacy-policy"
               className="footer-navbar__link"
             >
-              <FaShieldAlt />
+              <FaShieldHalved />
               Privacy Policy
             </a>
           </li>
           <li className="footer-navbar__item">
             <a href="callto:19008080" className="footer-navbar__link">
-              <FaPhoneAlt />
+              <FaPhone />
               Contact us
             </a>
           </li>
@@ -46,7 +46,7 @@ const Footer = () => {
               href="https://twitter.com"
               className="footer-navbar__social-link"
             >
-              <FaTwitter className="link-icon" />
+              <FaXTwitter className="link-icon" />
             </a>
           </li>
           <li className="footer-navbar__social-item icon-instagram">

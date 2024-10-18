@@ -1,12 +1,17 @@
 $background-tracuu: "/assets/users/images/backgrounds/Tracuu.jpg";
+$btn-result: "/assets/users/images/img_tracuu/btnResult.png";
+$background-header-right: "/assets/users/images/backgrounds/whiteFan.jpg";
+$background-header-left: "/assets/users/images/backgrounds/blackFan.jpg";
+$defaultResult_img: "/assets/users/images/img_tracuu/defaultResult.webp";
+
 .functionality {
     height: 40px;
     width: 100%;
-    margin: 10px;
+    margin: 10px 0;
     display: flex;
     justify-content: center;
     gap: 2%;
-    // background-image: url(../../assets/img/whiteFan.jpg), url(../../assets/img/blackFan.jpg);
+    background-image: url($background-header-right), url($background-header-left);
     background-position:
         10% 50%,
         90% 50%;
@@ -19,7 +24,6 @@ $background-tracuu: "/assets/users/images/backgrounds/Tracuu.jpg";
         border: none;
         background: none;
         font-weight: 600;
-        font-family: "Poppins", sans-serif;
         position: relative;
         cursor: pointer;
         &::before,
@@ -51,18 +55,13 @@ $background-tracuu: "/assets/users/images/backgrounds/Tracuu.jpg";
 input[type="radio"] {
     display: none;
 }
-.section {
-    display: none;
-    width: 100%;
-    font-size: 15px;
-    &.active {
-        display: block;
-    }
-}
+
 .layout {
     display: flex;
     flex-direction: column;
-    @media (min-width: 1000px) {
+    justify-content: space-between;
+    gap: 20px;
+    @media (min-width: 787px) {
         flex-direction: row;
     }
 }
@@ -84,10 +83,14 @@ input[type="radio"] {
         font-style: italic;
         text-align: center;
     }
+    label {
+        font-size: 15px;
+    }
     select {
         padding: 5px;
         border-radius: 10px;
         border: 1px solid #ccc;
+        margin-right: 5px;
     }
     fieldset {
         border: none;
@@ -98,7 +101,7 @@ input[type="radio"] {
         width: 200px;
         height: 40px;
         align-self: center;
-        // background-image: url(../../assets/img/btnResult.png);
+        background-image: url($btn-result);
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
@@ -115,7 +118,6 @@ input[type="radio"] {
     // background-image: url(../..//assets/img/bg_result.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-    padding: 0 5%;
     font-size: 16px;
     line-height: 1.4;
     .result {
@@ -127,14 +129,25 @@ input[type="radio"] {
         border-radius: 5px;
     }
 }
-.koi-image {
-    width: 100%;
-}
+
 .input-group {
     display: flex;
     margin-bottom: 15px;
     label {
         display: block;
         margin: auto 10px auto 0;
+    }
+}
+.defaultResult_img {
+    background-image: url($defaultResult_img);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    aspect-ratio: 2 / 1;
+}
+.result-content {
+    p {
+        text-indent: 30px;
     }
 }
