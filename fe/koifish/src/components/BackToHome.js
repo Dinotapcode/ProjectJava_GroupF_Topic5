@@ -19,16 +19,24 @@ const BackToHome = () => {
             location.pathname === link.path ||
             (link.path !== '/' && location.pathname.startsWith(link.path))
         );
-        setCurrentLabel(currentLink ? currentLink.label : 'Unknown');
+
+        // Kiểm tra nếu đang ở trang chi tiết sản phẩm
+        if (location.pathname.startsWith('/san-pham-phong-thuy/')) {
+            setCurrentLabel('Chi tiết sản phẩm');
+        } else {
+            setCurrentLabel(currentLink ? currentLink.label : 'Unknown');
+        }
     }, [location.pathname]);
 
     if (location.pathname === '/') {
-        return null;
+        return null; // Không hiển thị gì ở trang chủ
     }
 
     return (
         <nav className="backToHome">
-            <Link to="/" className="backToHome__link"><TiHome className='backToHome__icon' /> Trang chủ</Link> /
+            <Link to="/" className="backToHome__link">
+                <TiHome className='backToHome__icon' /> Trang chủ
+            </Link> /
             <span className='backToHome__Label'> {currentLabel} </span>
         </nav>
     );
