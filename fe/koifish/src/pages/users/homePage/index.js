@@ -12,10 +12,10 @@ const HomePage = () => {
         <div className="container">
             <div className="homePage">
                 <div className="intro-sections">
-                <div><h2>Chào mừng bạn đến với Fengshuikoi !</h2> <br/>
-                Fengshuikoi, nơi mà bạn sẽ được tư vấn để sở hữu cho mình cá Koi phong thủy phù hợp nhất với bản thân...
-                </div>
-                <img src={home1} alt="first-img"></img>
+                    <div><h2>Chào mừng bạn đến với Fengshuikoi !</h2> <br />
+                        Fengshuikoi, nơi mà bạn sẽ được tư vấn để sở hữu cho mình cá Koi phong thủy phù hợp nhất với bản thân...
+                    </div>
+                    <img src={home1} alt="first-img"></img>
                 </div>
                 <div className="product-sections">
                     <div className="title">
@@ -27,7 +27,7 @@ const HomePage = () => {
                                 <img src={koi1} alt="product 1" />
                             </div>
                             <div className="product-card-title">
-                                Sản Phẩm 1    
+                                Sản Phẩm 1
                             </div>
                             <div className="product-card-description">
                                 Xem Ngay
@@ -41,7 +41,7 @@ const HomePage = () => {
                                 Sản Phẩm 2
                             </div>
                             <div className="product-card-description">
-                                
+
                             </div>
                         </div>
                         <div className="product-card">
@@ -52,7 +52,7 @@ const HomePage = () => {
                                 Sản Phẩm 3
                             </div>
                             <div className="product-card-description">
-                                
+
                             </div>
                         </div>
                         <div className="product-card">
@@ -63,19 +63,19 @@ const HomePage = () => {
                                 Sản Phẩm 4
                             </div>
                             <div className="product-card-description">
-                               
+
                             </div>
                         </div>
                     </div>
                     <div className="know-more">
-                    <a href="#">Xem thêm tại đây </a>
+                        <a href="#">Xem thêm tại đây </a>
                     </div>
-                
+
                 </div>
-                
+
                 <div className="news-sections">
                     <div className="title">
-                        Tin tức nổi bật về cá Koi phong thủy<hr/>
+                        Tin tức nổi bật về cá Koi phong thủy<hr />
                     </div>
                     <div className="news-cards">
                         <div className="news-card">
@@ -86,7 +86,7 @@ const HomePage = () => {
                                 Tin 1
                             </div>
                             <div className="news-card-description">
-                                
+
                             </div>
                         </div>
                         <div className="news-card">
@@ -97,7 +97,7 @@ const HomePage = () => {
                                 Tin 2
                             </div>
                             <div className="news-card-description">
-                                
+
                             </div>
                         </div>
                         <div className="news-card">
@@ -109,7 +109,7 @@ const HomePage = () => {
 
                             </div>
                             <div className="news-card-description">
-                                
+
                             </div>
                         </div>
                         <div className="news-card">
@@ -120,13 +120,13 @@ const HomePage = () => {
                                 Tin 4
                             </div>
                             <div className="news-card-description">
-                               
+
                             </div>
                         </div>
                     </div>
-                    
+
                     <div className="know-more">
-                    <a href="#">Xem thêm tại đây </a>
+                        <a href="#">Xem thêm tại đây </a>
                     </div>
                 </div>
             </div>

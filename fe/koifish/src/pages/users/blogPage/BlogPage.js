@@ -39,7 +39,7 @@ const BlogPage = () => {
   };
 
   const handleCreatePost = (newPost) => {
-    setBlogPosts([newPost, ...blogPosts]); 
+    setBlogPosts([newPost, ...blogPosts]);
   };
 
   return (

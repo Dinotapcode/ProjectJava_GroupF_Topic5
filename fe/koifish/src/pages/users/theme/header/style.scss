@@ -174,6 +174,29 @@ $back-to-top-text-color: white; // Màu chữ cho nút
     }
 }
 
+.backToHome {
+    margin: 100px 0 5px 0;
+    font-size: 16px;
+    display: flex;
+    gap: 5px;
+
+    &__link {
+        color: #999;
+        text-decoration: none;
+        display: inline-flex;
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__Label {
+        align-items: center;
+        color: #eb1c24;
+        font-weight: bold;
+    }
+}
+
 // Nút quay lại đầu trang
 .back-to-top {
     position: fixed;

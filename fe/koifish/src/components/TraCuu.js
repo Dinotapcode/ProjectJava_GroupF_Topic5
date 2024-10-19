@@ -105,31 +105,7 @@ function TuVan() {
             <article className="layout">
                 <section className="layout__input">
                     <h2 className="input-title">Tra Cứu Độ Phù Hợp</h2>
-                    <form className="input-group">
-                        <label for="birthDate">Ngày sinh:</label>
-                        <fieldset className="birthDate">
-                            <select className="birthDay" name="day"></select>
-                            <select className="birthMonth" name="month"></select>
-                            <select className="birthYear" name="year"></select>
-                        </fieldset>
-                    </form>
-                    <form className="input-group">
-                        <label for="birthHour">Giờ sinh:</label>
-                        <select id="birthHour">
-                            <option value="23g-1g">Tý (23g - 1g)</option>
-                            <option value="1g-3g">Sửu (1g - 3g)</option>
-                            <option value="3g-5g">Dần (3g - 5g)</option>
-                            <option value="5g-7g">Mão (5g - 7g)</option>
-                            <option value="7g-9g">Thìn (7g - 9g)</option>
-                            <option value="9g-11g">Tý (9g - 11g)</option>
-                            <option value="11g-13g">Ngọ (11g - 13g)</option>
-                            <option value="13g-15g">Mùi (13g - 15g)</option>
-                            <option value="15g-17g">Thân (15g - 17g)</option>
-                            <option value="17g-19g">Dậu (17g - 19g)</option>
-                            <option value="19g-21g">Tuất (19g - 21g)</option>
-                            <option value="21g-23g">Hợi (21g - 23g)</option>
-                        </select>
-                    </form>
+                    <BirthDateSelector />
                     <form className="input-group">
                         <label for="gender">Giới tính:</label>
                         <select id="gender">

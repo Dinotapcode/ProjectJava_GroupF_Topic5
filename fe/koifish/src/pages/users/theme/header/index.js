@@ -1,6 +1,7 @@
 import React, { memo, useState, useEffect } from 'react';
 import './style.scss';
 import logo from '../../../../assets/images/logo.png';
+import BackToHome from '../../../../components/BackToHome';
 
 const Header = () => {
     const [isShrunk, setIsShrunk] = useState(false);
@@ -84,6 +85,8 @@ const Header = () => {
                     </ul>
                 </nav>
             </header>
+            <div className="container"><BackToHome /></div>
+
 
             {/* Nút quay lại đầu trang */}
             {showBackToTop && (

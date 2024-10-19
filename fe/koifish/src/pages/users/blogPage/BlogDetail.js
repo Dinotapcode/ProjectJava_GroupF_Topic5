@@ -56,21 +56,21 @@ function RecentPost({ id, title, date }) {
 const BlogDetail = () => {
   const { id } = useParams(); // Lấy id từ URL
   const post = blogPosts.find(post => post.id === parseInt(id)); // Tìm bài viết theo id
-  
+
   if (!post) {
     return <h2>Không tìm thấy bài viết!</h2>;
   }
 
   return (
     <div className='container'>
-      <div className="blog-layout"> {}
+      <div className="blog-layout"> { }
         <div className="blog-detail">
           <h1>{post.title}</h1>
           <p className="date">{post.date}</p>
           <img src={post.image} alt={post.title} className="blog-image" />
           <p>{post.content}</p>
         </div>
-        <div className="recent-posts"> {}
+        <div className="recent-posts"> { }
           <h3>Các bài viết gần đây</h3>
           {recentPosts.map((post) => (
             <RecentPost
