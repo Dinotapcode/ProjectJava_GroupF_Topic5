@@ -1,5 +1,5 @@
 .footer {
-    height: 55px;
+    height: 60px;
     box-sizing: border-box;
     background-color: black;
     display: flex;
@@ -22,7 +22,7 @@
         &__item {
             font-size: 1.6rem;
             color: white;
-            margin: 0.8vw;
+            margin: 0 0.8vw;
             position: relative;
             display: flex;
             align-items: center;
