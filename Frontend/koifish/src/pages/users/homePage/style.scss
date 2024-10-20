@@ -51,18 +51,18 @@
     text-align: center;
   
     .title {
-      display: flex; // Sử dụng Flexbox để canh hàng ngang
-      align-items: center; // Canh giữa theo chiều dọc
+      display: flex;
+      align-items: center; 
       justify-content: space-between;
       font-size: 24px;
       font-weight: bold;
       margin-bottom: 20px;
-      color: rgb(244, 136, 78);
+      color: red;
       hr {
         flex-grow: 1; 
         margin-left: 5px; 
         border: none; 
-        border-top: 3px solid rgb(244, 136, 78);
+        border-top: 3px solid red;
         border-radius: 2px;
       }
     }
@@ -116,16 +116,17 @@
             display: inline-block; 
             padding: 10px 20px; 
             text-decoration: none;
-            background-color: rgb(157, 157, 243);
+            background-color: none;
             border-radius: 20px;
-            border: 1px solid rgb(10, 10, 11); 
-            color: white; 
-            font-weight: bold; /* Làm chữ đậm */
+            border: 2px solid red; 
+            color: Black; 
+            font-weight: bold; 
             transition: background-color 0.3s, border-color 0.3s; 
         
             &:hover {
-              background-color: rgb(70, 70, 243); 
-              border-color: rgb(157, 157, 243); 
+              background-color: red; 
+              
+              color : white;
             }
           }
     }
@@ -135,22 +136,22 @@
 // -----------Tin Tức nổi bật ------------
 .news-sections {
     padding: 30px;
-    background-color: #f9f9f9;
+    background-color: #e8e6e6;
     text-align: center;
   
     .title {
-      display: flex; // Sử dụng Flexbox để canh hàng ngang
-      align-items: center; // Canh giữa theo chiều dọc
+      display: flex; 
+      align-items: center;
       justify-content: space-between;
       font-size: 24px;
       font-weight: bold;
       margin-bottom: 20px;
-      color: rgb(244, 136, 78);
+      color: red;
       hr {
         flex-grow: 1; 
         margin-left: 5px; 
         border: none; 
-        border-top: 3px solid rgb(244, 136, 78);
+        border-top: 3px solid red;
         border-radius: 2px;
       }
     }
@@ -188,7 +189,10 @@
         font-size: 18px;
         font-weight: bold;
         margin: 10px 0;
-        color: #333;
+        
+        a{
+          color : red;
+        }
       }
   
       .news-card-description {
@@ -198,24 +202,86 @@
       }
     }
     .know-more{
-        padding-top: 20px;
-        
-        a {
-            display: inline-block; 
-            padding: 10px 20px; 
-            text-decoration: none;
-            background-color: rgb(157, 157, 243);
-            border-radius: 20px;
-            border: 1px solid rgb(10, 10, 11); 
-            color: white; 
-            font-weight: bold; /* Làm chữ đậm */
-            transition: background-color 0.3s, border-color 0.3s; 
-        
-            &:hover {
-              background-color: rgb(70, 70, 243); 
-              border-color: rgb(157, 157, 243); 
-            }
-          }
+      padding-top: 20px;
+      
+      a {
+          display: inline-block; 
+          padding: 10px 20px; 
+          text-decoration: none;
+          background-color: none;
+          border-radius: 20px;
+          border: 2px solid red; 
+          color: Black; 
+          font-weight: bold; 
+          transition: background-color 0.3s, border-color 0.3s; 
+      
+          &:hover {
+            background-color: red; 
+            
+            color : white;
+                  }
+        }
     }
   }
+
+
+  // -----------Tư vấn koi----------
+  
+  .suggest-sections {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: 700px; 
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6); 
+        z-index: 2; 
+    }
+
+    .styled-text {
+        font-size: 24px;
+        position: absolute;
+        z-index: 3; 
+        color: white;
+        text-align: center; 
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 80%; 
+        font-size: 22px;
+        line-height: 1.4; 
+        text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.8); 
+
+        a {
+            font-size: 16pt;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: 2px solid white;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.1); 
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.3); 
+                color: black;
+            }
+        }
+    }
+}
+
     
