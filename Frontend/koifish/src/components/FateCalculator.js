@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-const BirthDateSelector = ({ onBirthDateChange }) => {  // Nhận props từ component cha
+// Hàm tính mệnh dựa trên năm sinh và giới tính
+function calculateElement(gender, birthYear) {
+    const elementCycle = ["Kim", "Thủy", "Mộc", "Hỏa", "Thổ"];
+    const elementIndex = (birthYear % 10) % 5;
+
+    // Điều chỉnh mệnh cho nam và nữ theo quy luật âm dương
+    return gender === "male"
+        ? elementCycle[elementIndex]
+        : elementCycle[(elementIndex + 2) % 5];
+}
+
+const FateCalculator = ({ onResult }) => {
     const today = new Date();
     const currentYear = today.getFullYear();
     const minYear = currentYear - 100;
@@ -9,6 +20,7 @@ const BirthDateSelector = ({ onBirthDateChange }) => {  // Nhận props từ com
     const [month, setMonth] = useState("");
     const [year, setYear] = useState("");
     const [birthHour, setBirthHour] = useState("");
+    const [gender, setGender] = useState("");
 
     const days = Array.from({ length: 31 }, (_, i) => i + 1);
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -20,24 +32,22 @@ const BirthDateSelector = ({ onBirthDateChange }) => {  // Nhận props từ com
         "Thân (15g - 17g)", "Dậu (17g - 19g)", "Tuất (19g - 21g)", "Hợi (21g - 23g)"
     ];
 
-    // useEffect để gửi giá trị ngày sinh khi có thay đổi
     useEffect(() => {
-        if (day && month && year) {
-            const birthDateString = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-            onBirthDateChange(birthDateString);  // Gửi chuỗi ngày sinh về component cha
+        if (day && month && year && gender) {
+            const birthYear = parseInt(year, 10);
+            const element = calculateElement(gender, birthYear);
+            onResult(element);  // Gửi kết quả về component cha
         } else {
-            onBirthDateChange("");  // Gửi giá trị rỗng nếu chưa đầy đủ
+            onResult("");  // Nếu thiếu thông tin, gửi giá trị rỗng
         }
-    }, [day, month, year, onBirthDateChange]);
+    }, [day, month, year, gender, onResult]);
 
     return (
         <>
-            <form className="input-group">
+            <form className="input__group">
                 <label htmlFor="birthDate">Ngày sinh:</label>
                 <fieldset className="birthDate">
                     <select
-                        className="birthDay"
-                        name="day"
                         value={day}
                         onChange={(e) => setDay(e.target.value)}
                     >
@@ -50,8 +60,6 @@ const BirthDateSelector = ({ onBirthDateChange }) => {  // Nhận props từ com
                     </select>
 
                     <select
-                        className="birthMonth"
-                        name="month"
                         value={month}
                         onChange={(e) => setMonth(e.target.value)}
                     >
@@ -64,8 +72,6 @@ const BirthDateSelector = ({ onBirthDateChange }) => {  // Nhận props từ com
                     </select>
 
                     <select
-                        className="birthYear"
-                        name="year"
                         value={year}
                         onChange={(e) => setYear(e.target.value)}
                     >
@@ -79,14 +85,13 @@ const BirthDateSelector = ({ onBirthDateChange }) => {  // Nhận props từ com
                 </fieldset>
             </form>
 
-            <form className="input-group">
+            <form className="input__group">
                 <label htmlFor="birthHour">Giờ sinh:</label>
                 <select
                     id="birthHour"
                     value={birthHour}
                     onChange={(e) => setBirthHour(e.target.value)}
                 >
-                    <option value="">Chọn giờ</option>
                     {hourOptions.map((option, index) => (
                         <option key={index} value={option}>
                             {option}
@@ -94,8 +99,20 @@ const BirthDateSelector = ({ onBirthDateChange }) => {  // Nhận props từ com
                     ))}
                 </select>
             </form>
+
+            <form className="input__group">
+                <label htmlFor="gender">Giới tính:</label>
+                <select
+                    id="gender"
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value)}
+                >
+                    <option value="male">Nam</option>
+                    <option value="female">Nữ</option>
+                </select>
+            </form>
         </>
     );
 };
 
-export default BirthDateSelector;
+export default FateCalculator;

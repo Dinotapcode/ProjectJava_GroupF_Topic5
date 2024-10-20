@@ -1,14 +1,15 @@
 import React from 'react';
+import defaultResult from '../assets/users/images/img_tracuu/defaultResult.webp';
 
 const ResultSection = () => {
   return (
-    <section className="result-content">
+    <section className="result">
       <h3>Cá Koi: Biểu Tượng Của May Mắn</h3>
       <p>
         Cá Koi, một loài cá cảnh nổi tiếng có nguồn gốc từ Nhật Bản, được coi là biểu tượng của sự may mắn và thịnh vượng.
         Chúng không chỉ thu hút ánh nhìn với màu sắc rực rỡ mà còn mang trong mình những ý nghĩa phong thủy sâu sắc.
       </p>
-      <div className="defaultResult_img"></div>
+      <img src={defaultResult} alt="Koi" className='result-image' />
       <p>
         Điều đặc biệt về cá Koi là khả năng sống lâu, tuổi thọ có thể lên đến 25-35 năm nếu được chăm sóc đúng cách.
         Với sự chăm sóc chu đáo, cá Koi sẽ mang lại may mắn và tài lộc cho gia chủ.

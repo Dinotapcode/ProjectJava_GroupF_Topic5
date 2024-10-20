@@ -15,7 +15,7 @@ function TracuuPage() {
                         id="functionality__btn-tuVan"
                         name="toggle"
                         checked={activeSection === 'tuVan'}
-                        onChange={() => setActiveSection('tuVan')} // Update state when selected
+                        onChange={() => setActiveSection('tuVan')}
                     />
                     <button
                         className="functionality__btn"
@@ -29,7 +29,7 @@ function TracuuPage() {
                         id="functionality__btn-traCuu"
                         name="toggle"
                         checked={activeSection === 'traCuu'}
-                        onChange={() => setActiveSection('traCuu')} // Update state when selected
+                        onChange={() => setActiveSection('traCuu')}
                     />
                     <button
                         className="functionality__btn"
