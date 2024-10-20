@@ -1,3 +1,6 @@
+@use "sass:map";
+@import "../../../../styles/pages/theme";
+
 // Biến màu
 $primary-color: black;
 $hover-color: rgba(26, 26, 26, 0.7);
@@ -192,7 +195,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
 
     &__Label {
         align-items: center;
-        color: #eb1c24;
+        color: map-get($theme-colors, "main-red");
         font-weight: bold;
     }
 }
