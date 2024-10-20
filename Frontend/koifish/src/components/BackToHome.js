@@ -12,7 +12,8 @@ const BackToHome = () => {
             { path: '/tra-cuu-phong-thuy', label: 'Dịch vụ tư vấn' },
             { path: '/blog', label: 'Blog tin tức' },
             { path: '/post', label: 'Bài viết' },
-            { path: '/san-pham-phong-thuy', label: 'Sản phẩm' }
+            { path: '/san-pham-phong-thuy', label: 'Sản phẩm' },
+            { path: '/sanpham', label: 'Chi tiết sản phẩm' }
         ];
 
         const currentLink = navBottomLinks.find(link =>

@@ -5,6 +5,7 @@ import BackToHome from '../../../../components/BackToHome';
 
 const Header = () => {
     const [isShrunk, setIsShrunk] = useState(false);
+    const [showBackToTop, setShowBackToTop] = useState(false); // Trạng thái cho nút quay lại đầu trang
 
     // Sử dụng useEffect để lắng nghe sự kiện cuộn trang
     useEffect(() => {
@@ -14,6 +15,7 @@ const Header = () => {
             // Kiểm tra trạng thái thu nhỏ header
             setIsShrunk(scrollTop > 100);
             // Hiển thị nút quay lại đầu trang khi cuộn quá 200px
+            setShowBackToTop(scrollTop > 200);
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -23,6 +25,14 @@ const Header = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
+    // Hàm xử lý quay lại đầu trang với hiệu ứng mượt mà
+    const handleBackToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    };
 
     return (
         <>
@@ -76,6 +86,18 @@ const Header = () => {
                 </nav>
             </header>
             <div className="container"><BackToHome /></div>
+
+
+            {/* Nút quay lại đầu trang */}
+            {showBackToTop && (
+                <button
+                    id="backToTop"
+                    className="back-to-top"
+                    onClick={handleBackToTop}
+                >
+                    ↑
+                </button>
+            )}
         </>
     );
 };

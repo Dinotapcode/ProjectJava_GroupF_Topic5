@@ -1,9 +1,7 @@
 import { memo } from 'react';
 import './style.scss';
 import home1 from '../../../assets/users/images/img_home/home1.jpg'
-import home2 from '../../../assets/users/images/img_home/home2.webp'
 import koi1 from '../../../assets/users/images/img_sp/1.png'
-import ho1 from '../../../assets/users/images/img_sp/aquarium.jpg'
 import blog1 from '../../../assets/users/images/img_blog/anh1.jpg'
 import blog2 from '../../../assets/users/images/img_blog/anh2.jpg'
 import blog3 from '../../../assets/users/images/img_blog/anh3.jpg'
@@ -37,7 +35,7 @@ const HomePage = () => {
                         </div>
                         <div className="product-card">
                             <div className="product-card-image">
-                                <img src={ho1} alt="product 2" />
+                                <img src={koi1} alt="product 2" />
                             </div>
                             <div className="product-card-title">
                                 Sản Phẩm 2
@@ -70,19 +68,11 @@ const HomePage = () => {
                         </div>
                     </div>
                     <div className="know-more">
-                        <a href="/san-pham-phong-thuy">Xem thêm tại đây </a>
+                        <a href="#">Xem thêm tại đây </a>
                     </div>
 
                 </div>
-                <div className="suggest-sections"> 
-                    <div class="styled-text">
-                    <h2>Nếu bạn vẫn chưa biết cách chọn cá Koi phong thủy phù hợp<br/> 
-                    Hãy đến với dịch vụ tư vấn và tra cứu của chúng tôi </h2>
-                    <a href="/tra-cuu-phong-thuy">Tại Đây</a>
-                    </div>
-                    
-                    <img src={home2}></img>
-                </div>
+
                 <div className="news-sections">
                     <div className="title">
                         Tin tức nổi bật về cá Koi phong thủy<hr />
@@ -93,10 +83,10 @@ const HomePage = () => {
                                 <img src={blog1} alt="new 1" />
                             </div>
                             <div className="news-card-title">
-                                <a href="">Hiểu về cá Koi trong phong thủy</a>
+                                Tin 1
                             </div>
                             <div className="news-card-description">
-                                
+
                             </div>
                         </div>
                         <div className="news-card">
@@ -104,10 +94,10 @@ const HomePage = () => {
                                 <img src={blog2} alt="new 2" />
                             </div>
                             <div className="news-card-title">
-                                <a href="">Cách chọn hồ phù hợp cho cá Koi của bạn</a>
+                                Tin 2
                             </div>
                             <div className="news-card-description">
-                                
+
                             </div>
                         </div>
                         <div className="news-card">
@@ -115,11 +105,11 @@ const HomePage = () => {
                                 <img src={blog3} alt="new 3" />
                             </div>
                             <div className="news-card-title">
-                               <a href="">Ngũ hành và cách chọn cá Koi</a>
+                                Tin 3
 
                             </div>
                             <div className="news-card-description">
-                                
+
                             </div>
                         </div>
                         <div className="news-card">
@@ -127,19 +117,18 @@ const HomePage = () => {
                                 <img src={blog4} alt="new 4" />
                             </div>
                             <div className="news-card-title">
-                                <a href="">Tin 4</a>
+                                Tin 4
                             </div>
                             <div className="news-card-description">
-                                
+
                             </div>
                         </div>
                     </div>
 
                     <div className="know-more">
-                        <a href="/blog">Xem thêm tại đây </a>
+                        <a href="#">Xem thêm tại đây </a>
                     </div>
                 </div>
-                
             </div>
         </div>
     );
