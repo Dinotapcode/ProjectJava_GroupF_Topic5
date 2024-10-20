@@ -1,20 +1,13 @@
-<<<<<<< HEAD
+@use "sass:map";
+@import "../../../styles/pages/theme";
 .product-detail-page{
     min-height: 70vh;
     margin: 10px 50px 10px 100px;
-=======
-@use "sass:map";
-@import "../../../styles/pages/theme";
-
-.product-detail-page {
-    min-height: 74vh;
-    margin: 10px 70px;
->>>>>>> 1d654eeb3afe5604e3ab06b350cf5944adcb0478
 }
 .product-detail {
     padding: 20px;
     height: auto;
-
+    
     .product-detail-container {
         display: flex;
         justify-content: space-between;
@@ -36,7 +29,7 @@
             max-width: 40%;
             padding-left: 20px;
             margin-left: 50px;
-
+            
             h1 {
                 font-size: 2.5rem;
                 color: #333;
@@ -52,7 +45,7 @@
                 margin: 0 20px;
             }
             button {
-                background-color: map-get($theme-colors, "main-red");
+                background-color: red;
                 color: white;
                 padding: 10px 20px;
                 border: none;
@@ -83,7 +76,7 @@
             background: white;
             padding: 20px;
             border-radius: 8px;
-
+           
             max-width: 400px;
             width: 100%;
             position: relative;
@@ -107,16 +100,10 @@
                     border-radius: 4px;
                 }
             }
-<<<<<<< HEAD
 .btn{
     text-align: center;
 }
 
-=======
-            .btn {
-                text-align: center;
-            }
->>>>>>> 1d654eeb3afe5604e3ab06b350cf5944adcb0478
             button[type="submit"] {
                 background-color: blue;
                 color: white;
@@ -140,7 +127,7 @@
                 color: #333;
                 font-weight: bold;
                 &:hover {
-                    color: map-get($theme-colors, "main-red");
+                    color: red;
                 }
             }
         }
