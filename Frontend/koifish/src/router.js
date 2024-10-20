@@ -4,10 +4,12 @@ import BlogPage from './pages/users/blogPage/BlogPage';
 import BlogDetail from './pages/users/blogPage/BlogDetail';
 import TracuuPage from './pages/users/tracuuPage';
 import SanphamPage from './pages/users/sanphamPage';
+import ProductDetail from './pages/users/sanphamPage/ProductDetailPages';
 import LoginPage from './pages/users/loginPage';
 import MasterLayout from './pages/users/theme/masterLayout';
 import { ROUTERS } from './utils/router';
 import { Route, Routes } from 'react-router-dom';
+import ProductDetailPage from './pages/users/sanphamPage/ProductDetailPages';
 
 const renderUserRouter = () => {
     const userRouters = [
@@ -31,6 +33,11 @@ const renderUserRouter = () => {
             path: ROUTERS.USER.SANPHAM,
             Component: <SanphamPage />,
         },
+        {
+            path: '/san-pham-phong-thuy/:id',
+            Component: <ProductDetailPage />,
+        },
+
         {
             path: ROUTERS.USER.LOGIN,
             Component: <LoginPage />,

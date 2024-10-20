@@ -6,97 +6,28 @@ import './sp.scss';
 const initialProducts = [
     { 
         id: 1, 
-        name: 'Sản phẩm phong thủy 1', 
+        name: 'Cá phong thủy 1', 
         price: 2000000, 
         img: require('../../../assets/users/images/img_sp/1.png'), 
-        type: 'fish' 
+        type: 'fish', 
+        description: 'Mô tả cá phong thủy 1...', 
+        color: 'Đỏ', 
+        weight: '500g', 
+        origin: 'Việt Nam' 
     },
     { 
         id: 2, 
-        name: 'Sản phẩm phong thủy 2', 
+        name: 'Hồ thủy sinh 2', 
         price: 1000000, 
         img: require('../../../assets/users/images/img_sp/aquarium.jpg'), 
-        type: 'aquarium' 
+        type: 'aquarium', 
+        description: 'Mô tả hồ thủy sinh 2...', 
+        size: '1m x 0.5m x 0.5m', 
+        material: 'Kính cường lực', 
+        origin: 'Nhật Bản' 
     },
-    { 
-        id: 3, 
-        name: 'Sản phẩm phong thủy 1', 
-        price: 2000000, 
-        img: require('../../../assets/users/images/img_sp/1.png'), 
-        type: 'fish' 
-    },
-    { 
-        id: 4, 
-        name: 'Sản phẩm phong thủy 1', 
-        price: 2000000, 
-        img: require('../../../assets/users/images/img_sp/1.png'), 
-        type: 'fish' 
-    },
-    { 
-        id: 5, 
-        name: 'Sản phẩm phong thủy 1', 
-        price: 2000000, 
-        img: require('../../../assets/users/images/img_sp/1.png'), 
-        type: 'fish' 
-    },
-    { 
-        id: 6, 
-        name: 'Sản phẩm phong thủy 1', 
-        price: 2000000, 
-        img: require('../../../assets/users/images/img_sp/1.png'), 
-        type: 'fish' 
-    },
-    { 
-        id: 7, 
-        name: 'Sản phẩm phong thủy 2', 
-        price: 1000000, 
-        img: require('../../../assets/users/images/img_sp/aquarium.jpg'), 
-        type: 'aquarium' 
-    },
-    { 
-        id: 8, 
-        name: 'Sản phẩm phong thủy 2', 
-        price: 1000000, 
-        img: require('../../../assets/users/images/img_sp/aquarium.jpg'), 
-        type: 'aquarium' 
-    },
-    { 
-        id: 9, 
-        name: 'Sản phẩm phong thủy 2', 
-        price: 1000000, 
-        img: require('../../../assets/users/images/img_sp/aquarium.jpg'), 
-        type: 'aquarium' 
-    },
-    { 
-        id: 10, 
-        name: 'Sản phẩm phong thủy 2', 
-        price: 1000000, 
-        img: require('../../../assets/users/images/img_sp/aquarium.jpg'), 
-        type: 'aquarium' 
-    },
-    { 
-        id: 11, 
-        name: 'Sản phẩm phong thủy 2', 
-        price: 1000000, 
-        img: require('../../../assets/users/images/img_sp/aquarium.jpg'), 
-        type: 'aquarium' 
-    },
-    { 
-        id: 12, 
-        name: 'Sản phẩm phong thủy 2', 
-        price: 1000000, 
-        img: require('../../../assets/users/images/img_sp/aquarium.jpg'), 
-        type: 'aquarium' 
-    },
-    { 
-        id: 13, 
-        name: 'Sản phẩm phong thủy 2', 
-        price: 1000000, 
-        img: require('../../../assets/users/images/img_sp/aquarium.jpg'), 
-        type: 'aquarium' 
-    },
-    // Các sản phẩm khác...
 ];
+
 
 const SanphamPage = () => {
     const [filterType, setFilterType] = useState('all');
@@ -138,12 +69,12 @@ const SanphamPage = () => {
             <div className="sanpham-page__list">
                 {filteredProducts.map(product => (
                     <div className="sanpham-page__item" key={product.id}>
-                        <Link to={`/sanpham/${product.id}`}>
+                        <Link to={`/san-pham-phong-thuy/${product.id}`}>
                             <img src={product.img} alt={product.name} />
                         </Link>
                         <h2>{product.name}</h2>
                         <p>Giá: {product.price.toLocaleString('vi-VN')} VND</p>
-                        <Link to={`/sanpham/${product.id}`}>
+                        <Link to={`/san-pham-phong-thuy/${product.id}`}>
                             <button className='button-detail'>Xem chi tiết</button>
                          </Link>
                     </div>
