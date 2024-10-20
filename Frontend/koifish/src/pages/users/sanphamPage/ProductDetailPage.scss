@@ -1,6 +1,6 @@
 .product-detail-page{
-    min-height: 74vh;
-    margin: 10px 70px;
+    min-height: 70vh;
+    margin: 10px 50px 10px 100px;
 }
 .product-detail {
     padding: 20px;
@@ -15,9 +15,10 @@
             flex: 1;
             max-width: 700px;
             img {
-                width: 100%;
+                width: 95%;
                 border: 2px solid #ddd;
                 border-radius: 10px;
+                height: 50vh;
             }
         }
 
@@ -35,9 +36,12 @@
             p {
                 font-size: 1.6rem;
                 color: #555;
-                margin: 10px 0;
+                margin: 10px 0 ;
+                padding-left: 30px;
             }
-
+            .btn-detail{
+                margin: 0 20px;
+            }
             button {
                 background-color: red;
                 color: white;
@@ -78,6 +82,7 @@
             h2 {
                 margin-bottom: 15px;
                 font-size: 2.5rem;
+                text-align: center;
             }
 
             label {
@@ -86,16 +91,17 @@
                 font-size: 1.5rem;
 
                 input {
-                    width: 100%;
+                    width: 95%;
                     padding: 8px;
                     margin-top: 5px;
-                    border: 1px solid #ccc;
+                    border: 1px solid #086cbf;
                     border-radius: 4px;
                 }
             }
 .btn{
     text-align: center;
 }
+
             button[type="submit"] {
                 background-color: blue;
                 color: white;
@@ -103,6 +109,7 @@
                 border: none;
                 cursor: pointer;
                 transition: background-color 0.3s ease;
+                border-radius: 10px;
 
                 &:hover {
                     background-color: darkblue;
