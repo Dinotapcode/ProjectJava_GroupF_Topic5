@@ -1,5 +1,9 @@
 //common theme styles
-$theme-color: (
-    "main": #008874
+$theme-colors: (
+    "main-red": #ff3232,
+    "main-blue": #3498db
 );
-$website-padding: 0 20px;
+
+$theme-padding: 0 20px;
+
+$theme-line-height: 1.3;
