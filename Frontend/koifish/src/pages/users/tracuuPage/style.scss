@@ -1,0 +1,203 @@
+@use "sass:map";
+@import "../../../styles/pages/theme";
+
+$background-tracuu: "/assets/users/images/backgrounds/Tracuu.jpg";
+$btn-result: "/assets/users/images/img_tracuu/btnResult.png";
+$background-header-right: "/assets/users/images/backgrounds/whiteFan.jpg";
+$background-header-left: "/assets/users/images/backgrounds/blackFan.jpg";
+$defaultResult_img: "/assets/users/images/img_tracuu/defaultResult.webp";
+$percentResult_img: "/assets/users/images/img_tracuu/percentResult.png";
+
+// Functionality Section
+.functionality {
+    height: 40px;
+    width: 100%;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    gap: 2%;
+    background-image: url($background-header-right), url($background-header-left);
+    background-position:
+        10% 50%,
+        90% 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    &__btn {
+        color: rgb(0, 0, 0);
+        text-decoration: none;
+        font-size: 25px;
+        border: none;
+        background: none;
+        font-weight: 600;
+        position: relative;
+        cursor: pointer;
+
+        &::before,
+        &::after {
+            content: "";
+            width: 0;
+            height: 2px;
+            background: map-get($theme-colors, "main-red");
+            display: block;
+            transition: 0.5s;
+            position: absolute;
+        }
+
+        &::before {
+            left: 0;
+            bottom: 0;
+        }
+
+        &::after {
+            right: 0;
+            top: 0;
+        }
+
+        &:hover::before,
+        &:hover::after,
+        input[type="radio"]:checked + &::before,
+        input[type="radio"]:checked + &::after {
+            width: 100%;
+        }
+    }
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+// Layout Section
+.layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+
+    @media (min-width: 787px) {
+        flex-direction: row;
+    }
+
+    &__input {
+        flex: 1;
+        background-image: url($background-tracuu);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        padding: 20px 5%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        min-height: calc(100vh - 120px - 64px - 60px);
+
+        .input__title {
+            font-size: 20px;
+            font-weight: 600;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .input__group {
+            display: flex;
+            margin-bottom: 15px;
+
+            label {
+                margin: auto 10px auto 0;
+                font-size: 15px;
+            }
+
+            select {
+                padding: 5px;
+                border-radius: 10px;
+                border: 1px solid #ccc;
+                margin-right: 5px;
+            }
+
+            fieldset {
+                border: none;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        .input__btnResult {
+            width: 200px;
+            height: 40px;
+            background-image: url($btn-result);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            &:hover {
+                width: 220px;
+                height: 45px;
+            }
+        }
+    }
+
+    &__result {
+        flex: 1.5;
+        font-size: 16px;
+
+        .result {
+            position: relative;
+            margin-top: 20px;
+
+            p {
+                text-indent: $theme-text-indent;
+            }
+
+            &-image {
+                max-width: 100%;
+                height: auto;
+                border-radius: 5px;
+                aspect-ratio: 2 / 1;
+            }
+            &__percent {
+                position: relative;
+                overflow: hidden;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%);
+                margin-bottom: 10px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 100px;
+                aspect-ratio: 1 / 1;
+                border-radius: 50%;
+                color: white;
+                background-color: black;
+
+                &-loading {
+                    position: absolute;
+                    top: 100%;
+                    left: 0%;
+                    height: 115%;
+                    aspect-ratio: 6 / 1;
+                    background-image: url($percentResult_img);
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    animation: move 3s linear 1;
+                }
+            }
+        }
+    }
+}
+@keyframes move {
+    0% {
+        left: 0;
+        top: 100%;
+    }
+    100% {
+        left: calc(-115% * 5);
+        top: -15%;
+    }
+}

@@ -1,0 +1,385 @@
+@use "sass:map";
+@import "../../../styles/pages/theme";
+
+.blog-page {
+  .navbar {
+    background-color: #000000;
+    padding: 10px;
+    text-align: center;
+
+    h2 {
+      color: white;
+      margin: 0;
+      font-size: 24px;
+    }
+  }
+
+  .blog-layout {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .blog-container {
+    width: 70%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+    h1 {
+      text-align: center;
+      color: #000000;
+      margin-bottom: 30px;
+      font-size: 2.5em;
+    }
+  }
+
+  .recent-posts {
+    width: 25%;
+    padding: 20px;
+    background-color: #ecf0f1;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+
+    h3 {
+      text-align: center;
+      color: #000000;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+  }
+
+  .blog-post {
+    border-bottom: 2px solid map-get($theme-colors, "main-red");
+    padding: 20px 0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    h2 {
+      color: map-get($theme-colors, "main-red");
+      margin: 0;
+    }
+
+    .date {
+      font-size: 1.2em;
+      color: darken(#000000, 20%);
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 2em;
+      line-height: 1.6;
+      color: #4d4d4d;
+      margin-bottom: 20px;
+    }
+
+    .read-more {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 12px;
+      color: #000000;
+      text-decoration: none;
+      font-weight: bold;
+      border: 2px solid map-get($theme-colors, "main-red");
+      border-radius: 5px;
+      transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+
+      &:hover {
+        background-color: map-get($theme-colors, "main-red");
+        color: white;
+      }
+    }
+  }
+
+  .recent-post {
+    margin-bottom: 15px;
+
+    h4 {
+      margin: 0;
+      font-size: 2em;
+      color: #2c3e50;
+
+      a {
+        color: map-get($theme-colors, "main-red");
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .date {
+      font-size: 1.5em;
+      color: darken(#2c3e50, 20%);
+    }
+
+    p {
+      color: #2c3e50;
+      font-size: 10em;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+  }
+
+  .blog-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 5px;
+    display: block;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+  }
+}
+
+.blog-detail {
+  width: 70%;
+  margin-right: 30px;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  text-align: center;
+
+  h1 {
+    color: #3498db;
+    margin-bottom: 20px;
+  }
+
+  .date {
+    font-size: 1em;
+    color: darken(#2c3e50, 20%);
+    margin-bottom: 20px;
+  }
+
+  .blog-image {
+    width: 100%;
+    height: auto;
+    max-width: 600px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.blog-layout {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.recent-posts {
+  width: 25%;
+  padding: 20px;
+  background-color: #ecf0f1;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    text-align: center;
+    color: #000000;
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  .recent-post {
+    margin-bottom: 15px;
+
+    h4 {
+      margin: 0;
+      font-size: 2em;
+      color: #2c3e50;
+
+      a {
+        color: map-get($theme-colors, "main-red");
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .date {
+      font-size: 1.5em;
+      color: darken(#2c3e50, 20%);
+    }
+  }
+}
+
+.create-blog-post {
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    input,
+    textarea,
+    button {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+
+    input[type="file"] {
+      padding: 0;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #2980b9;
+      }
+    }
+  }
+}
+
+/* Create Blog Button */
+.create-blog-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: background-color 0.3s ease;
+  z-index: 10;
+
+  &:hover {
+    background-color: #2980b9;
+  }
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.popup-content {
+  padding: 20px;
+  border-radius: 5px;
+  background: white;
+  width: 400px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+textarea,
+input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.payment-section {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  width: 300px;
+  text-align: center;
+
+  .payment-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .qr-code {
+      margin-bottom: 16px;
+
+      img {
+        width: 150px;
+        height: 150px;
+      }
+    }
+
+    .account-info {
+      p {
+        margin: 4px 0;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+.payment-section {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  width: 300px;
+  text-align: center;
+
+  .payment-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .qr-code {
+      margin-bottom: 16px;
+
+      img {
+        width: 150px;
+        height: 150px;
+      }
+    }
+
+    .account-info {
+      p {
+        margin: 4px 0;
+        font-size: 14px;
+      }
+    }
+  }
+}

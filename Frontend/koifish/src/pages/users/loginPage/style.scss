@@ -1,0 +1,166 @@
+@use "sass:map";
+@import "../../../styles/pages/theme";
+
+
+
+/* Biến */
+$primary-color: #ffffff; // Màu chính
+$secondary-color: #05104a; // Màu nền
+$accent-color: #cd4747; // Màu nhấn
+
+/* Mixin */
+@mixin border-radius($radius) {
+  border-radius: $radius;
+}
+
+@mixin box-shadow($shadow) {
+  box-shadow: $shadow;
+}
+
+/* Toàn trang */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: $secondary-color;
+}
+
+/* Container */
+.log-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Khung đăng nhập */
+.auth-container {
+  background-color: $primary-color;
+  padding: 30px;
+  border-radius: 60px;
+  @include box-shadow(0 20px 5px rgba(0, 0, 0, 0.3));
+}
+
+/* Chuyển đổi giữa đăng nhập và đăng ký */
+.functionality {
+  display: flex;
+  justify-content: space;
+  margin-bottom: 20px;
+}
+
+.functionality__btn {
+    width: 300px;
+    text-align: center;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  color: $secondary-color;
+  transition: background-color 0.3s ease;
+}
+
+.functionality__btn:hover {
+  background-color: $accent-color;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"]:checked + .functionality__btn {
+  background-color: $accent-color;
+}
+
+/* Form */
+.login-form,
+.register-form {
+    font-size: 20px;
+  padding: 20px;
+  @include border-radius(5px);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: $secondary-color;
+}
+
+.form-group input {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  @include border-radius(3px);
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: $accent-color;
+}
+
+/* Button */
+.btn-login,
+.btn-register,
+.btn-forgot-password {
+  display: inline-block;
+  padding: 10px 20px;
+  border: none;
+  @include border-radius(3px);
+  cursor: pointer;
+  color: $secondary-color;
+  background-color: $accent-color;
+  transition: background-color 0.3s ease;
+}
+
+.btn-login,
+.btn-register {
+  margin-right: 10px;
+}
+
+.btn-login:hover,
+.btn-register:hover {
+  background-color: #0062cc;
+}
+
+.btn-forgot-password {
+  background-color: transparent;
+  color: $secondary-color;
+}
+
+.btn-forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* Thông báo */
+.success-message,
+.error-message {
+  color: $secondary-color;
+  padding: 10px;
+  @include border-radius(3px);
+  margin-bottom: 15px;
+}
+
+.success-message {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+.log-container {
+  display: flex;
+  justify-content: space-between; /* Căn chỉnh các phần tử con cách đều nhau */
+  align-items: center;
+  min-height: 100vh;
+}
+
+.auth-container {
+  /* ... Các style khác của bạn ... */
+  flex: 1; /* Cho phép mỗi phần tử con chiếm một nửa không gian */
+}

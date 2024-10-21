@@ -1,0 +1,186 @@
+.footer {
+    height: 60px;
+    box-sizing: border-box;
+    background-color: black;
+    display: flex;
+    align-items: center;
+
+    &-navbar {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+
+        &__list {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        &__item {
+            font-size: 1.6rem;
+            color: white;
+            margin: 0 0.8vw;
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            a {
+                text-decoration: none;
+                color: white;
+            }
+            &:hover a {
+                color: rgba(255, 255, 255, 0.7);
+                transition: all 0.4s ease-in-out;
+            }
+            &:after {
+                content: "";
+                display: block;
+                position: absolute;
+                border-left: 1px solid white;
+                height: 14px;
+                right: -7px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+        &__link {
+            padding-left: 3px;
+            & svg {
+                margin-right: 8px;
+            }
+        }
+        &__social {
+            &-list {
+                display: inline-flex;
+                align-items: center;
+                height: 100%;
+                font-family: "Poppins", sans-serif;
+                & .icon-facebook {
+                    &:after {
+                        background-color: #1569d6;
+                    }
+                    &:hover span,
+                    &:hover span::before {
+                        background: #1569d6;
+                        color: #fff;
+                    }
+                }
+                & .icon-twitter {
+                    &:after {
+                        background-color: #1da1f2;
+                    }
+                    &:hover span,
+                    &:hover span::before {
+                        background: #1da1f2;
+                        color: #fff;
+                    }
+                }
+                & .icon-instagram {
+                    &:after {
+                        background-color: #e4405f;
+                    }
+                    &:hover span,
+                    &:hover span::before {
+                        background: #e4405f;
+                        color: #fff;
+                    }
+                }
+                .link-icon {
+                    color: #fff;
+                    width: 25px;
+                    height: 25px;
+                }
+            }
+            &-item {
+                position: relative;
+                z-index: 0;
+                border-radius: 50%;
+                margin-right: 2vw;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                overflow: hidden;
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+                cursor: pointer;
+                transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    display: inline-block;
+                    height: 100%;
+                    width: 100%;
+                    background-color: transparent;
+                    z-index: -1;
+                    border-radius: 50%;
+                    top: 100%;
+                }
+                &:hover {
+                    color: #fff;
+                    overflow: unset;
+                    transition: color 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                    animation: overflow-toggle 0.7s;
+                    & span {
+                        top: -40px;
+                        opacity: 1;
+                        visibility: visible;
+                        pointer-events: auto;
+                        text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+                    }
+                    &:after {
+                        animation: bg-pos 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1 both;
+                        animation-timing-function: ease-in-out;
+                    }
+                }
+            }
+            &-tooltip {
+                position: absolute;
+                top: 0;
+                font-size: 14px;
+                background: #fff;
+                color: #fff;
+                padding: 5px 8px;
+                border-radius: 5px;
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.3s 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                &:before {
+                    position: absolute;
+                    content: "";
+                    height: 8px;
+                    width: 8px;
+                    background: #fff;
+                    bottom: -3px;
+                    left: 50%;
+                    transform: translate(-50%) rotate(45deg);
+                    transition: all 0.3s 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                }
+            }
+        }
+    }
+}
+@keyframes bg-pos {
+    0% {
+        top: 100%;
+    }
+    100% {
+        top: 0;
+    }
+}
+
+@keyframes overflow-toggle {
+    0% {
+        overflow: hidden;
+    }
+    100% {
+        overflow: visible;
+    }
+}
