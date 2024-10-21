@@ -1,6 +1,6 @@
 import React, { memo, useState, useEffect } from 'react';
 import './style.scss';
-import logo from '../../../../assets/images/logo.png';
+import logo from '../../../../assets/logo/logo.png';
 import BackToHome from '../../../../components/BackToHome';
 
 const Header = () => {
