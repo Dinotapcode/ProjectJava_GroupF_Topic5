@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import FateCalculator from './FateCalculator';
 import ResultSection from './ResultSection';
 
@@ -57,14 +57,14 @@ function TuVan() {
     const [element, setElement] = useState('');
     const [result, setResult] = useState(null);
 
-    const handleConsult = () => {
+    const handleConsult = useCallback(() => {
         if (!element) {
             alert("Vui lòng nhập đầy đủ thông tin.");
             return;
         }
         const advice = getAdvice(element);
         setResult(advice);
-    };
+    }, [element]);
 
     return (
         <section id="tuVan">

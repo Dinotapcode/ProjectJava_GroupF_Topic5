@@ -33,6 +33,7 @@ const FateCalculator = ({ onResult }) => {
     ];
 
     useEffect(() => {
+        // Kiểm tra nếu đủ dữ liệu thì mới tính mệnh
         if (day && month && year && gender) {
             const birthYear = parseInt(year, 10);
             const element = calculateElement(gender, birthYear);
@@ -92,6 +93,7 @@ const FateCalculator = ({ onResult }) => {
                     value={birthHour}
                     onChange={(e) => setBirthHour(e.target.value)}
                 >
+                    <option value="">Giờ sinh</option>
                     {hourOptions.map((option, index) => (
                         <option key={index} value={option}>
                             {option}
@@ -107,6 +109,7 @@ const FateCalculator = ({ onResult }) => {
                     value={gender}
                     onChange={(e) => setGender(e.target.value)}
                 >
+                    <option value="">Giới tính</option>
                     <option value="male">Nam</option>
                     <option value="female">Nữ</option>
                 </select>

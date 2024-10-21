@@ -2,63 +2,104 @@ import React, { useState } from 'react';
 import FateCalculator from './FateCalculator';
 import ResultSection from './ResultSection';
 
+function getAdvice(element) {
+    const adviceData = {
+        Kim: {
+            koiSpecies: "Cá Koi Showa",
+            koiQuantity: "Chẵn",
+            pondShape: "Vuông",
+            pondLocation: "Phía Tây",
+            pondDirection: "Tây Nam",
+            koiImage: "link_to_showa_image.jpg",
+            koiInfo: "Cá Koi Showa có màu sắc rực rỡ, mang lại may mắn cho gia chủ."
+        },
+        Thủy: {
+            koiSpecies: "Cá Koi Asagi",
+            koiQuantity: "Lẻ",
+            pondShape: "Tròn",
+            pondLocation: "Phía Bắc",
+            pondDirection: "Bắc",
+            koiImage: "link_to_asagi_image.jpg",
+            koiInfo: "Cá Koi Asagi tượng trưng cho sự bình yên."
+        },
+        Mộc: {
+            koiSpecies: "Cá Koi Kohaku",
+            koiQuantity: "Chẵn",
+            pondShape: "Hình bầu dục",
+            pondLocation: "Phía Đông",
+            pondDirection: "Đông Nam",
+            koiImage: "link_to_kohaku_image.jpg",
+            koiInfo: "Cá Koi Kohaku mang lại sự thịnh vượng và giàu có."
+        },
+        Hỏa: {
+            koiSpecies: "Cá Koi Shiro Utsuri",
+            koiQuantity: "Lẻ",
+            pondShape: "Tam giác",
+            pondLocation: "Phía Nam",
+            pondDirection: "Nam",
+            koiImage: "link_to_tancho_image.jpg",
+            koiInfo: "Cá Koi Tancho là biểu tượng của quyết tâm."
+        },
+        Thổ: {
+            koiSpecies: "Cá Koi Sanke",
+            koiQuantity: "Chẵn",
+            pondShape: "Chữ nhật",
+            pondLocation: "Phía Tây Nam",
+            pondDirection: "Đông Bắc",
+            koiImage: "link_to_sanke_image.jpg",
+            koiInfo: "Cá Koi Sanke tượng trưng cho sự ổn định."
+        }
+    };
+    return adviceData[element];
+}
+
 function checkCompatibility(element, species, quantity, pondShape, location, direction) {
+    const advice = getAdvice(element);
     let score = 0;
     let suggestion = '';
 
-    if (element === "Kim" && species === "Cá Koi Showa") {
-        score += 10;
-        suggestion += 'Ngũ hành Kim rất hợp với Cá Koi Showa.\n';
-    } else if (element === "Thủy" && species === "Cá Koi Asagi") {
-        score += 10;
-        suggestion += 'Ngũ hành Thủy rất hợp với Cá Koi Asagi.\n';
+    // So sánh với dữ liệu từ getAdvice
+    if (species === advice.koiSpecies) {
+        score += 20;
+        suggestion += `Ngũ hành ${element} rất hợp với ${species}.\n`;
     } else {
-        score += 5;
+        score += 10;
         suggestion += 'Loài cá Koi này có thể hợp nhưng không hoàn toàn lý tưởng.\n';
     }
 
-    if (quantity === "even") {
+    if (quantity === advice.koiQuantity) {
+        score += 20;
+        suggestion += 'Số lượng cá phù hợp với ngũ hành.\n';
+    } else {
         score += 10;
-        suggestion += 'Số lượng cá chẵn tạo sự ổn định.\n';
-    } else if (quantity === "odd") {
-        score += 5;
-        suggestion += 'Số lượng cá lẻ mang lại năng động nhưng có thể không ổn định.\n';
+        suggestion += 'Số lượng cá không tối ưu cho phong thủy.\n';
     }
 
-    if (element === "Thổ" && pondShape === "Vuông") {
-        score += 10;
-        suggestion += 'Hình dạng ao vuông rất phù hợp với ngũ hành Thổ.\n';
-    } else if (element === "Mộc" && pondShape === "Tròn") {
-        score += 10;
-        suggestion += 'Ao tròn giúp cân bằng năng lượng của Mộc.\n';
+    if (pondShape === advice.pondShape) {
+        score += 20;
+        suggestion += 'Hình dạng ao rất phù hợp với ngũ hành.\n';
     } else {
-        score += 5;
+        score += 10;
         suggestion += 'Hình dạng ao chưa tối ưu.\n';
     }
 
-    if (location === "Phía Bắc" && element === "Thủy") {
-        score += 10;
-        suggestion += 'Vị trí ao phía Bắc tăng cường năng lượng cho Thủy.\n';
-    } else if (location === "Phía Đông Nam" && element === "Mộc") {
-        score += 10;
-        suggestion += 'Phía Đông Nam hợp với năng lượng của Mộc.\n';
+    if (location === advice.pondLocation) {
+        score += 20;
+        suggestion += 'Vị trí ao rất tốt cho ngũ hành.\n';
     } else {
-        score += 5;
+        score += 10;
         suggestion += 'Vị trí ao không tối ưu nhưng vẫn ổn.\n';
     }
 
-    if (direction === "Bắc" && element === "Thủy") {
-        score += 10;
-        suggestion += 'Hướng Bắc rất tốt cho người thuộc Thủy.\n';
-    } else if (direction === "Đông" && element === "Mộc") {
-        score += 10;
-        suggestion += 'Hướng Đông mang lại sinh khí cho Mộc.\n';
+    if (direction === advice.pondDirection) {
+        score += 20;
+        suggestion += 'Hướng ao rất tốt cho ngũ hành.\n';
     } else {
-        score += 5;
+        score += 10;
         suggestion += 'Hướng ao chưa hoàn hảo nhưng không gây xung khắc.\n';
     }
 
-    suggestion += score > 40 ? 'Tổng thể rất tốt cho phong thủy ao cá.\n' :
+    suggestion += score > 70 ? 'Tổng thể rất tốt cho phong thủy ao cá.\n' :
         'Nên xem xét điều chỉnh một vài yếu tố.\n';
 
     return { score, suggestion };
@@ -67,24 +108,25 @@ function checkCompatibility(element, species, quantity, pondShape, location, dir
 const TraCuu = () => {
     const [element, setElement] = useState('');
     const [koiSpecies, setKoiSpecies] = useState('');
-    const [quantity, setQuantity] = useState('');
+    const [koiQuantity, setKoiQuantity] = useState('');
     const [pondShape, setPondShape] = useState('');
     const [location, setLocation] = useState('');
     const [direction, setDirection] = useState('');
     const [result, setResult] = useState(null);
 
     const koiSpeciesOptions = ["Cá Koi Showa", "Cá Koi Asagi", "Cá Koi Kohaku", "Cá Koi Shiro Utsuri", "Cá Koi Sanke"];
+    const koiQuantityOptions = ["Chẵn", "Lẻ"];
     const pondShapeOptions = ["Vuông", "Tròn", "Hình bầu dục", "Tam giác", "Chữ nhật", "Vô định"];
     const locationOptions = ["Phía Bắc", "Phía Nam", "Phía Đông", "Phía Tây", "Phía Tây Bắc", "Phía Đông Nam", "Phía Đông Bắc", "Phía Tây Nam"];
     const directionOptions = ["Bắc", "Nam", "Đông", "Tây", "Đông Bắc", "Đông Nam", "Tây Bắc", "Tây Nam"];
 
     const handleConsult = () => {
-        if (!element || !koiSpecies || !quantity || !pondShape || !location || !direction) {
+        if (!element || !koiSpecies || !koiQuantity || !pondShape || !location || !direction) {
             alert('Vui lòng điền đầy đủ thông tin.');
             return;
         }
 
-        const compatibility = checkCompatibility(element, koiSpecies, quantity, pondShape, location, direction);
+        const compatibility = checkCompatibility(element, koiSpecies, koiQuantity, pondShape, location, direction);
         setResult(compatibility);
     };
 
@@ -107,10 +149,11 @@ const TraCuu = () => {
 
                     <div className="input__group">
                         <label htmlFor="quantity">Số lượng:</label>
-                        <select id="quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)}>
+                        <select id="quantity" value={koiQuantity} onChange={(e) => setKoiQuantity(e.target.value)}>
                             <option value="">Số lượng</option>
-                            <option value="even">Chẵn</option>
-                            <option value="odd">Lẻ</option>
+                            {koiQuantityOptions.map((quantity) => (
+                                <option key={quantity} value={quantity}>{quantity}</option>
+                            ))}
                         </select>
                     </div>
 

@@ -130,9 +130,14 @@ input[type="radio"] {
             color: white;
             border: none;
             border-radius: 10px;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s ease;
+            &:hover {
+                width: 220px;
+                height: 45px;
+            }
         }
     }
 
