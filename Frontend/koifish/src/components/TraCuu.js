@@ -113,7 +113,7 @@ const TraCuu = () => {
     const [location, setLocation] = useState('');
     const [direction, setDirection] = useState('');
     const [result, setResult] = useState(null);
-    const [loading, setLoading] = useState(false); // Trạng thái loading
+    const [percent, setPercent] = useState(0);
 
     const koiSpeciesOptions = ["Cá Koi Showa", "Cá Koi Asagi", "Cá Koi Kohaku", "Cá Koi Shiro Utsuri", "Cá Koi Sanke"];
     const koiQuantityOptions = ["Chẵn", "Lẻ"];
@@ -130,10 +130,7 @@ const TraCuu = () => {
         const compatibility = checkCompatibility(element, koiSpecies, koiQuantity, pondShape, location, direction);
         setResult(compatibility);
 
-        setLoading(true); // Bắt đầu loading
-        setTimeout(() => {
-            setLoading(false); // Kết thúc loading sau 2 giây
-        }, 5000);
+        setPercent(compatibility.score);
     };
 
     return (
@@ -200,10 +197,11 @@ const TraCuu = () => {
                     {result ? (
                         <div id="traCuuResult" className="result">
                             <div className="result__percent">
-                                {loading && (
-                                    <div className="result__percent-loading"></div>
-                                )}
-                                {!loading && <p>{result.score}</p>}
+                                <div class="result__percent-value">{percent}%</div>
+                                <div
+                                    className="result__percent-loading"
+                                    style={{ top: `calc(100% - ${percent}px - 10px)`, left: `calc(-110% * 5)` }} // Áp dụng chiều dài cho thanh loading
+                                ></div>
                             </div>
                             <p><strong>Mức độ phù hợp:</strong> {result.score}</p>
                             <p><strong>Gợi ý:</strong> {result.suggestion}</p>
