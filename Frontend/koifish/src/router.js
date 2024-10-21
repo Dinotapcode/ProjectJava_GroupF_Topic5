@@ -6,7 +6,7 @@ import TracuuPage from './pages/users/tracuuPage';
 import SanphamPage from './pages/users/sanphamPage';
 import ProductDetail from './pages/users/sanphamPage/ProductDetailPages';
 import LoginPage from './pages/users/loginPage';
-import UserPage from './pages/users/userPage';
+import PersonalPage from './pages/users/personalPage';
 import MasterLayout from './pages/users/theme/masterLayout';
 import { ROUTERS } from './utils/router';
 import { Route, Routes } from 'react-router-dom';
@@ -50,8 +50,8 @@ const renderUserRouter = () => {
         },
 
         {
-            path: ROUTERS.USER.USERS,
-            Component: <UserPage />,
+            path: ROUTERS.USER.PROFILE,
+            Component: <PersonalPage />,
         },
     ]
     return (
@@ -63,8 +63,8 @@ const renderUserRouter = () => {
                             key={key}
                             path={item.path}
                             element={item.Component}
-                    />
-                ))}
+                        />
+                    ))}
             </Routes>
         </MasterLayout>
     );
