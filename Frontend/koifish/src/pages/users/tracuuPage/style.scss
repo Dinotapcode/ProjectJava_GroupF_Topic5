@@ -6,6 +6,7 @@ $btn-result: "/assets/users/images/img_tracuu/btnResult.png";
 $background-header-right: "/assets/users/images/backgrounds/whiteFan.jpg";
 $background-header-left: "/assets/users/images/backgrounds/blackFan.jpg";
 $defaultResult_img: "/assets/users/images/img_tracuu/defaultResult.webp";
+$percentResult_img: "/assets/users/images/img_tracuu/percentResult.png";
 
 // Functionality Section
 .functionality {
@@ -144,21 +145,59 @@ input[type="radio"] {
     &__result {
         flex: 1.5;
         font-size: 16px;
-        line-height: 1.4;
 
         .result {
+            position: relative;
             margin-top: 20px;
 
             p {
-                text-indent: 30px;
+                text-indent: $theme-text-indent;
             }
 
-            .result-image {
+            &-image {
                 max-width: 100%;
                 height: auto;
                 border-radius: 5px;
                 aspect-ratio: 2 / 1;
             }
+            &__percent {
+                position: relative;
+                overflow: hidden;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%);
+                margin-bottom: 10px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 100px;
+                aspect-ratio: 1 / 1;
+                border-radius: 50%;
+                color: white;
+                background-color: black;
+
+                &-loading {
+                    position: absolute;
+                    top: 100%;
+                    left: 0%;
+                    height: 115%;
+                    aspect-ratio: 6 / 1;
+                    background-image: url($percentResult_img);
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    animation: move 3s linear 1;
+                }
+            }
         }
+    }
+}
+@keyframes move {
+    0% {
+        left: 0;
+        top: 100%;
+    }
+    100% {
+        left: calc(-115% * 5);
+        top: -15%;
     }
 }

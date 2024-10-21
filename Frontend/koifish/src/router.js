@@ -6,6 +6,7 @@ import TracuuPage from './pages/users/tracuuPage';
 import SanphamPage from './pages/users/sanphamPage';
 import ProductDetail from './pages/users/sanphamPage/ProductDetailPages';
 import LoginPage from './pages/users/loginPage';
+import UserPage from './pages/users/userPage';
 import MasterLayout from './pages/users/theme/masterLayout';
 import { ROUTERS } from './utils/router';
 import { Route, Routes } from 'react-router-dom';
@@ -46,6 +47,11 @@ const renderUserRouter = () => {
         {
             path: '/post/:id',
             Component: <BlogDetail />,
+        },
+
+        {
+            path: ROUTERS.USER.USERS,
+            Component: <UserPage />,
         },
     ]
     return (

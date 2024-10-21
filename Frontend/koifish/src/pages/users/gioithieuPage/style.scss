@@ -1,2 +1,66 @@
 @use "sass:map";
 @import "../../../styles/pages/theme";
+
+.gioithieu-container {
+    font-size: 20px;
+
+    h3 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    &__section {
+        width: 100%;
+        display: flex;
+        gap: 25px;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 40px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        &:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .gioithieu-container__image {
+            max-width: 40%; // Chiếm 40% chiều rộng
+            aspect-ratio: 2 /1;
+            height: auto;
+            border-radius: 8px;
+            margin-right: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            font-size: 16px;
+            line-height: $theme-line-height;
+            color: #555;
+            margin-bottom: 20px;
+            b {
+                color: #000;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .gioithieu-container {
+        &__section {
+            flex-direction: column;
+
+            &:nth-child(even) {
+                flex-direction: column; // Đặt lại layout khi ở chế độ mobile
+            }
+
+            .gioithieu-container__image {
+                margin-right: 0;
+                margin-bottom: 20px;
+                max-width: 100%;
+            }
+        }
+    }
+}

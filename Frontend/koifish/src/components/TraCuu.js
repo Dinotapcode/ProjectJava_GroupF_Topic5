@@ -113,6 +113,7 @@ const TraCuu = () => {
     const [location, setLocation] = useState('');
     const [direction, setDirection] = useState('');
     const [result, setResult] = useState(null);
+    const [loading, setLoading] = useState(false); // Trạng thái loading
 
     const koiSpeciesOptions = ["Cá Koi Showa", "Cá Koi Asagi", "Cá Koi Kohaku", "Cá Koi Shiro Utsuri", "Cá Koi Sanke"];
     const koiQuantityOptions = ["Chẵn", "Lẻ"];
@@ -128,6 +129,11 @@ const TraCuu = () => {
 
         const compatibility = checkCompatibility(element, koiSpecies, koiQuantity, pondShape, location, direction);
         setResult(compatibility);
+
+        setLoading(true); // Bắt đầu loading
+        setTimeout(() => {
+            setLoading(false); // Kết thúc loading sau 2 giây
+        }, 5000);
     };
 
     return (
@@ -193,6 +199,12 @@ const TraCuu = () => {
                 <section className="layout__result">
                     {result ? (
                         <div id="traCuuResult" className="result">
+                            <div className="result__percent">
+                                {loading && (
+                                    <div className="result__percent-loading"></div>
+                                )}
+                                {!loading && <p>{result.score}</p>}
+                            </div>
                             <p><strong>Mức độ phù hợp:</strong> {result.score}</p>
                             <p><strong>Gợi ý:</strong> {result.suggestion}</p>
                         </div>
