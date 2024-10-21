@@ -1,8 +1,6 @@
 @use "sass:map";
 @import "../../../styles/pages/theme";
 
-
-
 /* Biến */
 $primary-color: #ffffff; // Màu chính
 $secondary-color: #05104a; // Màu nền
@@ -25,8 +23,8 @@ body {
   background-color: $secondary-color;
 }
 
-/* Container */
-.log-container {
+/* Log container */
+.log-auth-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,7 +32,7 @@ body {
 }
 
 /* Khung đăng nhập */
-.auth-container {
+.auth-box {
   background-color: $primary-color;
   padding: 30px;
   border-radius: 60px;
@@ -42,15 +40,15 @@ body {
 }
 
 /* Chuyển đổi giữa đăng nhập và đăng ký */
-.functionality {
+.switch-container {
   display: flex;
   justify-content: space;
   margin-bottom: 20px;
 }
 
-.functionality__btn {
-    width: 300px;
-    text-align: center;
+.switch-btn {
+  width: 300px;
+  text-align: center;
   display: inline-block;
   border: none;
   cursor: pointer;
@@ -58,7 +56,7 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.functionality__btn:hover {
+.switch-btn:hover {
   background-color: $accent-color;
 }
 
@@ -66,30 +64,30 @@ input[type="radio"] {
   display: none;
 }
 
-input[type="radio"]:checked + .functionality__btn {
+input[type="radio"]:checked + .switch-btn {
   background-color: $accent-color;
 }
 
 /* Form */
-.login-form,
-.register-form {
-    font-size: 20px;
+.form-login,
+.form-register {
+  font-size: 20px;
   padding: 20px;
   @include border-radius(5px);
 }
 
-.form-group {
+.form-field {
   margin-bottom: 15px;
 }
 
-.form-group label {
+.form-field label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
   color: $secondary-color;
 }
 
-.form-group input {
+.form-field input {
   display: block;
   width: 100%;
   padding: 10px;
@@ -98,7 +96,7 @@ input[type="radio"]:checked + .functionality__btn {
   transition: border-color 0.3s ease;
 }
 
-.form-group input:focus {
+.form-field input:focus {
   border-color: $accent-color;
 }
 
@@ -136,31 +134,32 @@ input[type="radio"]:checked + .functionality__btn {
 }
 
 /* Thông báo */
-.success-message,
-.error-message {
+.success-alert,
+.error-alert {
   color: $secondary-color;
   padding: 10px;
   @include border-radius(3px);
   margin-bottom: 15px;
 }
 
-.success-message {
+.success-alert {
   background-color: #d4edda;
   border-color: #c3e6cb;
 }
 
-.error-message {
+.error-alert {
   background-color: #f8d7da;
   border-color: #f5c6cb;
 }
-.log-container {
+
+.log-auth-wrapper {
   display: flex;
   justify-content: space-between; /* Căn chỉnh các phần tử con cách đều nhau */
   align-items: center;
   min-height: 100vh;
 }
 
-.auth-container {
+.auth-box {
   /* ... Các style khác của bạn ... */
   flex: 1; /* Cho phép mỗi phần tử con chiếm một nửa không gian */
 }
