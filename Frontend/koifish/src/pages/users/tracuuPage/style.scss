@@ -151,7 +151,7 @@ input[type="radio"] {
             margin-top: 20px;
 
             p {
-                text-indent: 30px;
+                text-indent: $theme-text-indent;
             }
 
             &-image {

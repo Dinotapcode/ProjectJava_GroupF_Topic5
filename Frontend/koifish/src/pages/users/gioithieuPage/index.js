@@ -1,48 +1,66 @@
 import { memo } from 'react';
 import './style.scss';
+import koi1 from '../../../assets/users/images/img_gioithieu/koi1.jpg';
+import koi2 from '../../../assets/users/images/img_gioithieu/koi2.jpg';
+import koi3 from '../../../assets/users/images/img_gioithieu/koi3.jpg';
+import koi4 from '../../../assets/users/images/img_gioithieu/koi4.jpg';
+import koi5 from '../../../assets/users/images/img_gioithieu/koi5.jpg';
 
 const GioithieuPage = () => {
     return (
         <div className='container'>
             <article className='gioithieu-container'>
-                <h3>Giới thiệu</h3>
-                <p>
-                    Chào mừng bạn đã đến trang web của chúng tôi – trang web hàng đầu cung cấp thông tin và dịch vụ tư vấn phong thủy cho hồ cá koi.
-                    Chúng tôi hiểu rằng, trong văn hóa phương Đông, cá koi không chỉ là loài cá cảnh đẹp mắt mà còn mang ý nghĩa sâu sắc về tài lộc,
-                    may mắn và thịnh vượng. Chính vì vậy, việc bố trí hồ cá koi theo phong thủy là một yếu tố quan trọng,
-                    giúp gia chủ thu hút năng lượng tích cực và tạo nên sự cân bằng hài hòa cho không gian sống.
-                </p>
-                <p align="center">
-                    <img src="cakoi1.jpg" alt="Hồ cá koi 1" style={{ width: '760px', height: '300px' }} />
-                </p>
+                <h2>Giới thiệu</h2>
+                <h3>Chào Mừng Bạn Đến Với Dịch Vụ Tư Vấn Phong Thủy Cá Koi - Kiến Tạo Thịnh Vượng Và Hài Hòa Cho Không Gian Sống</h3>
+                <section className='paragraph-1'>
+                    <p>Cá Koi không chỉ đơn thuần là loài cá cảnh phổ biến mà còn được xem như biểu tượng của may mắn, thành công và tài lộc trong văn hóa Á Đông. Việc nuôi cá Koi, đặc biệt là trong một không gian được bố trí theo nguyên tắc phong thủy, có thể giúp gia chủ thu hút nguồn năng lượng tích cực, thúc đẩy sự thịnh vượng và bình an cho gia đình và doanh nghiệp.</p>
+                    <img src={koi1} alt=" Ảnh Cá Koi" className="image-koi paragraph-1__koi-1 " />
+                </section>
+                
+
                 <div>
-                    <p>Tại đây, chúng tôi chuyên tư vấn các giải pháp thiết kế và bố trí hồ cá koi sao cho phù hợp với mệnh tuổi của gia chủ, không gian nhà ở và yếu tố phong thủy tổng thể. Những nội dung mà chúng tôi cung cấp bao gồm:</p>
-                    <p align="center">
-                        <img src="cakoi2.jpg" alt="Hồ cá koi 2" style={{ width: '760px', height: '300px' }} />
-                    </p>
+                    <h3>Tầm Quan Trọng Của Phong Thủy Trong Việc Nuôi Cá Koi</h3>
+                    <p>Theo quan niệm phong thủy, nước là biểu tượng của sự thịnh vượng, dòng chảy của năng lượng và tài lộc. Hồ cá Koi không chỉ là một yếu tố trang trí độc đáo mà còn đóng vai trò như một "nguồn tài khí" trong phong thủy. Vị trí đặt hồ cá, hướng nước chảy, cùng với việc chọn lựa giống cá phù hợp đều có ảnh hưởng trực tiếp đến vận mệnh và tài vận của gia chủ.
+
+                        Chúng tôi hiểu rằng mỗi không gian, mỗi cá nhân đều có những nhu cầu và đặc điểm riêng, vì vậy, việc thiết kế hồ cá Koi không chỉ đòi hỏi sự sáng tạo mà còn cần sự tinh tế trong từng chi tiết để đảm bảo sự cân bằng về phong thủy.</p>
+                    <img src={koi2} alt="Ảnh Hồ Cá Koi" className="image-koi paragraph-1__koi-2" />
+
                     <br />
+                    <h3>Dịch Vụ Tư Vấn Phong Thủy Cá Koi Của Chúng Tôi</h3>
+                    <p>Tại dịch vụ tư vấn phong thủy cá Koi, chúng tôi mang đến một trải nghiệm trọn vẹn từ khâu tư vấn, thiết kế cho đến thi công hồ cá. Với đội ngũ chuyên gia giàu kinh nghiệm trong cả lĩnh vực phong thủy và nghệ thuật thiết kế cảnh quan hồ cá Koi, chúng tôi cam kết sẽ mang lại cho bạn những giải pháp tối ưu nhất.</p>
+                    <img src={koi3} alt="Ảnh Hồ Cá Koi" className="image-koi paragraph-1__koi-3" />
+
+                    <h3>Dưới Đây Là Những Dịch Vụ Mà Chúng Tôi Cung Cấp:</h3>
                     <p>
-                        Tư vấn thiết kế hồ cá koi hợp phong thủy: Chúng tôi hướng dẫn bạn cách chọn vị trí, hình dáng và kích thước của hồ cá koi sao cho phù hợp với phong thủy, giúp thu hút vượng khí và đem lại sự may mắn.
+                        1.<b>Tư vấn phong thủy toàn diện</b>: Chúng tôi sẽ đến tận nơi để khảo sát không gian và đưa ra giải pháp về vị trí, hướng đặt hồ cá Koi phù hợp với ngũ hành, âm dương và mệnh của gia chủ.
+                        <br />
+                        2.<b>Thiết kế hồ cá Koi theo phong thủy</b>: Mỗi thiết kế của chúng tôi đều dựa trên những nguyên tắc phong thủy truyền thống, đảm bảo không gian hồ cá hài hòa với môi trường xung quanh, từ đó thu hút năng lượng tích cực.
+                        <br />
+                        3.<b>Lựa chọn và phối giống cá Koi</b>: Cá Koi có nhiều loại với màu sắc và hình dáng khác nhau, mỗi loại đều mang một ý nghĩa phong thủy riêng. Chúng tôi sẽ giúp bạn lựa chọn những giống cá phù hợp, cân bằng ngũ hành và tăng cường tài vận.
+                        <br />
+                        4.<b>Bảo dưỡng và chăm sóc hồ cá</b>: Ngoài việc thiết kế và thi công, chúng tôi còn cung cấp dịch vụ bảo dưỡng định kỳ, đảm bảo hồ cá Koi luôn trong trạng thái tốt nhất, cả về mặt phong thủy lẫn sức khỏe của cá.</p>
+                    <img src={koi4} alt="Ảnh Hồ Cá Koi" className="image-koi paragraph-1__koi-4" />
+
+                    <h3>Tại Sao Bạn Nên Chọn Chúng Tôi?</h3>
+                    <p>
+                        1.<b>Kiến thức chuyên sâu về phong thủy</b>: Với nhiều năm kinh nghiệm, chúng tôi hiểu rõ các nguyên tắc phong thủy và cách áp dụng chúng trong thiết kế hồ cá Koi.
+                        <br />
+                        2.<b>Thiết kế độc đáo và cá nhân hóa</b>: Mỗi dự án đều được tùy chỉnh sao cho phù hợp với không gian, sở thích và vận mệnh của gia chủ.
+                        <br />
+                        3.<b>Chất lượng và uy tín</b>: Chúng tôi luôn sử dụng các vật liệu và cá giống chất lượng cao, đảm bảo hồ cá Koi của bạn không chỉ đẹp mà còn bền vững theo thời gian.
+                        <br />
+                        4.<b>Dịch vụ tận tâm và chuyên nghiệp</b>: Đội ngũ tư vấn viên và kỹ sư của chúng tôi luôn sẵn sàng lắng nghe và đáp ứng mọi yêu cầu của bạn, từ khâu tư vấn đến bảo dưỡng sau thi công.
                     </p>
-                    <p align="center">
-                        <img src="cakoi3.jpg" alt="Hồ cá koi 3" style={{ width: '760px', height: '300px' }} />
-                    </p>
+                    <img src={koi5} alt="Ảnh Hồ Cá Koi" className="image-koi paragraph-1__koi-5" />
+
                     <br />
+                    <h3>Mang Lại Sự Cân Bằng, Thịnh Vượng Và An Lạc</h3>
                     <p>
-                        Lựa chọn cá koi theo mệnh: Với sự đa dạng về màu sắc và chủng loại, mỗi loài cá koi mang những ý nghĩa phong thủy riêng. Chúng tôi sẽ giúp bạn lựa chọn loài cá và màu sắc phù hợp với mệnh của mình để tối ưu hóa tác động tích cực của phong thủy.
-                    </p>
-                    <p align="center">
-                        <img src="cakoi4.jpg" alt="Hồ cá koi 4" style={{ width: '760px', height: '300px' }} />
-                    </p>
-                    <br />
-                    <p>
-                        Chăm sóc và nuôi dưỡng cá koi đúng cách: Bên cạnh việc tạo ra không gian hợp phong thủy, chăm sóc cá koi đúng cách cũng là một yếu tố quan trọng. Chúng tôi cung cấp các hướng dẫn chi tiết về việc nuôi dưỡng cá koi sao cho chúng luôn khỏe mạnh và phát triển tốt, từ đó giữ vững sự cân bằng phong thủy trong nhà.
+                        Hồ cá Koi không chỉ là một phần trong trang trí không gian mà còn là yếu tố quan trọng giúp cân bằng năng lượng phong thủy, mang lại sự thịnh vượng và hạnh phúc cho gia đình bạn. Hãy để chúng tôi giúp bạn kiến tạo một không gian sống hài hòa, đẹp mắt và tràn đầy may mắn thông qua dịch vụ tư vấn phong thủy cá Koi.
+                        <br />
+                        Liên hệ ngay với chúng tôi để bắt đầu hành trình mang lại năng lượng tích cực cho ngôi nhà của bạn!
                     </p>
                 </div>
-                <p>
-                    Với đội ngũ chuyên gia có nhiều năm kinh nghiệm trong lĩnh vực phong thủy và nuôi cá koi, chúng tôi tự tin mang đến cho bạn những giải pháp tối ưu nhất, không chỉ giúp hồ cá koi của bạn trở nên đẹp mắt mà còn mang lại những giá trị phong thủy tốt đẹp.
-                    Hãy để chúng tôi trở thành người bạn đồng hành của bạn trên con đường tìm kiếm sự thịnh vượng và may mắn cho gia đình. Truy cập trang web của chúng tôi ngay hôm nay để nhận những lời tư vấn hữu ích và dịch vụ chuyên nghiệp!
-                </p>
             </article>
         </div>
     );

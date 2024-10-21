@@ -1,2 +1,17 @@
 @use "sass:map";
 @import "../../../styles/pages/theme";
+
+.gioithieu-container{
+    max-width: 1782px;
+    .paragraph-1{
+        display: flex;
+        flex-direction: row ;
+        p {
+            width: 50%;
+        }
+        &__koi-1{
+            
+            width: 200px;
+        }
+    }
+}
