@@ -57,52 +57,57 @@ function checkCompatibility(element, species, quantity, pondShape, location, dir
     const advice = getAdvice(element);
     let score = 0;
     let suggestion = '';
+    let suggestionSpecies = '';
+    let suggestionQuantity = '';
+    let suggestionPondShape = '';
+    let suggestionLocation = '';
+    let suggestionDirection = '';
 
     // So sánh với dữ liệu từ getAdvice
     if (species === advice.koiSpecies) {
         score += 20;
-        suggestion += `Ngũ hành ${element} rất hợp với ${species}.\n`;
+        suggestionSpecies += `Ngũ hành ${element} rất hợp với giống cá ${species}, điều này mang lại sự thịnh vượng và cân bằng năng lượng cho không gian sống.`;
     } else {
-        score += 10;
-        suggestion += 'Loài cá Koi này có thể hợp nhưng không hoàn toàn lý tưởng.\n';
+        score += 5;
+        suggestionSpecies += `Giống cá ${species} không hoàn toàn tương thích với ngũ hành ${element}, có thể ảnh hưởng một phần đến sự cân bằng năng lượng, tuy nhiên không gây ra ảnh hưởng lớn.`;
     }
 
     if (quantity === advice.koiQuantity) {
         score += 20;
-        suggestion += 'Số lượng cá phù hợp với ngũ hành.\n';
+        suggestionQuantity += 'Số lượng cá rất phù hợp với ngũ hành, giúp tăng cường vượng khí và mang lại sự hài hòa trong không gian.';
     } else {
-        score += 10;
-        suggestion += 'Số lượng cá không tối ưu cho phong thủy.\n';
+        score += 5;
+        suggestionQuantity += 'Số lượng cá không tối ưu cho phong thủy, có thể dẫn đến mất cân bằng nhẹ trong vượng khí.';
     }
 
     if (pondShape === advice.pondShape) {
         score += 20;
-        suggestion += 'Hình dạng ao rất phù hợp với ngũ hành.\n';
+        suggestionPondShape += 'Hình dạng ao rất hợp với ngũ hành, tạo ra sự lưu thông năng lượng thuận lợi và ổn định.';
     } else {
-        score += 10;
-        suggestion += 'Hình dạng ao chưa tối ưu.\n';
+        score += 5;
+        suggestionPondShape += 'Hình dạng ao chưa tối ưu, có thể làm giảm sự lưu thông năng lượng tích cực trong khu vực.';
     }
 
     if (location === advice.pondLocation) {
         score += 20;
-        suggestion += 'Vị trí ao rất tốt cho ngũ hành.\n';
+        suggestionLocation += 'Vị trí ao rất tốt cho ngũ hành, đảm bảo nguồn năng lượng tốt sẽ được dẫn vào không gian sống của bạn.';
     } else {
-        score += 10;
-        suggestion += 'Vị trí ao không tối ưu nhưng vẫn ổn.\n';
+        score += 5;
+        suggestionLocation += 'Vị trí ao không tối ưu, nhưng vẫn có thể duy trì được sự ổn định trong dòng chảy năng lượng.';
     }
 
     if (direction === advice.pondDirection) {
         score += 20;
-        suggestion += 'Hướng ao rất tốt cho ngũ hành.\n';
+        suggestionDirection += 'Hướng ao rất tốt cho ngũ hành, giúp đón nhận năng lượng tích cực từ các phương hướng thuận lợi.';
     } else {
-        score += 10;
-        suggestion += 'Hướng ao chưa hoàn hảo nhưng không gây xung khắc.\n';
+        score += 5;
+        suggestionDirection += 'Hướng ao chưa hoàn hảo, nhưng không gây ra sự xung khắc lớn về năng lượng, có thể cân nhắc điều chỉnh để tối ưu hơn.';
     }
 
-    suggestion += score > 70 ? 'Tổng thể rất tốt cho phong thủy ao cá.\n' :
-        'Nên xem xét điều chỉnh một vài yếu tố.\n';
+    suggestion += score > 70 ? 'Tổng thể rất tốt cho phong thủy ao cá, bạn có thể hoàn toàn yên tâm về sự hài hòa và may mắn.' :
+        'Một vài yếu tố cần được xem xét và điều chỉnh để cải thiện phong thủy tổng thể, giúp tạo ra không gian sống cân bằng và thịnh vượng hơn.';
 
-    return { score, suggestion };
+    return { score, suggestionSpecies, suggestionQuantity, suggestionPondShape, suggestionLocation, suggestionDirection, suggestion };
 }
 
 const TraCuu = () => {
@@ -113,7 +118,7 @@ const TraCuu = () => {
     const [location, setLocation] = useState('');
     const [direction, setDirection] = useState('');
     const [result, setResult] = useState(null);
-    const [percent, setPercent] = useState(0);
+    const [percent, setPercent] = useState(-10);
 
     const koiSpeciesOptions = ["Cá Koi Showa", "Cá Koi Asagi", "Cá Koi Kohaku", "Cá Koi Shiro Utsuri", "Cá Koi Sanke"];
     const koiQuantityOptions = ["Chẵn", "Lẻ"];
@@ -196,15 +201,25 @@ const TraCuu = () => {
                 <section className="layout__result">
                     {result ? (
                         <div id="traCuuResult" className="result">
+                            <h3>Mức độ phù hợp với cá Koi của bạn</h3>
                             <div className="result__percent">
-                                <div class="result__percent-value">{percent}%</div>
-                                <div
-                                    className="result__percent-loading"
-                                    style={{ top: `calc(100% - ${percent}px - 10px)`, left: `calc(-110% * 5)` }} // Áp dụng chiều dài cho thanh loading
-                                ></div>
+                                <div className="percent">
+                                    <div class="percent-value">{percent}%</div>
+                                    <div
+                                        className="percent-loading"
+                                        style={{ top: `calc(100% - ${percent}% - 10%)` }}
+                                    ></div>
+                                </div>
                             </div>
-                            <p><strong>Mức độ phù hợp:</strong> {result.score}</p>
-                            <p><strong>Gợi ý:</strong> {result.suggestion}</p>
+                            <h3>Gợi ý phù hợp cho bạn:</h3>
+                            <ul>
+                                <li> <p>{result.suggestionSpecies}</p></li>
+                                <li> <p>{result.suggestionQuantity}</p></li>
+                                <li> <p>{result.suggestionPondShape}</p></li>
+                                <li> <p>{result.suggestionLocation}</p></li>
+                                <li> <p>{result.suggestionDirection}</p></li>
+                                <li> <p>{result.suggestion}</p></li>
+                            </ul>
                         </div>
                     ) : (
                         <ResultSection />
