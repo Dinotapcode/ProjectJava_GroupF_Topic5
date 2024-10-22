@@ -73,6 +73,10 @@ $back-to-top-text-color: white; // Màu chữ cho nút
                 font-weight: 550;
             }
         }
+
+        &-link {
+            color: $primary-color;
+        }
     }
 
     // Navbar chính
@@ -93,10 +97,6 @@ $back-to-top-text-color: white; // Màu chữ cho nút
             font-size: 1.4rem;
             color: $primary-color;
             position: relative;
-            a {
-                text-decoration: none;
-                color: $primary-color;
-            }
         }
 
         &-logo {
@@ -116,6 +116,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
         }
 
         &-link {
+            color: $primary-color;
             font-weight: 750;
             font-size: 1.6rem;
             padding: 10px;
