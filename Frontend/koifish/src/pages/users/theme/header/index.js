@@ -1,11 +1,12 @@
 import React, { memo, useState, useEffect } from 'react';
+import { ROUTERS } from '../../../../utils/router';
 import './style.scss';
-import logo from '../../../../assets/images/logo.png';
+import logo from '../../../../assets/logo/logo.png';
 import BackToHome from '../../../../components/BackToHome';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
     const [isShrunk, setIsShrunk] = useState(false);
-    const [showBackToTop, setShowBackToTop] = useState(false); // Trạng thái cho nút quay lại đầu trang
 
     // Sử dụng useEffect để lắng nghe sự kiện cuộn trang
     useEffect(() => {
@@ -15,7 +16,6 @@ const Header = () => {
             // Kiểm tra trạng thái thu nhỏ header
             setIsShrunk(scrollTop > 100);
             // Hiển thị nút quay lại đầu trang khi cuộn quá 200px
-            setShowBackToTop(scrollTop > 200);
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -26,13 +26,25 @@ const Header = () => {
         };
     }, []);
 
-    // Hàm xử lý quay lại đầu trang với hiệu ứng mượt mà
-    const handleBackToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    };
+    const [menus] = useState([
+        {
+            name: "Giới Thiệu",
+            path: ROUTERS.USER.GIOITHIEU,
+        },
+        {
+            name: "Blog tin tức",
+            path: ROUTERS.USER.BLOG,
+        },
+        {
+            name: "Dịch vụ tư vấn",
+            path: ROUTERS.USER.TRACUU,
+        },
+        {
+            name: "Sản phẩm phong thủy",
+            path: ROUTERS.USER.SANPHAM,
+        },
+    ]);
+
 
     return (
         <>
@@ -49,10 +61,10 @@ const Header = () => {
                             19008080
                         </li>
                         <li className="header__top-navbar-item header__top-navbar-item--bold">
-                            <a href="dang-ky">Đăng ký</a>
+                            <Link to={ROUTERS.USER.REGISTER} className="header__top-navbar-item">Đăng ký</Link>
                         </li>
                         <li className="header__top-navbar-item header__top-navbar-item--bold">
-                            <a href="dang-nhap">Đăng nhập</a>
+                            <Link to={ROUTERS.USER.LOGIN} className="header__top-navbar-item">Đăng nhập</Link>
                         </li>
                     </ul>
                 </nav>
@@ -61,43 +73,23 @@ const Header = () => {
                 <nav className="header__main-navbar">
                     <ul className="header__main-navbar-list">
                         <li className="header__main-navbar-item">
-                            <a href="/" className='header__main-navbar-logo'>
+                            <Link to={ROUTERS.USER.HOME} className="header__main-navbar-logo">
                                 <img src={logo} alt="logo" className={`${isShrunk ? 'shrink' : ''}`} />
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                     <ul className="header__main-navbar-list">
-                        <li className="header__main-navbar-item">
-                            <a href="/gioi-thieu" className="header__main-navbar-link">GIỚI THIỆU</a>
-                        </li>
-                        <li className="header__main-navbar-item">
-                            <a href="/tra-cuu-phong-thuy" className="header__main-navbar-link">DỊCH VỤ TƯ VẤN</a>
-                        </li>
-                        <li className="header__main-navbar-item">
-                            <a href="/blog" className="header__main-navbar-link">BLOG TIN TỨC</a>
-                        </li>
-                        <li className="header__main-navbar-item">
-                            <a href="/san-pham-phong-thuy" className="header__main-navbar-link">SẢN PHẨM</a>
-                        </li>
-                        <li className="header__main-navbar-item">
-                            <i className="header__navbar-search fa-solid fa-magnifying-glass"></i>
-                        </li>
+                        {
+                            menus?.map((menu, menuKey) => (
+                                <li key={menuKey} className="header__main-navbar-item">
+                                    <Link to={menu?.path} className="header__main-navbar-link">{menu?.name}</Link>
+                                </li>
+                            ))
+                        }
                     </ul>
                 </nav>
             </header>
             <div className="container"><BackToHome /></div>
-
-
-            {/* Nút quay lại đầu trang */}
-            {showBackToTop && (
-                <button
-                    id="backToTop"
-                    className="back-to-top"
-                    onClick={handleBackToTop}
-                >
-                    ↑
-                </button>
-            )}
         </>
     );
 };

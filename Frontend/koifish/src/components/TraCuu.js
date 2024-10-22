@@ -1,189 +1,225 @@
 import React, { useState } from 'react';
-import BirthDateSelector from './BirthDateSelector';
+import FateCalculator from './FateCalculator';
 import ResultSection from './ResultSection';
 
-function calculateElement(gender, birthDate) {
-    const birthYear = new Date(birthDate).getFullYear();
-    const elementCycle = ["Kim", "Thủy", "Mộc", "Hỏa", "Thổ"];
-    const elementIndex = (birthYear % 10) % 5;
-    return elementCycle[elementIndex];
+function getAdvice(element) {
+    const adviceData = {
+        Kim: {
+            koiSpecies: "Cá Koi Showa",
+            koiQuantity: "Chẵn",
+            pondShape: "Vuông",
+            pondLocation: "Phía Tây",
+            pondDirection: "Tây Nam",
+            koiImage: "link_to_showa_image.jpg",
+            koiInfo: "Cá Koi Showa có màu sắc rực rỡ, mang lại may mắn cho gia chủ."
+        },
+        Thủy: {
+            koiSpecies: "Cá Koi Asagi",
+            koiQuantity: "Lẻ",
+            pondShape: "Tròn",
+            pondLocation: "Phía Bắc",
+            pondDirection: "Bắc",
+            koiImage: "link_to_asagi_image.jpg",
+            koiInfo: "Cá Koi Asagi tượng trưng cho sự bình yên."
+        },
+        Mộc: {
+            koiSpecies: "Cá Koi Kohaku",
+            koiQuantity: "Chẵn",
+            pondShape: "Hình bầu dục",
+            pondLocation: "Phía Đông",
+            pondDirection: "Đông Nam",
+            koiImage: "link_to_kohaku_image.jpg",
+            koiInfo: "Cá Koi Kohaku mang lại sự thịnh vượng và giàu có."
+        },
+        Hỏa: {
+            koiSpecies: "Cá Koi Shiro Utsuri",
+            koiQuantity: "Lẻ",
+            pondShape: "Tam giác",
+            pondLocation: "Phía Nam",
+            pondDirection: "Nam",
+            koiImage: "link_to_tancho_image.jpg",
+            koiInfo: "Cá Koi Tancho là biểu tượng của quyết tâm."
+        },
+        Thổ: {
+            koiSpecies: "Cá Koi Sanke",
+            koiQuantity: "Chẵn",
+            pondShape: "Chữ nhật",
+            pondLocation: "Phía Tây Nam",
+            pondDirection: "Đông Bắc",
+            koiImage: "link_to_sanke_image.jpg",
+            koiInfo: "Cá Koi Sanke tượng trưng cho sự ổn định."
+        }
+    };
+    return adviceData[element];
 }
 
 function checkCompatibility(element, species, quantity, pondShape, location, direction) {
+    const advice = getAdvice(element);
     let score = 0;
     let suggestion = '';
+    let suggestionSpecies = '';
+    let suggestionQuantity = '';
+    let suggestionPondShape = '';
+    let suggestionLocation = '';
+    let suggestionDirection = '';
 
-    // Kiểm tra sự phù hợp ngũ hành và loài cá Koi
-    if (element === "Kim" && species === "Cá Koi Showa") {
-        score += 10;
-        suggestion += 'Ngũ hành Kim rất hợp với Cá Koi Showa.\n';
-    } else if (element === "Thủy" && species === "Cá Koi Asagi") {
-        score += 10;
-        suggestion += 'Ngũ hành Thủy rất hợp với Cá Koi Asagi.\n';
+    // So sánh với dữ liệu từ getAdvice
+    if (species === advice.koiSpecies) {
+        score += 20;
+        suggestionSpecies += `Ngũ hành ${element} rất hợp với giống cá ${species}, điều này mang lại sự thịnh vượng và cân bằng năng lượng cho không gian sống.`;
     } else {
         score += 5;
-        suggestion += 'Loài cá Koi này có thể hợp nhưng không hoàn toàn lý tưởng.\n';
+        suggestionSpecies += `Giống cá ${species} không hoàn toàn tương thích với ngũ hành ${element}, có thể ảnh hưởng một phần đến sự cân bằng năng lượng, tuy nhiên không gây ra ảnh hưởng lớn.`;
     }
 
-    // Kiểm tra số lượng chẵn/lẻ
-    if (quantity === "even") {
-        score += 10;
-        suggestion += 'Số lượng cá chẵn tạo sự ổn định.\n';
-    } else if (quantity === "odd") {
-        score += 5;
-        suggestion += 'Số lượng cá lẻ mang lại năng động nhưng có thể không ổn định.\n';
-    }
-
-    // Kiểm tra hình dạng ao
-    if (element === "Thổ" && pondShape === "Vuông") {
-        score += 10;
-        suggestion += 'Hình dạng ao vuông rất phù hợp với ngũ hành Thổ.\n';
-    } else if (element === "Mộc" && pondShape === "Tròn") {
-        score += 10;
-        suggestion += 'Ao tròn giúp cân bằng năng lượng của Mộc.\n';
+    if (quantity === advice.koiQuantity) {
+        score += 20;
+        suggestionQuantity += 'Số lượng cá rất phù hợp với ngũ hành, giúp tăng cường vượng khí và mang lại sự hài hòa trong không gian.';
     } else {
         score += 5;
-        suggestion += 'Hình dạng ao không gây xung khắc lớn, nhưng chưa tối ưu.\n';
+        suggestionQuantity += 'Số lượng cá không tối ưu cho phong thủy, có thể dẫn đến mất cân bằng nhẹ trong vượng khí.';
     }
 
-    // Kiểm tra vị trí ao
-    if (location === "Phía Bắc" && element === "Thủy") {
-        score += 10;
-        suggestion += 'Vị trí ao phía Bắc tăng cường năng lượng cho Thủy.\n';
-    } else if (location === "Phía Đông Nam" && element === "Mộc") {
-        score += 10;
-        suggestion += 'Phía Đông Nam hợp với năng lượng của Mộc.\n';
+    if (pondShape === advice.pondShape) {
+        score += 20;
+        suggestionPondShape += 'Hình dạng ao rất hợp với ngũ hành, tạo ra sự lưu thông năng lượng thuận lợi và ổn định.';
     } else {
         score += 5;
-        suggestion += 'Vị trí ao không ảnh hưởng nhiều, nhưng có thể xem xét vị trí tốt hơn.\n';
+        suggestionPondShape += 'Hình dạng ao chưa tối ưu, có thể làm giảm sự lưu thông năng lượng tích cực trong khu vực.';
     }
 
-    // Kiểm tra hướng ao
-    if (direction === "Bắc" && element === "Thủy") {
-        score += 10;
-        suggestion += 'Hướng Bắc rất tốt cho người thuộc Thủy.\n';
-    } else if (direction === "Đông" && element === "Mộc") {
-        score += 10;
-        suggestion += 'Hướng Đông mang lại sinh khí cho Mộc.\n';
+    if (location === advice.pondLocation) {
+        score += 20;
+        suggestionLocation += 'Vị trí ao rất tốt cho ngũ hành, đảm bảo nguồn năng lượng tốt sẽ được dẫn vào không gian sống của bạn.';
     } else {
         score += 5;
-        suggestion += 'Hướng ao không lý tưởng nhưng không ảnh hưởng lớn.\n';
+        suggestionLocation += 'Vị trí ao không tối ưu, nhưng vẫn có thể duy trì được sự ổn định trong dòng chảy năng lượng.';
     }
 
-    if (score > 40) {
-        suggestion += 'Tổng thể, bạn có sự lựa chọn rất tốt cho phong thủy ao cá.\n';
+    if (direction === advice.pondDirection) {
+        score += 20;
+        suggestionDirection += 'Hướng ao rất tốt cho ngũ hành, giúp đón nhận năng lượng tích cực từ các phương hướng thuận lợi.';
     } else {
-        suggestion += 'Bạn nên xem xét điều chỉnh một vài yếu tố để đạt sự cân bằng tốt hơn.\n';
+        score += 5;
+        suggestionDirection += 'Hướng ao chưa hoàn hảo, nhưng không gây ra sự xung khắc lớn về năng lượng, có thể cân nhắc điều chỉnh để tối ưu hơn.';
     }
 
-    return { score, suggestion };
+    suggestion += score > 70 ? 'Tổng thể rất tốt cho phong thủy ao cá, bạn có thể hoàn toàn yên tâm về sự hài hòa và may mắn.' :
+        'Một vài yếu tố cần được xem xét và điều chỉnh để cải thiện phong thủy tổng thể, giúp tạo ra không gian sống cân bằng và thịnh vượng hơn.';
+
+    return { score, suggestionSpecies, suggestionQuantity, suggestionPondShape, suggestionLocation, suggestionDirection, suggestion };
 }
 
 const TraCuu = () => {
-    const [birthDate, setBirthDate] = useState('');
+    const [element, setElement] = useState('');
     const [koiSpecies, setKoiSpecies] = useState('');
-    const [quantity, setQuantity] = useState('');
+    const [koiQuantity, setKoiQuantity] = useState('');
     const [pondShape, setPondShape] = useState('');
     const [location, setLocation] = useState('');
     const [direction, setDirection] = useState('');
-    const [gender, setGender] = useState('');
     const [result, setResult] = useState(null);
+    const [percent, setPercent] = useState(-10);
 
     const koiSpeciesOptions = ["Cá Koi Showa", "Cá Koi Asagi", "Cá Koi Kohaku", "Cá Koi Shiro Utsuri", "Cá Koi Sanke"];
+    const koiQuantityOptions = ["Chẵn", "Lẻ"];
     const pondShapeOptions = ["Vuông", "Tròn", "Hình bầu dục", "Tam giác", "Chữ nhật", "Vô định"];
     const locationOptions = ["Phía Bắc", "Phía Nam", "Phía Đông", "Phía Tây", "Phía Tây Bắc", "Phía Đông Nam", "Phía Đông Bắc", "Phía Tây Nam"];
     const directionOptions = ["Bắc", "Nam", "Đông", "Tây", "Đông Bắc", "Đông Nam", "Tây Bắc", "Tây Nam"];
 
-    const handleBirthDateChange = (newBirthDate) => {
-        setBirthDate(newBirthDate);
-    };
     const handleConsult = () => {
-        if (!koiSpecies || !quantity || !pondShape || !location || !direction || !gender || !birthDate) {
+        if (!element || !koiSpecies || !koiQuantity || !pondShape || !location || !direction) {
             alert('Vui lòng điền đầy đủ thông tin.');
             return;
         }
 
-        const userElement = calculateElement(gender, birthDate);
-        const compatibility = checkCompatibility(userElement, koiSpecies, quantity, pondShape, location, direction);
+        const compatibility = checkCompatibility(element, koiSpecies, koiQuantity, pondShape, location, direction);
+        setResult(compatibility);
 
-        setResult({
-            score: compatibility.score,
-            suggestion: compatibility.suggestion,
-        });
+        setPercent(compatibility.score);
     };
 
     return (
         <section id="traCuu">
             <article className="layout">
                 <section className="layout__input">
-                    <h2 className="input-title">Tra Cứu Độ Phù Hợp</h2>
-                    <BirthDateSelector onBirthDateChange={handleBirthDateChange} />
-                    <div className="input-group">
-                        <label htmlFor="gender">Giới tính:</label>
-                        <select id="gender" value={gender} onChange={(e) => setGender(e.target.value)}>
-                            <option value="">Chọn giới tính</option>
-                            <option value="male">Nam</option>
-                            <option value="female">Nữ</option>
-                        </select>
-                    </div>
+                    <h2 className="input__title">Tra Cứu Độ Phù Hợp</h2>
+                    <FateCalculator onResult={setElement} />
 
-                    <div className="input-group">
+                    <div className="input__group">
                         <label htmlFor="species">Loài cá Koi:</label>
                         <select id="species" value={koiSpecies} onChange={(e) => setKoiSpecies(e.target.value)}>
-                            <option value="">Chọn loài cá Koi</option>
+                            <option value="">Loài cá Koi</option>
                             {koiSpeciesOptions.map((species) => (
                                 <option key={species} value={species}>{species}</option>
                             ))}
                         </select>
                     </div>
 
-                    <div className="input-group">
+                    <div className="input__group">
                         <label htmlFor="quantity">Số lượng:</label>
-                        <select id="quantity" value={quantity} onChange={(e) => setQuantity(e.target.value)}>
-                            <option value="">Chọn số lượng</option>
-                            <option value="even">Chẵn</option>
-                            <option value="odd">Lẻ</option>
+                        <select id="quantity" value={koiQuantity} onChange={(e) => setKoiQuantity(e.target.value)}>
+                            <option value="">Số lượng</option>
+                            {koiQuantityOptions.map((quantity) => (
+                                <option key={quantity} value={quantity}>{quantity}</option>
+                            ))}
                         </select>
                     </div>
 
-                    <div className="input-group">
+                    <div className="input__group">
                         <label htmlFor="pondShape">Hình dạng ao:</label>
                         <select id="pondShape" value={pondShape} onChange={(e) => setPondShape(e.target.value)}>
-                            <option value="">Chọn hình dạng ao</option>
+                            <option value="">Hình dạng ao</option>
                             {pondShapeOptions.map((shape) => (
                                 <option key={shape} value={shape}>{shape}</option>
                             ))}
                         </select>
                     </div>
 
-                    <div className="input-group">
+                    <div className="input__group">
                         <label htmlFor="location">Vị trí ao:</label>
                         <select id="location" value={location} onChange={(e) => setLocation(e.target.value)}>
-                            <option value="">Chọn vị trí ao</option>
+                            <option value="">Vị trí ao</option>
                             {locationOptions.map((loc) => (
                                 <option key={loc} value={loc}>{loc}</option>
                             ))}
                         </select>
                     </div>
 
-                    <div className="input-group">
+                    <div className="input__group">
                         <label htmlFor="direction">Hướng ao:</label>
                         <select id="direction" value={direction} onChange={(e) => setDirection(e.target.value)}>
-                            <option value="">Chọn hướng ao</option>
+                            <option value="">Hướng ao</option>
                             {directionOptions.map((dir) => (
                                 <option key={dir} value={dir}>{dir}</option>
                             ))}
                         </select>
                     </div>
 
-                    <button className="btnResult" onClick={handleConsult}>Tra cứu</button>
+                    <button className="input__btnResult" onClick={handleConsult}>Tra cứu</button>
                 </section>
 
                 <section className="layout__result">
                     {result ? (
                         <div id="traCuuResult" className="result">
-                            <p><strong>Mức độ phù hợp:</strong> {result.score}</p>
-                            <p><strong>Gợi ý:</strong> {result.suggestion}</p>
+                            <h3>Mức độ phù hợp với cá Koi của bạn</h3>
+                            <div className="result__percent">
+                                <div className="percent">
+                                    <div class="percent-value">{percent}%</div>
+                                    <div
+                                        className="percent-loading"
+                                        style={{ top: `calc(100% - ${percent}% - 10%)` }}
+                                    ></div>
+                                </div>
+                            </div>
+                            <h3>Gợi ý phù hợp cho bạn:</h3>
+                            <ul>
+                                <li> <p>{result.suggestionSpecies}</p></li>
+                                <li> <p>{result.suggestionQuantity}</p></li>
+                                <li> <p>{result.suggestionPondShape}</p></li>
+                                <li> <p>{result.suggestionLocation}</p></li>
+                                <li> <p>{result.suggestionDirection}</p></li>
+                                <li> <p>{result.suggestion}</p></li>
+                            </ul>
                         </div>
                     ) : (
                         <ResultSection />

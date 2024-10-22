@@ -1,9 +1,14 @@
+@use "sass:map";
+@import "../../../styles/pages/theme";
+
 $background-tracuu: "/assets/users/images/backgrounds/Tracuu.jpg";
 $btn-result: "/assets/users/images/img_tracuu/btnResult.png";
 $background-header-right: "/assets/users/images/backgrounds/whiteFan.jpg";
 $background-header-left: "/assets/users/images/backgrounds/blackFan.jpg";
 $defaultResult_img: "/assets/users/images/img_tracuu/defaultResult.webp";
+$percentResult_img: "/assets/users/images/img_tracuu/percentResult.png";
 
+// Functionality Section
 .functionality {
     height: 40px;
     width: 100%;
@@ -17,6 +22,7 @@ $defaultResult_img: "/assets/users/images/img_tracuu/defaultResult.webp";
         90% 50%;
     background-repeat: no-repeat;
     background-size: contain;
+
     &__btn {
         color: rgb(0, 0, 0);
         text-decoration: none;
@@ -26,125 +32,207 @@ $defaultResult_img: "/assets/users/images/img_tracuu/defaultResult.webp";
         font-weight: 600;
         position: relative;
         cursor: pointer;
+
         &::before,
         &::after {
             content: "";
-            width: 0%;
+            width: 0;
             height: 2px;
-            background: #fd1100;
+            background: map-get($theme-colors, "main-red");
             display: block;
             transition: 0.5s;
             position: absolute;
         }
+
         &::before {
             left: 0;
             bottom: 0;
         }
+
         &::after {
             right: 0;
             top: 0;
         }
-        &:hover::after,
+
         &:hover::before,
-        input[type="radio"]:checked + &::after,
-        input[type="radio"]:checked + &::before {
+        &:hover::after,
+        input[type="radio"]:checked + &::before,
+        input[type="radio"]:checked + &::after {
             width: 100%;
         }
     }
 }
+
 input[type="radio"] {
     display: none;
 }
 
+// Layout Section
 .layout {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 20px;
+
     @media (min-width: 787px) {
         flex-direction: row;
     }
-}
-.layout__input {
-    flex: 1;
-    background-image: url($background-tracuu);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding: 20px 5%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    min-height: calc(100vh - 120px - 64px - 60px);
-    .input-title {
-        font-size: 20px;
-        font-weight: 600;
-        font-style: italic;
-        text-align: center;
-    }
-    label {
-        font-size: 15px;
-    }
-    select {
-        padding: 5px;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        margin-right: 5px;
-    }
-    fieldset {
-        border: none;
-        padding: 0;
-        margin: 0;
-    }
-    .btnResult {
-        width: 200px;
-        height: 40px;
-        align-self: center;
-        background-image: url($btn-result);
-        background-size: contain;
-        background-repeat: no-repeat;
+
+    &__input {
+        flex: 1;
+        background-image: url($background-tracuu);
         background-position: center;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        font-size: 20px;
-        font-weight: 600;
-        cursor: pointer;
+        background-repeat: no-repeat;
+        background-size: cover;
+        padding: 20px 5%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        min-height: calc(100vh - 120px - 64px - 60px);
+
+        .input__title {
+            font-size: 20px;
+            font-weight: 600;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .input__group {
+            display: flex;
+            margin-bottom: 15px;
+
+            label {
+                margin: auto 10px auto 0;
+                font-size: 15px;
+            }
+
+            select {
+                padding: 5px;
+                border-radius: 10px;
+                border: 1px solid #ccc;
+                margin-right: 5px;
+            }
+
+            fieldset {
+                border: none;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        .input__btnResult {
+            width: 200px;
+            height: 40px;
+            background-image: url($btn-result);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            &:hover {
+                width: 220px;
+                height: 45px;
+            }
+        }
+    }
+
+    &__result {
+        flex: 1.5;
+        font-size: 16px;
+
+        .result {
+            position: relative;
+            margin-top: 20px;
+
+            p {
+                text-indent: $theme-text-indent;
+            }
+
+            &-image {
+                max-width: 100%;
+                height: auto;
+                border-radius: 5px;
+                aspect-ratio: 2 / 1;
+            }
+            &__percent {
+                position: relative;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%);
+                margin: 25px 0;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 25%;
+                aspect-ratio: 1 / 1;
+                border-radius: 50%;
+                color: white;
+                background-color: black;
+                animation: wave 2.4s ease-out infinite;
+                animation-delay: 1.2s;
+
+                .percent {
+                    position: relative;
+                    overflow: hidden;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    animation: wave 2.4s ease-out infinite;
+                    &-value {
+                        position: absolute;
+                        color: #fff;
+                        font-weight: bold;
+                        z-index: 2;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                    }
+
+                    &-loading {
+                        position: absolute;
+                        z-index: 1;
+                        top: 100%;
+                        left: 0%;
+                        height: 115%;
+                        aspect-ratio: 6 / 1;
+                        background-image: url($percentResult_img);
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                        transition: top 1s ease;
+                        animation: move 5s linear infinite;
+                    }
+                }
+            }
+            ul {
+                p {
+                    text-indent: 0;
+                }
+            }
+        }
     }
 }
-.layout__result {
-    flex: 1.5;
-    font-size: 16px;
-    line-height: 1.4;
-    .result {
-        margin-top: 20px;
+@keyframes move {
+    0% {
+        left: 0%;
     }
-    .koi-info img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 5px;
+    100% {
+        left: calc(-105% * 5);
     }
 }
 
-.input-group {
-    display: flex;
-    margin-bottom: 15px;
-    label {
-        display: block;
-        margin: auto 10px auto 0;
+@keyframes wave {
+    0% {
+        outline: rgba(0, 0, 0, 0.8) solid 2px;
+        outline-offset: -2%;
     }
-}
-.defaultResult_img {
-    background-image: url($defaultResult_img);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 100%;
-    aspect-ratio: 2 / 1;
-}
-.result-content {
-    p {
-        text-indent: 30px;
+    100% {
+        outline: rgba(0, 0, 0, 0) solid 6px;
+        outline-offset: 40px;
     }
 }

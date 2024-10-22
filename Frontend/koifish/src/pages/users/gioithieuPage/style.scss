@@ -1,4 +1,83 @@
+@use "sass:map";
+@import "../../../styles/pages/theme";
+
 .gioithieu-container {
-    font-size: 16px;
-    line-height: 1.4;
+    font-size: 20px;
+
+    h3 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    &__section {
+        display: flex;
+        gap: 25px;
+        align-items: center;
+        margin-bottom: 40px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        &.odd {
+            flex-direction: row; // Hàng lẻ: hình bên trái, văn bản bên phải
+        }
+
+        &.even {
+            flex-direction: row-reverse; // Hàng chẵn: hình bên phải, văn bản bên trái
+        }
+
+        .gioithieu-container-content {
+            flex: 1; // Đảm bảo nội dung chiếm không gian còn lại
+            text-indent: 20px; // Thụt đầu dòng 20px cho đoạn văn
+        }
+
+        .gioithieu-container-content-row-45 {
+            text-indent: 0;
+        }
+
+        .gioithieu-container__image {
+            max-width: 40%; // Chiếm 40% chiều rộng
+            aspect-ratio: 2 / 1;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .gioithieu-container-p {
+            text-indent: 0px;
+        }
+        p {
+            font-size: 16px;
+            line-height: $theme-line-height;
+            color: #555;
+            margin-bottom: 20px;
+            b {
+                color: #000;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .gioithieu-container {
+        &__section {
+            flex-direction: column;
+
+            &:nth-child(even) {
+                flex-direction: column; // Đặt lại layout khi ở chế độ mobile
+            }
+
+            &:nth-child(odd) {
+                flex-direction: column;
+            }
+
+            .gioithieu-container__image {
+                margin-right: 0;
+                margin-bottom: 20px;
+                max-width: 100%;
+            }
+        }
+    }
 }

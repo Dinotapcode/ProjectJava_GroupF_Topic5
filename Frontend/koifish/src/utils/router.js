@@ -6,5 +6,6 @@ export const ROUTERS = {
         TRACUU: "tra-cuu-phong-thuy",
         SANPHAM: "san-pham-phong-thuy",
         LOGIN: "dang-nhap",
+        PROFILE: "tai-khoan",
     }
 }

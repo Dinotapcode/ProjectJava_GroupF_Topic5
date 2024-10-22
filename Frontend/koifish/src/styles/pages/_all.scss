@@ -20,8 +20,8 @@ body {
 
 .container {
     margin: 0 auto;
-    max-width: 100vw;
-    padding: $website-padding;
+    max-width: 1440px;
+    padding: $theme-padding;
     overflow-y: auto;
     box-sizing: border-box;
 }

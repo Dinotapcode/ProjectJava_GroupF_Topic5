@@ -1,69 +1,100 @@
-.login-container {
-  background-color: #fff;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  width: 350px;
-}
+@use "sass:map";
+@import "../../../styles/pages/theme";
 
-.login-form {
+.log-auth-wrapper {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
-
-h1 {
+.auth-box h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 20px; // Khoảng cách dưới tiêu đề
+  margin-top: 0px;
+}
+.auth-box {
+  
+  background-color: #f5c174;
+  padding: 50px;
+  border-radius: 70px;
+  box-shadow: 0 20px 5px rgba(0, 0, 0, 0.3);
+  width: 400px;
 }
 
-.form-group {
-  margin-bottom: 20px;
+form {
+  margin-top: 0;
+  font-size: 20px;
+  padding: 20px;
 
-  label {
-    font-size: 14px;
-    margin-bottom: 5px;
-    display: block;
-  }
+  .form-field {
+    margin-bottom: 15px;
+    margin-top: 10px;
 
-  input {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #05104a;
+    }
 
-    &:focus {
-      outline: none;
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    input {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        border-color: #cd4747;
+      }
     }
   }
 
-  .btn-login {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
+  .btn-login,
+  .btn-register,
+  .btn-switch {
+    margin-top: 20px;
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 10px;
+    margin-left: 10px;
     border: none;
-    border-radius: 4px;
-    color: white;
-    font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
+    color: #ffffff;
+    background-color: #cd4747;
+    text-align: center;
+    text-align: center;
     transition: background-color 0.3s ease;
 
     &:hover {
-      background-color: #0056b3;
+      background-color: #0062cc;
     }
   }
 
-  .forgot-password {
-    display: block;
-    text-align: center;
-    margin-top: 10px;
-    color: #007bff;
-    text-decoration: none;
+  .btn-forgot-password {
+    background-color: transparent;
+    color: #05104a;
 
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  .success-alert,
+  .error-alert {
+    color: #05104a;
+    padding: 10px;
+    border-radius: 3px;
+    margin-bottom: 15px;
+  }
+
+  .success-alert {
+    background-color: #d4edda;
+  }
+
+  .error-alert {
+    background-color: #f8d7da;
   }
 }

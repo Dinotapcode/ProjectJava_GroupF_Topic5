@@ -1,3 +1,6 @@
+@use "sass:map";
+@import "../../../../styles/pages/theme";
+
 // Biến màu
 $primary-color: black;
 $hover-color: rgba(26, 26, 26, 0.7);
@@ -70,6 +73,10 @@ $back-to-top-text-color: white; // Màu chữ cho nút
                 font-weight: 550;
             }
         }
+
+        &-link {
+            color: $primary-color;
+        }
     }
 
     // Navbar chính
@@ -90,10 +97,6 @@ $back-to-top-text-color: white; // Màu chữ cho nút
             font-size: 1.4rem;
             color: $primary-color;
             position: relative;
-            a {
-                text-decoration: none;
-                color: $primary-color;
-            }
         }
 
         &-logo {
@@ -113,6 +116,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
         }
 
         &-link {
+            color: $primary-color;
             font-weight: 750;
             font-size: 1.6rem;
             padding: 10px;
@@ -192,27 +196,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
 
     &__Label {
         align-items: center;
-        color: #eb1c24;
+        color: map-get($theme-colors, "main-red");
         font-weight: bold;
-    }
-}
-
-// Nút quay lại đầu trang
-.back-to-top {
-    position: fixed;
-    bottom: 50px;
-    right: 30px;
-    background-color: $back-to-top-bg-color; // Sử dụng biến màu
-    color: $back-to-top-text-color; // Sử dụng biến màu
-    border: none;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 24px;
-    z-index: 1001;
-    display: none;
-
-    &.show {
-        display: block;
     }
 }
