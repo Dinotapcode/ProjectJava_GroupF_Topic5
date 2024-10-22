@@ -11,7 +11,6 @@
     }
 
     &__section {
-        width: 100%;
         display: flex;
         gap: 25px;
         align-items: center;
@@ -24,7 +23,7 @@
         &.odd {
             flex-direction: row; // Hàng lẻ: hình bên trái, văn bản bên phải
         }
-        
+
         &.even {
             flex-direction: row-reverse; // Hàng chẵn: hình bên phải, văn bản bên trái
         }
@@ -32,9 +31,9 @@
         .gioithieu-container-content {
             flex: 1; // Đảm bảo nội dung chiếm không gian còn lại
             text-indent: 20px; // Thụt đầu dòng 20px cho đoạn văn
-        } 
+        }
 
-        .gioithieu-container-content-row-45{
+        .gioithieu-container-content-row-45 {
             text-indent: 0;
         }
 
@@ -46,7 +45,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .gioithieu-container-p{
+        .gioithieu-container-p {
             text-indent: 0px;
         }
         p {
