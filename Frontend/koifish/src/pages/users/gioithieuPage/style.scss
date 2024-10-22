@@ -14,7 +14,6 @@
         width: 100%;
         display: flex;
         gap: 25px;
-        flex-direction: row;
         align-items: center;
         margin-bottom: 40px;
         padding: 20px;
@@ -22,19 +21,34 @@
         border-radius: 8px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
-        &:nth-child(even) {
-            flex-direction: row-reverse;
+        &.odd {
+            flex-direction: row; // Hàng lẻ: hình bên trái, văn bản bên phải
+        }
+        
+        &.even {
+            flex-direction: row-reverse; // Hàng chẵn: hình bên phải, văn bản bên trái
+        }
+
+        .gioithieu-container-content {
+            flex: 1; // Đảm bảo nội dung chiếm không gian còn lại
+            text-indent: 20px; // Thụt đầu dòng 20px cho đoạn văn
+        } 
+
+        .gioithieu-container-content-row-45{
+            text-indent: 0;
         }
 
         .gioithieu-container__image {
             max-width: 40%; // Chiếm 40% chiều rộng
-            aspect-ratio: 2 /1;
+            aspect-ratio: 2 / 1;
             height: auto;
             border-radius: 8px;
-            margin-right: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+        .gioithieu-container-p{
+            text-indent: 0px;
+        }
         p {
             font-size: 16px;
             line-height: $theme-line-height;
@@ -54,6 +68,10 @@
 
             &:nth-child(even) {
                 flex-direction: column; // Đặt lại layout khi ở chế độ mobile
+            }
+
+            &:nth-child(odd) {
+                flex-direction: column;
             }
 
             .gioithieu-container__image {
