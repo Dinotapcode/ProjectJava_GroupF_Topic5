@@ -1,10 +1,10 @@
-import { memo } from 'react';
-import './style.scss';
-import koi1 from '../../../assets/users/images/img_gioithieu/koi1.jpg';
-import koi2 from '../../../assets/users/images/img_gioithieu/koi2.jpg';
-import koi3 from '../../../assets/users/images/img_gioithieu/koi3.jpg';
-import koi4 from '../../../assets/users/images/img_gioithieu/koi4.jpg';
-import koi5 from '../../../assets/users/images/img_gioithieu/koi5.jpg';
+import { memo } from "react";
+import "./style.scss";
+import koi1 from "../../../assets/users/images/img_gioithieu/koi1.jpg";
+import koi2 from "../../../assets/users/images/img_gioithieu/koi2.jpg";
+import koi3 from "../../../assets/users/images/img_gioithieu/koi3.jpg";
+import koi4 from "../../../assets/users/images/img_gioithieu/koi4.jpg";
+import koi5 from "../../../assets/users/images/img_gioithieu/koi5.jpg";
 
 const GioithieuPage = () => {
     return (
@@ -12,9 +12,9 @@ const GioithieuPage = () => {
             <article className="gioithieu-container">
                 <h2>Giới thiệu</h2>
                 <h3>
-                    Chào Mừng Bạn Đến Với Dịch Vụ Tư Vấn Phong Thủy Cá Koi - Kiến Tạo Thịnh Vượng Và Hài Hòa Cho Không Gian Sống
+                    Chào Mừng Bạn Đến Với Dịch Vụ Tư Vấn Phong Thủy Cá Koi - Kiến Tạo
+                    Thịnh Vượng Và Hài Hòa Cho Không Gian Sống
                 </h3>
-
                 <section className="gioithieu-container__section odd">
                     <div className="gioithieu-container-content">
                         <p>
@@ -23,7 +23,6 @@ const GioithieuPage = () => {
                     </div>
                     <img src={koi1} alt="Ảnh Cá Koi" className="gioithieu-container__image" />
                 </section>
-
                 <h3>Tầm Quan Trọng Của Phong Thủy Trong Việc Nuôi Cá Koi</h3>
                 <section className="gioithieu-container__section even">
                     <div className="gioithieu-container-content">
@@ -33,7 +32,6 @@ const GioithieuPage = () => {
                     </div>
                     <img src={koi2} alt="Ảnh Hồ Cá Koi" className="gioithieu-container__image" />
                 </section>
-
                 <h3>Dịch Vụ Tư Vấn Phong Thủy Cá Koi Của Chúng Tôi</h3>
                 <section className="gioithieu-container__section odd">
                     <div className="gioithieu-container-content">
@@ -58,9 +56,7 @@ const GioithieuPage = () => {
                         </div>
                     </div>
                     <img src={koi4} alt="Ảnh Hồ Cá Koi" className="gioithieu-container__image" />
-
                 </section>
-
                 <h3>Tại Sao Bạn Nên Chọn Chúng Tôi?</h3>
                 <section className="gioithieu-container__section odd ">
                     <div className="gioithieu-container-content">
@@ -70,15 +66,16 @@ const GioithieuPage = () => {
                                 <b>2.Thiết kế độc đáo và cá nhân hóa</b>: Mỗi dự án đều được tùy chỉnh sao cho phù hợp với không gian, sở thích và vận mệnh của gia chủ.<br />
                                 <b>3.Chất lượng và uy tín</b>: Chúng tôi luôn sử dụng các vật liệu và cá giống chất lượng cao, đảm bảo hồ cá Koi của bạn không chỉ đẹp mà còn bền vững theo thời gian.<br />
                                 <b>4.Dịch vụ tận tâm và chuyên nghiệp</b>: Đội ngũ tư vấn viên và kỹ sư của chúng tôi luôn sẵn sàng lắng nghe và đáp ứng mọi yêu cầu của bạn, từ khâu tư vấn đến bảo dưỡng sau thi công.
-                            </p>
+                            </p>   
                         </div>
                     </div>
                     <img src={koi5} alt="Ảnh Hồ Cá Koi" className="gioithieu-container__image" />
-
                 </section>
+
 
                 <h3>Mang Lại Sự Cân Bằng, Thịnh Vượng Và An Lạc</h3>
                 <section className="gioithieu-container__section">
+
                     <div className="gioithieu-container-content">
                         <p>
                             Hồ cá Koi không chỉ là một phần trong trang trí không gian mà còn là yếu tố quan trọng giúp cân bằng năng lượng phong thủy, mang lại sự thịnh vượng và hạnh phúc cho gia đình bạn. Hãy để chúng tôi giúp bạn kiến tạo một không gian sống hài hòa, đẹp mắt và tràn đầy may mắn thông qua dịch vụ tư vấn phong thủy cá Koi.<br />
