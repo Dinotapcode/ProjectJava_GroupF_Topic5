@@ -3,7 +3,7 @@ import FateCalculator from "./FateCalculator";
 import ResultSection from "./ResultSection";
 
 function getKoiAdvice(element) {
-    const adviceData = [
+    const dataFish = [
         {
             element: "Kim",
             koiSpecies: "Cá Koi Showa",
@@ -55,7 +55,27 @@ function getKoiAdvice(element) {
             koiInfo: "Cá Koi Sanke tượng trưng cho sự ổn định."
         }
     ];
-    return adviceData.find(advice => advice.element === element);
+
+    // Bảng tương sinh tương khắc
+    const dataElement = [
+        { element: "Kim", support: "Thổ", conflict: "Hỏa" },
+        { element: "Mộc", support: "Thủy", conflict: "Kim" },
+        { element: "Thủy", support: "Kim", conflict: "Thổ" },
+        { element: "Hỏa", support: "Mộc", conflict: "Thủy" },
+        { element: "Thổ", support: "Hỏa", conflict: "Mộc" }
+    ];
+
+    const advice = dataFish.find(advice => advice.element === element);
+    const elementInfo = dataElement.find(e => e.element === element);
+
+    // Tìm kiếm thông tin cá Koi của mệnh tương sinh
+    const supportAdvice = dataFish.find(advice => advice.element === elementInfo.support);
+    // Tìm kiếm thông tin cá Koi của mệnh tương khắc
+    const conflictAdvice = dataFish.find(advice => advice.element === elementInfo.conflict);
+
+    return {
+        advice, supportAdvice, conflictAdvice
+    };
 }
 
 function TuVan() {
@@ -98,11 +118,11 @@ function TuVan() {
                                 </i>
                                 . Loài cá Koi lý tưởng là{" "}
                                 <i>
-                                    <strong>{result.koiSpecies}</strong>
+                                    <strong>{result.supportAdvice.koiSpecies}</strong>
                                 </i>{" "}
                                 với số lượng{" "}
                                 <i>
-                                    <strong>{result.koiQuantity}</strong>
+                                    <strong>{result.supportAdvice.koiQuantity}</strong>
                                 </i>
                                 . Việc lựa chọn loài và số lượng cá phù hợp không chỉ giúp tăng
                                 cường tài lộc, mà còn tạo sự hài hòa giữa yếu tố ngũ hành của
@@ -111,15 +131,15 @@ function TuVan() {
                             <p>
                                 Ao cá nên có hình dạng{" "}
                                 <i>
-                                    <strong>{result.pondShape}</strong>
+                                    <strong>{result.supportAdvice.pondShape}</strong>
                                 </i>
                                 , đặt tại{" "}
                                 <i>
-                                    <strong>{result.pondLocation}</strong>
+                                    <strong>{result.supportAdvice.pondLocation}</strong>
                                 </i>{" "}
                                 và quay về hướng{" "}
                                 <i>
-                                    <strong>{result.pondDirection}</strong>
+                                    <strong>{result.supportAdvice.pondDirection}</strong>
                                 </i>
                                 . Điều này sẽ giúp kích hoạt năng lượng tích cực và thu hút sự
                                 may mắn, tài vận cho gia đình.
@@ -134,7 +154,7 @@ function TuVan() {
                             <p>
                                 Loài cá Koi{" "}
                                 <i>
-                                    <strong>{result.koiSpecies}</strong>
+                                    <strong>{result.supportAdvice.koiSpecies}</strong>
                                 </i>{" "}
                                 là một trong những loài cá mang ý nghĩa may mắn, tượng trưng cho
                                 sự kiên trì, thịnh vượng và trường thọ. Loài cá này nổi bật bởi
@@ -146,11 +166,11 @@ function TuVan() {
                                 dương, góp phần duy trì sự cân bằng trong ngũ hành và nâng cao
                                 vận khí của bạn.
                             </p>
-                            <p>{result.koiInfo}</p>
+                            <p>{result.supportAdvice.koiInfo}</p>
                             <img
                                 className="result-image"
-                                src={result.koiImage}
-                                alt={result.koiSpecies}
+                                src={result.supportAdvice.koiImage}
+                                alt={result.supportAdvice.koiSpecies}
                             />
                         </div>
                     ) : (
