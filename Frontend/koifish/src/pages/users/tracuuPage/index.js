@@ -10,29 +10,15 @@ function TracuuPage() {
         <div className="container">
             <article className="tracuu-container">
                 <section className="functionality">
-                    <input
-                        type="radio"
-                        id="functionality__btn-tuVan"
-                        name="toggle"
-                        checked={activeSection === 'tuVan'}
-                        onChange={() => setActiveSection('tuVan')}
-                    />
                     <button
-                        className="functionality__btn"
+                        className={`functionality__btn ${activeSection === 'tuVan' ? 'active' : ''}`}
                         onClick={() => setActiveSection('tuVan')}
                     >
                         Tư Vấn
                     </button>
 
-                    <input
-                        type="radio"
-                        id="functionality__btn-traCuu"
-                        name="toggle"
-                        checked={activeSection === 'traCuu'}
-                        onChange={() => setActiveSection('traCuu')}
-                    />
                     <button
-                        className="functionality__btn"
+                        className={`functionality__btn ${activeSection === 'traCuu' ? 'active' : ''}`}
                         onClick={() => setActiveSection('traCuu')}
                     >
                         Tra Cứu

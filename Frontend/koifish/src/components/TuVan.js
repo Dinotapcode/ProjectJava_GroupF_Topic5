@@ -1,70 +1,80 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import FateCalculator from "./FateCalculator";
 import ResultSection from "./ResultSection";
 
-function getAdvice(element) {
-    const adviceData = {
-        Kim: {
+function getKoiAdvice(element) {
+    const adviceData = [
+        {
+            element: "Kim",
             koiSpecies: "Cá Koi Showa",
             koiQuantity: "Chẵn",
             pondShape: "Vuông",
             pondLocation: "Phía Tây",
             pondDirection: "Tây Nam",
             koiImage: "link_to_showa_image.jpg",
-            koiInfo: "Cá Koi Showa có màu sắc rực rỡ, mang lại may mắn cho gia chủ.",
+            koiInfo: "Cá Koi Showa có màu sắc rực rỡ, mang lại may mắn cho gia chủ."
         },
-        Thủy: {
+        {
+            element: "Thủy",
             koiSpecies: "Cá Koi Asagi",
             koiQuantity: "Lẻ",
             pondShape: "Tròn",
             pondLocation: "Phía Bắc",
             pondDirection: "Bắc",
             koiImage: "link_to_asagi_image.jpg",
-            koiInfo: "Cá Koi Asagi tượng trưng cho sự bình yên.",
+            koiInfo: "Cá Koi Asagi tượng trưng cho sự bình yên."
         },
-        Mộc: {
+        {
+            element: "Mộc",
             koiSpecies: "Cá Koi Kohaku",
             koiQuantity: "Chẵn",
             pondShape: "Hình bầu dục",
             pondLocation: "Phía Đông",
             pondDirection: "Đông Nam",
             koiImage: "link_to_kohaku_image.jpg",
-            koiInfo: "Cá Koi Kohaku mang lại sự thịnh vượng và giàu có.",
+            koiInfo: "Cá Koi Kohaku mang lại sự thịnh vượng và giàu có."
         },
-        Hỏa: {
+        {
+            element: "Hỏa",
             koiSpecies: "Cá Koi Shiro Utsuri",
             koiQuantity: "Lẻ",
             pondShape: "Tam giác",
             pondLocation: "Phía Nam",
             pondDirection: "Nam",
             koiImage: "link_to_tancho_image.jpg",
-            koiInfo: "Cá Koi Tancho là biểu tượng của quyết tâm.",
+            koiInfo: "Cá Koi Tancho là biểu tượng của quyết tâm."
         },
-        Thổ: {
+        {
+            element: "Thổ",
             koiSpecies: "Cá Koi Sanke",
             koiQuantity: "Chẵn",
             pondShape: "Chữ nhật",
             pondLocation: "Phía Tây Nam",
             pondDirection: "Đông Bắc",
             koiImage: "link_to_sanke_image.jpg",
-            koiInfo: "Cá Koi Sanke tượng trưng cho sự ổn định.",
-        },
-    };
-    return adviceData[element];
+            koiInfo: "Cá Koi Sanke tượng trưng cho sự ổn định."
+        }
+    ];
+    return adviceData.find(advice => advice.element === element);
 }
 
 function TuVan() {
     const [element, setElement] = useState("");
     const [result, setResult] = useState(null);
 
-    const handleConsult = useCallback(() => {
+    const handleConsult = () => {
         if (!element) {
             alert("Vui lòng nhập đầy đủ thông tin.");
             return;
         }
-        const advice = getAdvice(element);
-        setResult(advice);
-    }, [element]);
+        const advice = getKoiAdvice(element);
+        if (advice) {
+            setResult(advice);
+        } else {
+            alert("Không tìm thấy thông tin tư vấn cho mệnh của bạn.");
+            setResult(null); // Reset result if no advice found
+        }
+    };
 
     return (
         <section id="tuVan">
@@ -115,7 +125,6 @@ function TuVan() {
                                 may mắn, tài vận cho gia đình.
                             </p>
                             <p>
-                                {" "}
                                 Bố trí ao cá hợp phong thủy còn giúp cân bằng yếu tố ngũ hành
                                 trong không gian sống của bạn, tạo sự hòa hợp giữa thiên nhiên
                                 và con người.

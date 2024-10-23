@@ -3,8 +3,9 @@ import FateCalculator from './FateCalculator';
 import ResultSection from './ResultSection';
 
 function getAdvice(element) {
-    const adviceData = {
-        Kim: {
+    const adviceData = [
+        {
+            element: "Kim",
             koiSpecies: "Cá Koi Showa",
             koiQuantity: "Chẵn",
             pondShape: "Vuông",
@@ -13,7 +14,8 @@ function getAdvice(element) {
             koiImage: "link_to_showa_image.jpg",
             koiInfo: "Cá Koi Showa có màu sắc rực rỡ, mang lại may mắn cho gia chủ."
         },
-        Thủy: {
+        {
+            element: "Thủy",
             koiSpecies: "Cá Koi Asagi",
             koiQuantity: "Lẻ",
             pondShape: "Tròn",
@@ -22,7 +24,8 @@ function getAdvice(element) {
             koiImage: "link_to_asagi_image.jpg",
             koiInfo: "Cá Koi Asagi tượng trưng cho sự bình yên."
         },
-        Mộc: {
+        {
+            element: "Mộc",
             koiSpecies: "Cá Koi Kohaku",
             koiQuantity: "Chẵn",
             pondShape: "Hình bầu dục",
@@ -31,7 +34,8 @@ function getAdvice(element) {
             koiImage: "link_to_kohaku_image.jpg",
             koiInfo: "Cá Koi Kohaku mang lại sự thịnh vượng và giàu có."
         },
-        Hỏa: {
+        {
+            element: "Hỏa",
             koiSpecies: "Cá Koi Shiro Utsuri",
             koiQuantity: "Lẻ",
             pondShape: "Tam giác",
@@ -40,7 +44,8 @@ function getAdvice(element) {
             koiImage: "link_to_tancho_image.jpg",
             koiInfo: "Cá Koi Tancho là biểu tượng của quyết tâm."
         },
-        Thổ: {
+        {
+            element: "Thổ",
             koiSpecies: "Cá Koi Sanke",
             koiQuantity: "Chẵn",
             pondShape: "Chữ nhật",
@@ -49,8 +54,8 @@ function getAdvice(element) {
             koiImage: "link_to_sanke_image.jpg",
             koiInfo: "Cá Koi Sanke tượng trưng cho sự ổn định."
         }
-    };
-    return adviceData[element];
+    ];
+    return adviceData.find(advice => advice.element === element);
 }
 
 function checkCompatibility(element, species, quantity, pondShape, location, direction) {
@@ -63,7 +68,7 @@ function checkCompatibility(element, species, quantity, pondShape, location, dir
     let suggestionLocation = '';
     let suggestionDirection = '';
 
-    // So sánh với dữ liệu từ getAdvice
+    // Compare with data from getAdvice
     if (species === advice.koiSpecies) {
         score += 20;
         suggestionSpecies += `Ngũ hành ${element} rất hợp với giống cá ${species}, điều này mang lại sự thịnh vượng và cân bằng năng lượng cho không gian sống.`;
@@ -134,7 +139,6 @@ const TraCuu = () => {
 
         const compatibility = checkCompatibility(element, koiSpecies, koiQuantity, pondShape, location, direction);
         setResult(compatibility);
-
         setPercent(compatibility.score);
     };
 
@@ -204,7 +208,7 @@ const TraCuu = () => {
                             <h3>Mức độ phù hợp với cá Koi của bạn</h3>
                             <div className="result__percent">
                                 <div className="percent">
-                                    <div class="percent-value">{percent}%</div>
+                                    <div className="percent-value">{percent}%</div>
                                     <div
                                         className="percent-loading"
                                         style={{ top: `calc(100% - ${percent}% - 10%)` }}
@@ -213,12 +217,12 @@ const TraCuu = () => {
                             </div>
                             <h3>Gợi ý phù hợp cho bạn:</h3>
                             <ul>
-                                <li> <p>{result.suggestionSpecies}</p></li>
-                                <li> <p>{result.suggestionQuantity}</p></li>
-                                <li> <p>{result.suggestionPondShape}</p></li>
-                                <li> <p>{result.suggestionLocation}</p></li>
-                                <li> <p>{result.suggestionDirection}</p></li>
-                                <li> <p>{result.suggestion}</p></li>
+                                <li><p>{result.suggestionSpecies}</p></li>
+                                <li><p>{result.suggestionQuantity}</p></li>
+                                <li><p>{result.suggestionPondShape}</p></li>
+                                <li><p>{result.suggestionLocation}</p></li>
+                                <li><p>{result.suggestionDirection}</p></li>
+                                <li><p>{result.suggestion}</p></li>
                             </ul>
                         </div>
                     ) : (

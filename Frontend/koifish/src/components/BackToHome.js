@@ -21,7 +21,6 @@ const BackToHome = () => {
             (link.path !== '/' && location.pathname.startsWith(link.path))
         );
 
-        // Kiểm tra nếu đang ở trang chi tiết sản phẩm
         if (location.pathname.startsWith('/san-pham-phong-thuy/')) {
             setCurrentLabel('Chi tiết sản phẩm');
         } else {
@@ -30,7 +29,7 @@ const BackToHome = () => {
     }, [location.pathname]);
 
     if (location.pathname === '/') {
-        return null; // Không hiển thị gì ở trang chủ
+        return null;
     }
 
     return (
