@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom';
+import { ROUTERS } from '../../../utils/router';
 import { memo } from 'react';
 import './style.scss';
-import home1 from '../../../assets/users/images/img_home/home1.jpg'
-import home2 from '../../../assets/users/images/img_home/home2.webp'
+
 import koi1 from '../../../assets/users/images/img_sp/1.png'
 import ho1 from '../../../assets/users/images/img_sp/aquarium.jpg'
 import blog1 from '../../../assets/users/images/img_blog/anh1.jpg'
@@ -12,12 +13,10 @@ import blog4 from '../../../assets/users/images/img_blog/anh4.jpg'
 const HomePage = () => {
     return (
         <div className="container">
-            <div className="homePage">
+            <div className="home-container">
                 <div className="intro-sections">
-                    <div><h2>Chào mừng bạn đến với Fengshuikoi !</h2> <br />
-                        Fengshuikoi, nơi mà bạn sẽ được tư vấn để sở hữu cho mình cá Koi phong thủy phù hợp nhất với bản thân...
-                    </div>
-                    <img src={home1} alt="first-img"></img>
+                        <h2>Chào mừng bạn đến với Fengshuikoi !</h2> 
+                       <p> Fengshuikoi, nơi mà bạn sẽ được tư vấn để sở hữu cho mình cá Koi phong thủy phù hợp nhất với bản thân...</p>  
                 </div>
                 <div className="product-sections">
                     <div className="title">
@@ -70,19 +69,15 @@ const HomePage = () => {
                         </div>
                     </div>
                     <div className="know-more">
-                        <a href="/san-pham-phong-thuy">Xem thêm tại đây </a>
+                        <Link to={ROUTERS.USER.SANPHAM}>Xem thêm tại đây </Link>
                     </div>
 
                 </div>
                 <div className="suggest-sections"> 
-                    <div class="styled-text">
                     <h2>Nếu bạn vẫn chưa biết cách chọn cá Koi phong thủy phù hợp<br/> 
                     Hãy đến với dịch vụ tư vấn và tra cứu của chúng tôi </h2>
-                    <a href="/tra-cuu-phong-thuy">Tại Đây</a>
+                    <Link to={ROUTERS.USER.TRACUU}> Tại đây </Link>
                     </div>
-                    
-                    <img src={home2}></img>
-                </div>
                 <div className="news-sections">
                     <div className="title">
                         Tin tức nổi bật về cá Koi phong thủy<hr />
@@ -93,7 +88,8 @@ const HomePage = () => {
                                 <img src={blog1} alt="new 1" />
                             </div>
                             <div className="news-card-title">
-                                <a href="">Hiểu về cá Koi trong phong thủy</a>
+                            <Link to={'#'}>Hiểu về cá Koi trong phong thủy</Link>
+
                             </div>
                             <div className="news-card-description">
                                 
@@ -136,7 +132,7 @@ const HomePage = () => {
                     </div>
 
                     <div className="know-more">
-                        <a href="/blog">Xem thêm tại đây </a>
+                    <Link to={ROUTERS.USER.BLOG}>Xem Thêm Tại đây </Link>
                     </div>
                 </div>
                 

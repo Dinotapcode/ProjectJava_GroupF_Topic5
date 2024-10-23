@@ -179,12 +179,17 @@ $back-to-top-text-color: white; // Màu chữ cho nút
 }
 
 .backToHome {
-    margin: 100px 0 7px 0;
+    margin: 85px 0 7px 0;
     font-size: 16px;
     display: flex;
     gap: 5px;
 
+    &-container {
+        margin-top : 10px;
+    }
+
     &__link {
+        
         color: #999;
         text-decoration: none;
         display: inline-flex;

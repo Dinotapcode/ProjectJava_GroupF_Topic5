@@ -29,15 +29,19 @@ const BackToHome = () => {
     }, [location.pathname]);
 
     if (location.pathname === '/') {
-        return null;
+        return (
+            <nav className="backToHome"></nav>
+        );
     }
 
     return (
         <nav className="backToHome">
+            <div className="backToHome-container">
             <Link to="/" className="backToHome__link">
                 <TiHome className='backToHome__icon' /> Trang chủ
             </Link> /
             <span className='backToHome__Label'> {currentLabel} </span>
+            </div>
         </nav>
     );
 }

@@ -1,0 +1,102 @@
+.profile-container {
+  display: flex;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+
+  .sidebar {
+    width: 300px;
+    background-color: #ffffff;
+    border-right: 1px solid #d0d0d0;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-right: 20px;
+  }
+
+  .profile-pic {
+    width: 150px;
+    height: 150px;
+    background-color: #c0c0c0;
+    border-radius: 50%;
+    margin: 0 auto;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+
+  .name {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 14px;
+    color: #888888;
+    margin-bottom: 20px;
+  }
+
+  .button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: bold;
+  }
+
+  .home-button {
+    background-color: #4caf50;
+  }
+
+  .logout-button {
+    background-color: #f44336;
+  }
+
+  .menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .menu-item {
+    padding: 10px 0;
+    border-top: 1px solid #d0d0d0;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333333;
+
+    svg {
+      margin-right: 10px;
+      color: #888888;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    a:hover {
+      color: orange;
+    }
+  }
+
+  .menu-item:first-child {
+    border-top: none;
+  }
+
+  .content {
+    flex-grow: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border-radius: 5px;
+    font-size: 25px;
+  }
+}
