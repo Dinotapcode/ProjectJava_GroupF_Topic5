@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import './style.scss';
+import anh from "../../../assets/users/images/img_login/1.jpg";
+
+
 
 function LoginPage() {
   const [activeForm, setActiveForm] = useState('login'); // Quản lý trạng thái để chuyển đổi giữa đăng nhập và đăng ký
@@ -7,16 +10,21 @@ function LoginPage() {
 
   return (
     <div className="log-auth-wrapper">
-      <article className="auth-box">
-        {/* Hiển thị form đăng nhập hoặc đăng ký dựa trên trạng thái */}
+      <div className="auth-box">
+        {/* Form đăng nhập/đăng ký */}
         {activeForm === 'login' ? (
           <LoginForm setLoginSuccess={setLoginSuccess} switchToRegister={() => setActiveForm('register')} />
         ) : (
           <RegisterForm switchToLogin={() => setActiveForm('login')} />
         )}
+        {loginSuccess && <p className="success-alert">Đăng nhập thành công!</p>}
+      </div>
 
-        {loginSuccess && <p className="success-alert">Đăng nhập thành công!</p>} {/* Thông báo đăng nhập thành công */}
-      </article>
+      <div className="welcome-box">
+        <img src={anh} alt="Ảnh đại diện" className="circle-image" />
+        <h1>FENGSHUIKOI xin chào!!!</h1>
+        <p>&hearts; Trải nghiệm dịch vụ tuyệt vời của chúng tôi ngay hôm nay &hearts; </p>
+      </div>
     </div>
   );
 }
@@ -42,7 +50,7 @@ function LoginForm({ setLoginSuccess, switchToRegister }) {
       </div>
       <button type="submit" className="btn-login">Đăng nhập</button>
       <button type="button" className="btn-forgot-password" onClick={() => alert('Chức năng quên mật khẩu chưa được triển khai.')}>Quên mật khẩu?</button>
-      <button type="button" className="btn-switch" onClick={switchToRegister}>Đăng ký</button> {/* Nút chuyển sang form đăng ký */}
+      <button type="button" className="btn-switch" onClick={switchToRegister}>Bạn chưa có tài khoản? Đăng kí thôi</button> {/* Nút chuyển sang form đăng ký */}
     </form>
   );
 }
@@ -100,7 +108,7 @@ function RegisterForm({ switchToLogin }) {
       {error && <p className="error-alert">{error}</p>} {/* Thông báo lỗi */}
 
       <button type="submit" className="btn-register">Đăng ký</button>
-      <button type="button" className="btn-switch" onClick={switchToLogin}>Đăng nhập</button> {/* Nút chuyển sang form đăng nhập */}
+      <button type="button" className="btn-switch" onClick={switchToLogin}>Tôi đã có tài khoản!! Đăng nhập </button> {/* Nút chuyển sang form đăng nhập */}
     </form>
   );
 }
