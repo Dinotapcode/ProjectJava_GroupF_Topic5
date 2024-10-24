@@ -1,188 +1,97 @@
 @use "sass:map";
 @import "../../../styles/pages/theme";
-@import url('https://fonts.googleapis.com/css2?family=Kablammo&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Kablammo&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Playwrite+HU:wght@100..400&family=Quicksand:wght@300..700&display=swap");
 
-
-.log-container {
+.login-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  height: 100vh; // Chiều cao toàn trang
-  padding: 20px;
+  width: 100%;
 
-  .auth-boxh2 {
-
-    margin-top: 10px 0;
-  }
-
-  .auth-box {
+  &__auth-box {
     flex: 1;
-    max-width: 40%;
-    min-height: 400px; // Thêm dòng này
-    background: linear-gradient(135deg, #012572, #01d4f9);
-    padding: 50px;
+    background: linear-gradient(135deg, #090085, #00f7ff);
+    padding: 20px;
     border-radius: 70px;
-    box-shadow: 0 20px 5px rgba(0, 0, 0, 0.3);
-    width: 400px;
-    color: #111111;
+    box-shadow: 0 0 20px rgb(0, 255, 234);
+    color: #ffffff;
+    margin: 20px 0;
 
-  }
+    .login-form,
+    .register-form {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      margin-top: 0;
+      font-size: 25px;
+      padding: 20px;
 
-
-  .welcome-box {
-    background-size: cover;
-    color: #fff;
-    height: 100vh; // Chiều cao của welcome-box là toàn bộ chiều cao trang
-    width: 60%; // Chiều rộng chiếm 50% trang
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-
-    .circle-image {
-      width: 250px; // Đặt kích thước cho hình tròn
-      height: 250px; // Đặt kích thước cho hình tròn
-      border-radius: 50%; // Tạo hình tròn
-      overflow: hidden; // Ẩn phần dư ra ngoài
-      margin-left: 10px; // Khoảng cách bên trái cho hình ảnh
-      border: 7px solid #cd4747; // Màu viền (điều chỉnh độ dày và màu theo ý muốn)
-      display: flex; // Để căn giữa hình ảnh trong vòng tròn
-      justify-content: center; // Căn giữa theo chiều ngang
-      align-items: center; // Căn giữa theo chiều dọc
-
-      img {
-        width: 100%; // Kích thước hình ảnh để bao phủ toàn bộ phần tử
-        height: 100%; // Kích thước hình ảnh để bao phủ toàn bộ phần tử
-        object-fit: cover; // Đảm bảo hình ảnh không bị méo
-      }
-    }
-
-    h1 {
-      color: #cd4747;
-      font-size: 73px;
-      margin-bottom: 0px;
-      font-family: 'Kablammo', sans-serif;
-      /* Áp dụng font chữ cho tiêu đề */
-      text-align: center;
-    }
-
-    p {
-      color: #cd4747; // Màu chữ
-      font-size: 50px;
-      font-optical-sizing: auto;
-      font-weight: 400;
-      font-style: normal;
-      line-height: 1.5; // Thêm khoảng cách giữa các dòng
-      text-align: center;
-    }
-  }
-
-  .form {
-    color: #d4edda;
-    margin-top: 0;
-    font-size: 25px;
-    padding: 20px;
-
-    h2 {
-      text-align: center;
-    }
-
-    .form-field {
-      margin-bottom: 1px;
-      margin-top: 10px;
-
-      label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
+      &__title {
+        text-align: center;
       }
 
-      input {
-        font-size: 18px;
-        display: block;
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        transition: border-color 0.3s ease;
+      &__field {
+        label {
+          font-size: 20px;
+          display: block;
+          margin-bottom: 5px;
+          font-weight: bold;
+        }
 
-        &:focus {
-          border-color: #cd4747;
+        input {
+          font-size: 18px;
+          display: block;
+          width: 90%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 3px;
+          transition: border-color 0.3s ease;
+
+          &:focus {
+            border-color: #cd4747;
+          }
+        }
+      }
+
+      &__actions {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+      }
+
+      .actions {
+        &__btn-login,
+        &__btn-forgot,
+        &__btn-register {
+          align-self: center;
+          font-size: 18px;
+          width: fit-content;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 25px;
+          cursor: pointer;
+          color: #ffffff;
+          background-color: #cd4747;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: #0062cc;
+          }
         }
       }
     }
 
-    .btn {
-      margin-top: 20px;
-      display: inline-block;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #ffffff;
-      background-color: #cd4747;
-      text-align: center;
-      transition: background-color 0.3s ease;
-
-      &:hover {
-        background-color: #0062cc;
-      }
-    }
-
-    .btn-login,
-    .btn-register,
     .btn-switch {
-      font-size: 18px;
-      margin-right: 15px;
-      @extend .btn;
-    }
-
-    .btn-switch {
-      background-color: transparent !important;
-      /* Không có màu nền */
-      border: none;
-      /* Không có viền */
-      padding: 10px 0;
-      /* Khoảng cách trên và dưới */
-      font-size: 20px;
-      cursor: pointer;
-      text-decoration: underline;
-      /* Gạch chân */
-      transition: transform 0.2s ease-in-out;
-      /* Tạo hiệu ứng phóng to mượt mà */
-    }
-
-    /* Hiệu ứng phóng to nhẹ khi hover */
-    .btn-switch:hover {
-      transform: scale(1.05);
-      /* Phóng to nhẹ khi hover */
-    }
-
-    &__btnForgot {
-      font-size: 20px;
-      margin-right: 50px;
       background: none;
-      border: none;
-      color: #ffffff;
+      color: #111111; // Màu chữ đỏ
+      border: none; // Không có viền
+      padding: 10px 0; // Khoảng cách trên và dưới
+      text-decoration: underline; // Gạch chân
+      transition: transform 0.2s ease-in-out; // Tạo hiệu ứng phóng to mượt mà
 
       &:hover {
-        text-decoration: underline;
-      }
-
-    }
-
-    &.register-form {
-      .btn-register {
-        margin-right: 200px; // Tạo khoảng cách giữa các nút trong form đăng ký
-      }
-
-      .btn-login {
-        margin-top: 15px; // Đẩy nút đăng nhập xuống dưới trong form đăng ký
-      }
-
-      .btn-forgot-password {
-        margin-top: 25px; // Cách xa hơn trong form đăng ký
+        transform: scale(1.05); // Phóng to nhẹ khi hover
       }
     }
 
@@ -201,6 +110,41 @@
     .error-alert {
       @extend .alert;
       background-color: #f8d7da;
+    }
+  }
+
+  &__welcome-box {
+    flex: 1.3;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 2%;
+    box-sizing: border-box;
+
+    .welcome-box {
+      &__image {
+        width: 250px; // Kích thước cho hình ảnh
+        height: 250px; // Kích thước cho hình ảnh
+        border-radius: 50%; // Tạo hình tròn
+        border: 7px solid #cd4747; // Màu viền (điều chỉnh độ dày và màu theo ý muốn)
+      }
+
+      &__title {
+        color: #cd4747;
+        font-size: 4rem;
+        margin-bottom: 0px;
+        font-family: "Kablammo", sans-serif; // Áp dụng font chữ cho tiêu đề
+        text-align: center;
+      }
+
+      &__text {
+        color: #cd4747; // Màu chữ
+        font-size: 3rem;
+        font-family: "Quicksand", sans-serif;
+        text-align: center;
+      }
     }
   }
 }
