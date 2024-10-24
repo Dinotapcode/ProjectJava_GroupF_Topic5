@@ -330,56 +330,73 @@ input[type="file"] {
   width: 300px;
   text-align: center;
 
-  .payment-details {
+  .package-options {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 16px;
 
-    .qr-code {
-      margin-bottom: 16px;
+    .package-option {
+      border: 1px solid #ccc;
+      padding: 12px;
+      margin: 8px 0;
+      width: 80%;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
 
-      img {
-        width: 150px;
-        height: 150px;
+      &:hover, &.highlight {
+        background-color: #f0f0f0;
+        transform: scale(1.05);
+      }
+
+      h4, p {
+        margin: 0;
       }
     }
+  }
 
-    .account-info {
-      p {
-        margin: 4px 0;
-        font-size: 14px;
+  .qr-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+
+    .qr-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+
+      .close-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        cursor: pointer;
+        font-size: 18px;
+      }
+
+      .qr-code {
+        margin-bottom: 16px;
+
+        img {
+          width: 150px;
+          height: 150px;
+        }
+      }
+
+      .account-info {
+        p {
+          margin: 4px 0;
+          font-size: 14px;
+        }
       }
     }
   }
 }
 
-.payment-section {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 16px;
-  width: 300px;
-  text-align: center;
-
-  .payment-details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .qr-code {
-      margin-bottom: 16px;
-
-      img {
-        width: 150px;
-        height: 150px;
-      }
-    }
-
-    .account-info {
-      p {
-        margin: 4px 0;
-        font-size: 14px;
-      }
-    }
-  }
-}
