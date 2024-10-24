@@ -11,35 +11,35 @@ function adviceData(element) {
             koiSpecies: "Cá Koi Showa",
             koiQuantity: "Chẵn",
             koiImage: "link_to_showa_image.jpg",
-            fish: "Cá Koi Showa có màu sắc rực rỡ, mang lại may mắn cho gia chủ.",
+            koiInfo: "Cá Koi Showa có màu sắc rực rỡ, mang lại may mắn cho gia chủ.",
         },
         {
             element: "Thủy",
             koiSpecies: "Cá Koi Asagi",
             koiQuantity: "Lẻ",
             koiImage: "link_to_asagi_image.jpg",
-            fish: "Cá Koi Asagi tượng trưng cho sự bình yên.",
+            koiInfo: "Cá Koi Asagi tượng trưng cho sự bình yên.",
         },
         {
             element: "Mộc",
             koiSpecies: "Cá Koi Kohaku",
             koiQuantity: "Chẵn",
             koiImage: "link_to_kohaku_image.jpg",
-            fish: "Cá Koi Kohaku mang lại sự thịnh vượng và giàu có.",
+            koiInfo: "Cá Koi Kohaku mang lại sự thịnh vượng và giàu có.",
         },
         {
             element: "Hỏa",
             koiSpecies: "Cá Koi Shiro Utsuri",
             koiQuantity: "Lẻ",
             koiImage: "link_to_tancho_image.jpg",
-            fish: "Cá Koi Tancho là biểu tượng của quyết tâm.",
+            koiInfo: "Cá Koi Tancho là biểu tượng của quyết tâm.",
         },
         {
             element: "Thổ",
             koiSpecies: "Cá Koi Sanke",
             koiQuantity: "Chẵn",
             koiImage: "link_to_sanke_image.jpg",
-            fish: "Cá Koi Sanke tượng trưng cho sự ổn định.",
+            koiInfo: "Cá Koi Sanke tượng trưng cho sự ổn định.",
         },
     ];
 
@@ -150,22 +150,7 @@ function TuVan() {
                             </p>
 
                             <h3>Thông Tin Về Loài Cá Koi</h3>
-                            <p>
-                                Loài cá Koi{" "}
-                                <i>
-                                    <strong>{result.supportFish.koiSpecies}</strong>
-                                </i>{" "}
-                                là một trong những loài cá mang ý nghĩa may mắn, tượng trưng cho
-                                sự kiên trì, thịnh vượng và trường thọ. Loài cá này nổi bật bởi
-                                màu sắc rực rỡ và vẻ đẹp thanh nhã, mang lại vẻ tươi mới và sinh
-                                khí cho không gian.
-                            </p>
-                            <p>
-                                Cá Koi cũng là biểu tượng cho sự hòa hợp giữa yếu tố âm và
-                                dương, góp phần duy trì sự cân bằng trong ngũ hành và nâng cao
-                                vận khí của bạn.
-                            </p>
-                            <p>{result.supportFish.fish}</p>
+                            <p>{result.supportFish.koiInfo}</p>
                             <img
                                 className="result-image"
                                 src={result.supportFish.koiImage}

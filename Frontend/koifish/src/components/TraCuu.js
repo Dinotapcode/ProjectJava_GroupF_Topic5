@@ -11,99 +11,54 @@ function adviceData(element) {
             koiSpecies: "Cá Koi Showa",
             koiQuantity: "Chẵn",
             koiImage: "link_to_showa_image.jpg",
-            fish: "Cá Koi Showa có màu sắc rực rỡ, mang lại may mắn cho gia chủ.",
+            koiInfo: "Cá Koi Showa có màu sắc rực rỡ, mang lại may mắn cho gia chủ.",
         },
         {
             element: "Thủy",
             koiSpecies: "Cá Koi Asagi",
             koiQuantity: "Lẻ",
             koiImage: "link_to_asagi_image.jpg",
-            fish: "Cá Koi Asagi tượng trưng cho sự bình yên.",
+            koiInfo: "Cá Koi Asagi tượng trưng cho sự bình yên.",
         },
         {
             element: "Mộc",
             koiSpecies: "Cá Koi Kohaku",
             koiQuantity: "Chẵn",
             koiImage: "link_to_kohaku_image.jpg",
-            fish: "Cá Koi Kohaku mang lại sự thịnh vượng và giàu có.",
+            koiInfo: "Cá Koi Kohaku mang lại sự thịnh vượng và giàu có.",
         },
         {
             element: "Hỏa",
             koiSpecies: "Cá Koi Shiro Utsuri",
             koiQuantity: "Lẻ",
             koiImage: "link_to_tancho_image.jpg",
-            fish: "Cá Koi Tancho là biểu tượng của quyết tâm.",
+            koiInfo: "Cá Koi Tancho là biểu tượng của quyết tâm.",
         },
         {
             element: "Thổ",
             koiSpecies: "Cá Koi Sanke",
             koiQuantity: "Chẵn",
             koiImage: "link_to_sanke_image.jpg",
-            fish: "Cá Koi Sanke tượng trưng cho sự ổn định.",
+            koiInfo: "Cá Koi Sanke tượng trưng cho sự ổn định.",
         },
     ];
 
     const dataPond = [
-        // Danh sách các hình dạng và vị trí hồ cá tương ứng với ngũ hành
-        {
-            element: "Kim",
-            pondShape: "Vuông",
-            pondLocation: "Phía Tây",
-            pondDirection: "Tây Nam",
-        },
-        {
-            element: "Thủy",
-            pondShape: "Tròn",
-            pondLocation: "Phía Bắc",
-            pondDirection: "Bắc",
-        },
-        {
-            element: "Mộc",
-            pondShape: "Hình bầu dục",
-            pondLocation: "Phía Đông",
-            pondDirection: "Đông Nam",
-        },
-        {
-            element: "Hỏa",
-            pondShape: "Tam giác",
-            pondLocation: "Phía Nam",
-            pondDirection: "Nam",
-        },
-        {
-            element: "Thổ",
-            pondShape: "Tam giác",
-            pondLocation: "Phía Nam",
-            pondDirection: "Nam",
-        },
+        // Danh sách các hình dạng và vị trí ao tương ứng với ngũ hành
+        { element: "Kim", pondShape: "Vuông", pondLocation: "Phía Tây", pondDirection: "Tây Nam" },
+        { element: "Thủy", pondShape: "Tròn", pondLocation: "Phía Bắc", pondDirection: "Bắc" },
+        { element: "Mộc", pondShape: "Hình bầu dục", pondLocation: "Phía Đông", pondDirection: "Đông Nam" },
+        { element: "Hỏa", pondShape: "Tam giác", pondLocation: "Phía Nam", pondDirection: "Nam" },
+        { element: "Thổ", pondShape: "Tam giác", pondLocation: "Phía Nam", pondDirection: "Nam" },
     ];
 
     const dataElement = [
         // Bảng tương sinh và tương khắc của các ngũ hành
-        {
-            element: "Kim",
-            support: "Thổ",
-            conflict: "Hỏa",
-        },
-        {
-            element: "Mộc",
-            support: "Thủy",
-            conflict: "Kim",
-        },
-        {
-            element: "Thủy",
-            support: "Kim",
-            conflict: "Thổ",
-        },
-        {
-            element: "Hỏa",
-            support: "Mộc",
-            conflict: "Thủy",
-        },
-        {
-            element: "Thổ",
-            support: "Hỏa",
-            conflict: "Mộc",
-        },
+        { element: "Kim", support: "Thổ", conflict: "Hỏa" },
+        { element: "Mộc", support: "Thủy", conflict: "Kim" },
+        { element: "Thủy", support: "Kim", conflict: "Thổ" },
+        { element: "Hỏa", support: "Mộc", conflict: "Thủy" },
+        { element: "Thổ", support: "Hỏa", conflict: "Mộc" },
     ];
 
     // Tìm thông tin tương ứng cho ngũ hành đã chọn
@@ -111,28 +66,13 @@ function adviceData(element) {
     const pondInfo = dataPond.find((pond) => pond.element === element);
     const elementInfo = dataElement.find((e) => e.element === element);
 
-    // Tìm thông tin cá và hồ cá của ngũ hành tương sinh và tương khắc
-    const supportFish = dataFish.find(
-        (fish) => fish.element === elementInfo?.support
-    );
-    const conflictFish = dataFish.find(
-        (fish) => fish.element === elementInfo?.conflict
-    );
-    const supportPond = dataPond.find(
-        (pond) => pond.element === elementInfo?.support
-    );
-    const conflictPond = dataPond.find(
-        (pond) => pond.element === elementInfo?.conflict
-    );
+    // Tìm thông tin cá và ao của ngũ hành tương sinh và tương khắc
+    const supportFish = dataFish.find((fish) => fish.element === elementInfo?.support);
+    const conflictFish = dataFish.find((fish) => fish.element === elementInfo?.conflict);
+    const supportPond = dataPond.find((pond) => pond.element === elementInfo?.support);
+    const conflictPond = dataPond.find((pond) => pond.element === elementInfo?.conflict);
 
-    return {
-        fishInfo,
-        pondInfo,
-        supportFish,
-        conflictFish,
-        supportPond,
-        conflictPond,
-    };
+    return { fishInfo, pondInfo, supportFish, conflictFish, supportPond, conflictPond };
 }
 
 function checkCompatibility(

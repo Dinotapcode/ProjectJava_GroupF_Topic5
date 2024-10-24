@@ -95,54 +95,56 @@ $percentResult_img: "/assets/users/images/img_tracuu/percentResult.png";
             align-items: center;
             gap: 10px;
 
-            .input__title {
-                font-size: 20px;
-                font-weight: 600;
-                font-style: italic;
-                text-align: center;
-            }
-
-            .input__group {
-                display: flex;
-                margin-bottom: 15px;
-
-                label {
-                    margin: auto 10px auto 0;
-                    font-size: 15px;
+            .input {
+                &__title {
+                    font-size: 20px;
+                    font-weight: 600;
+                    font-style: italic;
+                    text-align: center;
                 }
 
-                select {
-                    padding: 5px;
-                    border-radius: 10px;
-                    border: 1px solid #ccc;
-                    margin-right: 5px;
+                &__group {
+                    display: flex;
+                    margin-bottom: 15px;
+
+                    label {
+                        margin: auto 10px auto 0;
+                        font-size: 15px;
+                    }
+
+                    select {
+                        padding: 5px;
+                        border-radius: 10px;
+                        border: 1px solid #ccc;
+                        margin-right: 5px;
+                    }
+
+                    fieldset {
+                        border: none;
+                        padding: 0;
+                        margin: 0;
+                    }
                 }
 
-                fieldset {
+                &__btnResult {
+                    width: 200px;
+                    height: 40px;
+                    background-image: url($btn-result);
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    color: white;
                     border: none;
-                    padding: 0;
-                    margin: 0;
-                }
-            }
+                    border-radius: 10px;
+                    font-size: 18px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
 
-            .input__btnResult {
-                width: 200px;
-                height: 40px;
-                background-image: url($btn-result);
-                background-size: contain;
-                background-repeat: no-repeat;
-                background-position: center;
-                color: white;
-                border: none;
-                border-radius: 10px;
-                font-size: 18px;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.3s ease;
-
-                &:hover {
-                    width: 220px;
-                    height: 45px;
+                    &:hover {
+                        width: 220px;
+                        height: 45px;
+                    }
                 }
             }
         }
