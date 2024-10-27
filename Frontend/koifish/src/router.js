@@ -43,7 +43,7 @@ const renderUserRouter = () => {
             Component: <LoginPage />,
         },
         {
-            path: '/post/:id',
+            path: '/blog/:id',
             Component: <BlogDetail />,
         },
         {
