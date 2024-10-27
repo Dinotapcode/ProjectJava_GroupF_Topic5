@@ -1,5 +1,5 @@
 import React from 'react';
-import defaultResult from '../assets/users/images/img_tracuu/defaultResult.webp';
+import defaultResult from '../assets/users/images/img_tracuu/result/defaultResult.webp';
 
 const ResultSection = () => {
   return (

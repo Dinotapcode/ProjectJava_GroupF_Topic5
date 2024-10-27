@@ -2,12 +2,12 @@
 @import "../../../styles/pages/theme";
 
 // Định nghĩa đường dẫn đến các hình ảnh
-$background-tracuu: "/assets/users/images/backgrounds/Tracuu.jpg";
-$btn-result: "/assets/users/images/img_tracuu/btnResult.png";
-$background-header-right: "/assets/users/images/backgrounds/whiteFan.jpg";
-$background-header-left: "/assets/users/images/backgrounds/blackFan.jpg";
-$defaultResult_img: "/assets/users/images/img_tracuu/defaultResult.webp";
-$percentResult_img: "/assets/users/images/img_tracuu/percentResult.png";
+$background-tracuu: "/assets/users/images/img_tracuu/backgrounds/inputBackground.jpg";
+$btn-result: "/assets/users/images/img_tracuu/btn/btnResult.png";
+$background-header-right: "/assets/users/images/img_tracuu/backgrounds/whiteFan.jpg";
+$background-header-left: "/assets/users/images/img_tracuu/backgrounds/blackFan.jpg";
+$defaultResult: "/assets/users/images/img_tracuu/result/defaultResult.webp";
+$percentResult: "/assets/users/images/img_tracuu/result/percentResult.png";
 
 .tracuu-container {
     // Phần chức năng
@@ -187,6 +187,9 @@ $percentResult_img: "/assets/users/images/img_tracuu/percentResult.png";
                         rgba(248, 94, 73, 0.9),
                         rgba(255, 198, 198, 0.9)
                     );
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
                     animation: wave 2.4s ease-out infinite;
                     animation-delay: 1.2s;
 
@@ -216,7 +219,7 @@ $percentResult_img: "/assets/users/images/img_tracuu/percentResult.png";
                             left: 0;
                             height: 120%;
                             aspect-ratio: 5 / 1;
-                            background-image: url($percentResult_img);
+                            background-image: url($percentResult);
                             background-size: contain;
                             background-repeat: no-repeat;
                             transition: top 1s ease;
@@ -248,7 +251,7 @@ $percentResult_img: "/assets/users/images/img_tracuu/percentResult.png";
     @keyframes wave {
         0% {
             outline: rgba(0, 96, 141, 0.5) solid 2px;
-            outline-offset: -2%;
+            outline-offset: 0;
         }
         100% {
             outline: rgba(89, 122, 214, 0.2) solid 6px;
