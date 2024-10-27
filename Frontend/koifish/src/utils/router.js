@@ -7,5 +7,6 @@ export const ROUTERS = {
         SANPHAM: "san-pham-phong-thuy",
         LOGIN: "dang-nhap",
         PROFILE: "tai-khoan-ca-nhan",
-    }
-}
+    },
+    ADMIN: "admin"  // Thêm đường dẫn admin
+};
