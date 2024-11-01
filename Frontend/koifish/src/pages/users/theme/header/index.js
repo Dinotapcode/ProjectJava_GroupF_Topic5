@@ -60,9 +60,7 @@ const Header = () => {
                             <i className="fa-solid fa-phone"></i>
                             19008080
                         </li>
-                        <li className="header__top-navbar-item header__top-navbar-item--bold">
-                            <Link to={ROUTERS.USER.REGISTER} className="header__top-navbar-item">Đăng ký</Link>
-                        </li>
+                        
                         <li className="header__top-navbar-item header__top-navbar-item--bold">
                             <Link to={ROUTERS.USER.LOGIN} className="header__top-navbar-item">Đăng nhập</Link>
                         </li>
