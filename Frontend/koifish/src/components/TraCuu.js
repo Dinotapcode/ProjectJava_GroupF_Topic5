@@ -47,9 +47,9 @@ function adviceData(element) {
         // Danh sách các hình dạng và vị trí ao tương ứng với ngũ hành
         { element: "Kim", pondShape: "Vuông", pondLocation: "Phía Tây", pondDirection: "Tây Nam" },
         { element: "Thủy", pondShape: "Tròn", pondLocation: "Phía Bắc", pondDirection: "Bắc" },
-        { element: "Mộc", pondShape: "Hình bầu dục", pondLocation: "Phía Đông", pondDirection: "Đông Nam" },
-        { element: "Hỏa", pondShape: "Tam giác", pondLocation: "Phía Nam", pondDirection: "Nam" },
-        { element: "Thổ", pondShape: "Tam giác", pondLocation: "Phía Nam", pondDirection: "Nam" },
+        { element: "Mộc", pondShape: "Bầu dục", pondLocation: "Phía Đông", pondDirection: "Đông Nam" },
+        { element: "Hỏa", pondShape: "Chữ nhật", pondLocation: "Phía Nam", pondDirection: "Nam" },
+        { element: "Thổ", pondShape: "Vô định", pondLocation: "Phía Nam", pondDirection: "Nam" },
     ];
 
     const dataElement = [
