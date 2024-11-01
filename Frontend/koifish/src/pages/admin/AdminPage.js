@@ -57,19 +57,21 @@ const AdminPage = () => {
     };
 
     return (
-        <div className="admin-page">
-            <nav className="admin-sidebar">
-                <ul>
-                    <li onClick={() => setActiveTab('dashboard')}>Dashboard</li>
-                    <li onClick={() => setActiveTab('userManagement')}>Quản lý người dùng</li>
-                    <li onClick={() => setActiveTab('productManagement')}>Quản lý sản phẩm</li>
-                    <li onClick={() => setActiveTab('servicePackageManagement')}>Quản lý gói dịch vụ</li>
-                    <li onClick={() => setActiveTab('blogManagement')}>Quản lý bài viết</li>
-                    <li onClick={() => setActiveTab('consultationSchedule')}>Lịch tư vấn</li>
-                </ul>
-            </nav>
-            <div className="admin-content">
-                {renderContent()}
+        <div className="container">
+            <div className="admin-page">
+                <nav className="admin-sidebar">
+                    <ul>
+                        <li onClick={() => setActiveTab('dashboard')}>Dashboard</li>
+                        <li onClick={() => setActiveTab('userManagement')}>Quản lý người dùng</li>
+                        <li onClick={() => setActiveTab('productManagement')}>Quản lý sản phẩm</li>
+                        <li onClick={() => setActiveTab('servicePackageManagement')}>Quản lý gói dịch vụ</li>
+                        <li onClick={() => setActiveTab('blogManagement')}>Quản lý bài viết</li>
+                        <li onClick={() => setActiveTab('consultationSchedule')}>Lịch tư vấn</li>
+                    </ul>
+                </nav>
+                <div className="admin-content">
+                    {renderContent()}
+                </div>
             </div>
         </div>
     );

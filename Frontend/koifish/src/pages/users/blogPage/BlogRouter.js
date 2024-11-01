@@ -6,7 +6,7 @@ const BlogRouter = () => (
   <Router>
     <Switch>
     <Route exact path="/" component={BlogPage} />
-    <Route exact path="/post/:id" component={BlogDetail} />
+    <Route exact path="/blog/:id" component={BlogDetail} />
     </Switch>
   </Router>
 );
