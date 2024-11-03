@@ -5,25 +5,23 @@ const ProductDetail = ({ product }) => {
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
-        email: ''
+        email: '',
+        date: '',
+        time: '' // Thêm trường giờ vào formData
     });
 
-    // Kiểm tra xem sản phẩm có tồn tại không
     if (!product) {
         return <div>Không tìm thấy sản phẩm!</div>;
     }
 
-    // Hàm mở popup
     const handleConsultationClick = () => {
         setIsPopupVisible(true);
     };
 
-    // Hàm đóng popup
     const handleClosePopup = () => {
         setIsPopupVisible(false);
     };
 
-    // Hàm xử lý thay đổi input trong form
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -32,15 +30,12 @@ const ProductDetail = ({ product }) => {
         });
     };
 
-    // Hàm xử lý submit form
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Xử lý dữ liệu form khi submit
         console.log('Thông tin tư vấn:', formData);
-        setIsPopupVisible(false); // Đóng popup sau khi submit
+        setIsPopupVisible(false);
     };
 
-    // Hàm xử lý click để đóng popup khi bấm ra ngoài
     const handlePopupClick = (e) => {
         if (e.target === e.currentTarget) {
             handleClosePopup();
@@ -58,31 +53,28 @@ const ProductDetail = ({ product }) => {
                     <p>Giá: {product.price.toLocaleString('vi-VN')} VND</p>
                     <p>{product.description}</p>
 
-                    {/* Hiển thị thuộc tính cho sản phẩm là cá */}
-                    {product.type === 'fish' && (
+                    {product.item === 'fish' && (
                         <>
-                            <p>Màu sắc: {product.color}</p>
-                            <p>Cân nặng: {product.weight}</p>
-                            <p>Xuất xứ: {product.origin}</p>
+                            <p>Màu sắc: {product.info1}</p>
+                            <p>Cân nặng: {product.info2}</p>
+                            <p>Xuất xứ: {product.info3}</p>
                         </>
                     )}
 
-                    {/* Hiển thị thuộc tính cho sản phẩm là bể cá */}
-                    {product.type === 'aquarium' && (
+                    {product.item === 'aquarium' && (
                         <>
-                            <p>Kích thước: {product.size}</p>
-                            <p>Chất liệu: {product.material}</p>
-                            <p>Xuất xứ: {product.origin}</p>
+                            <p>Kích thước: {product.info1}</p>
+                            <p>Chất liệu: {product.info2}</p>
+                            <p>Xuất xứ: {product.info3}</p>
                         </>
                     )}
                     <div className='btn-detail'>
-                    <button onClick={handleConsultationClick}>Đặt lịch tư vấn</button>
-                    <button onClick={() => window.history.back()}>Quay lại</button>
+                        <button onClick={handleConsultationClick}>Đặt lịch tư vấn</button>
+                        <button onClick={() => window.history.back()}>Quay lại</button>
                     </div>
                 </div>
             </div>
 
-            {/* Hiển thị popup nếu isPopupVisible là true */}
             {isPopupVisible && (
                 <div className="popup" onClick={handlePopupClick}>
                     <div className="popup-content">
@@ -96,7 +88,7 @@ const ProductDetail = ({ product }) => {
                                     name="name" 
                                     value={formData.name} 
                                     onChange={handleChange} 
-                                    placeholder='Tràn Văn A'
+                                    placeholder='Trần Văn A'
                                     required 
                                 />
                             </label>
@@ -119,6 +111,26 @@ const ProductDetail = ({ product }) => {
                                     value={formData.email} 
                                     onChange={handleChange} 
                                     placeholder='example@gmail.com'
+                                    required 
+                                />
+                            </label>
+                            <label>
+                                Ngày hẹn:
+                                <input 
+                                    type="date" 
+                                    name="date" 
+                                    value={formData.date} 
+                                    onChange={handleChange} 
+                                    required 
+                                />
+                            </label>
+                            <label>
+                                Giờ hẹn:
+                                <input 
+                                    type="time" 
+                                    name="time" 
+                                    value={formData.time} 
+                                    onChange={handleChange} 
                                     required 
                                 />
                             </label>
