@@ -4,7 +4,7 @@ import './ProductManagement.scss';
 const ProductManagement = ({ products, setProducts }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [newProduct, setNewProduct] = useState({
-        item: "Cá",
+        item: "",
         type: "",
         name: "",
         description: "",
@@ -28,7 +28,7 @@ const ProductManagement = ({ products, setProducts }) => {
 
     const resetForm = () => {
         setNewProduct({
-            item: "Cá",
+            item: "",
             type: "",
             name: "",
             description: "",
@@ -154,7 +154,7 @@ const ProductManagement = ({ products, setProducts }) => {
                         <label>
     Item:
     <select name="item" value={newProduct.item} onChange={handleInputChange}>
-        <option value="" selected >Chọn loại sản phẩm bạn muốn thêm</option>
+        <option value="" disabled selected >Chọn loại sản phẩm bạn muốn thêm</option>
         <option value="Cá">Cá</option>
         <option value="Hồ">Hồ</option>
     </select>
@@ -166,7 +166,7 @@ const ProductManagement = ({ products, setProducts }) => {
                                 <label>
                                     Loại cá:
                                     <select name="type" value={newProduct.type} onChange={handleInputChange}>
-                                        <option value="">Chọn loại cá</option>
+                                        <option value="" selected disabled>Chọn loại cá</option>
                                         <option value="Cá Koi Showa">Cá Koi Showa</option>
                                         <option value="Cá Koi Asagi">Cá Koi Asagi</option>
                                         <option value="Cá Koi Kohaku">Cá Koi Kohaku</option>
