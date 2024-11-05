@@ -173,11 +173,13 @@ const SanphamPage = () => {
                     Sắp xếp theo loại: 
                     <select value={sortType} onChange={(e) => setSortType(e.target.value)}>
                         <option value="all">Tất cả</option>
+                        <option disabled >--Các loại cá--</option>
                         <option value="Cá Koi Showa">Cá Koi Showa</option>
                         <option value="Cá Koi Asagi">Cá Koi Asagi</option>
                         <option value="Cá Koi Kohaku">Cá Koi Kohaku</option>
                         <option value="Cá Koi Shiro Utsuri">Cá Koi Shiro Utsuri</option>
                         <option value="Cá Koi Sanke">Cá Koi Sanke</option>
+                        <option disabled >--Các dạng hồ cá--</option>
                         <option value="Hình vuông">Hình vuông</option>
                         <option value="Hình tròn">Hình tròn</option>
                         <option value="Hình bầu dục">Hình bầu dục</option>

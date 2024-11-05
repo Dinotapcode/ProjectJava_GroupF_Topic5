@@ -1,8 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './style.scss';
 
 const AdminPage = () => {
     const [activeTab, setActiveTab] = useState('dashboard');
+    const [showPopup, setShowPopup] = useState(false);
+    const [products, setProducts] = useState([]);
+    const [newProduct, setNewProduct] = useState({
+        item: "",
+        type: "",
+        name: "",
+        description: "",
+        origin: ""
+    });
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewProduct({ ...newProduct, [name]: value });
+    };
+
+    const handleAddProduct = () => {
+        setProducts([...products, { ...newProduct, id: products.length + 1 }]);
+        setShowPopup(false); // Đóng popup sau khi thêm
+        resetForm();
+    };
+
+    const resetForm = () => {
+        setNewProduct({
+            item: "",
+            type: "",
+            name: "",
+            description: "",
+            origin: ""
+        });
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+            setShowPopup(false);
+        }
+    };
+
+    useEffect(() => {
+        if (showPopup) {
+            window.addEventListener('keydown', handleKeyDown);
+        } else {
+            window.removeEventListener('keydown', handleKeyDown);
+        }
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [showPopup]);
 
     const renderContent = () => {
         switch (activeTab) {
@@ -12,43 +59,39 @@ const AdminPage = () => {
                         <h1>Dashboard</h1>
                         <div className="stat-item">Số lượng truy cập: 1000</div>
                         <div className="stat-item">Số lượng bài viết: 50</div>
-                        <div className="stat-item">Số lượng sản phẩm: 25</div>
+                        <div className="stat-item">Số lượng sản phẩm: {products.length}</div>
                         <div className="stat-item">Số lượng gói đã đăng ký: 10</div>
-                    </div>
-                );
-            case 'userManagement':
-                return (
-                    <div className="user-management">
-                        <h1>Quản lý người dùng</h1>
-                        {/* Thêm bảng và chức năng quản lý người dùng ở đây */}
                     </div>
                 );
             case 'productManagement':
                 return (
                     <div className="product-management">
                         <h1>Quản lý sản phẩm</h1>
-                        {/* Thêm bảng và chức năng quản lý sản phẩm ở đây */}
-                    </div>
-                );
-            case 'servicePackageManagement':
-                return (
-                    <div className="service-package-management">
-                        <h1>Quản lý gói dịch vụ</h1>
-                        {/* Thêm bảng và chức năng quản lý gói dịch vụ ở đây */}
-                    </div>
-                );
-            case 'blogManagement':
-                return (
-                    <div className="blog-management">
-                        <h1>Quản lý bài viết</h1>
-                        {/* Thêm bảng và chức năng quản lý bài viết ở đây */}
-                    </div>
-                );
-            case 'consultationSchedule':
-                return (
-                    <div className="consultation-schedule">
-                        <h1>Lịch tư vấn</h1>
-                        {/* Thêm lịch và chức năng quản lý tư vấn ở đây */}
+                        <button onClick={() => setShowPopup(true)}>Thêm sản phẩm</button>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Item</th>
+                                    <th>Loại</th>
+                                    <th>Tên</th>
+                                    <th>Mô tả</th>
+                                    <th>Nguồn gốc</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {products.map((product, index) => (
+                                    <tr key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>{product.item}</td>
+                                        <td>{product.type}</td>
+                                        <td>{product.name}</td>
+                                        <td>{product.description}</td>
+                                        <td>{product.origin}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
                 );
             default:
@@ -73,6 +116,61 @@ const AdminPage = () => {
                     {renderContent()}
                 </div>
             </div>
+
+            {showPopup && (
+                <div className="popup">
+                    <div className="popup-content">
+                        <h2>Thêm sản phẩm</h2>
+                        <label>
+                            Item:
+                            <input
+                                type="text"
+                                name="item"
+                                value={newProduct.item}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+                        <label>
+                            Loại:
+                            <input
+                                type="text"
+                                name="type"
+                                value={newProduct.type}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+                        <label>
+                            Tên:
+                            <input
+                                type="text"
+                                name="name"
+                                value={newProduct.name}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+                        <label>
+                            Mô tả:
+                            <input
+                                type="text"
+                                name="description"
+                                value={newProduct.description}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+                        <label>
+                            Nguồn gốc:
+                            <input
+                                type="text"
+                                name="origin"
+                                value={newProduct.origin}
+                                onChange={handleInputChange}
+                            />
+                        </label>
+                        <button onClick={handleAddProduct}>Thêm</button>
+                        <button onClick={() => setShowPopup(false)}>Hủy</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
