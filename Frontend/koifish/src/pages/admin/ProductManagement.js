@@ -3,6 +3,8 @@ import './ProductManagement.scss';
 
 const ProductManagement = ({ products, setProducts }) => {
     const [showPopup, setShowPopup] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editIndex, setEditIndex] = useState(null);
     const [newProduct, setNewProduct] = useState({
         item: "",
         type: "",
@@ -13,6 +15,7 @@ const ProductManagement = ({ products, setProducts }) => {
         weight: "",
         size: "",
         material: "",
+        image: "placeholder.jpg",  // giá trị mặc định cho image
     });
 
     const handleInputChange = (e) => {
@@ -21,7 +24,14 @@ const ProductManagement = ({ products, setProducts }) => {
     };
 
     const handleAddProduct = () => {
-        setProducts([...products, { ...newProduct, id: products.length + 1 }]);
+        if (isEditing) {
+            const updatedProducts = [...products];
+            updatedProducts[editIndex] = { ...newProduct };
+            setProducts(updatedProducts);
+            setIsEditing(false);
+        } else {
+            setProducts([...products, { ...newProduct, id: products.length + 1 }]);
+        }
         setShowPopup(false);
         resetForm();
     };
@@ -37,7 +47,10 @@ const ProductManagement = ({ products, setProducts }) => {
             weight: "",
             size: "",
             material: "",
+            image: "placeholder.jpg",
         });
+        setIsEditing(false);
+        setEditIndex(null);
     };
 
     const handleClosePopup = () => {
@@ -52,9 +65,10 @@ const ProductManagement = ({ products, setProducts }) => {
     };
 
     const handleEditProduct = (index) => {
-        const product = products[index];
-        setNewProduct(product);
+        setNewProduct(products[index]);
         setShowPopup(true);
+        setIsEditing(true);
+        setEditIndex(index);
     };
 
     const handleDeleteProduct = (index) => {
@@ -104,7 +118,7 @@ const ProductManagement = ({ products, setProducts }) => {
                             <td>{product.name}</td>
                             <td>
                                 <img
-                                    src={product.image || 'placeholder.jpg'}
+                                    src={product.image}
                                     alt={product.name}
                                     className="product-image"
                                 />
@@ -123,7 +137,7 @@ const ProductManagement = ({ products, setProducts }) => {
                 <div className="popup" onClick={handlePopupClick}>
                     <div className="popup-content" onClick={(e) => e.stopPropagation()}>
                         <button className="close-btn" onClick={handleClosePopup}>X</button>
-                        <h2>Thêm sản phẩm</h2>
+                        <h2>{isEditing ? "Sửa sản phẩm" : "Thêm sản phẩm"}</h2>
                         <label>
                             Tên:
                             <input
@@ -147,20 +161,18 @@ const ProductManagement = ({ products, setProducts }) => {
                             <input
                                 type="text"
                                 name="image"
-                                value={newProduct.image || ''}
+                                value={newProduct.image}
                                 onChange={handleInputChange}
                             />
                         </label>
                         <label>
-    Item:
-    <select name="item" value={newProduct.item} onChange={handleInputChange}>
-        <option value="" disabled selected >Chọn loại sản phẩm bạn muốn thêm</option>
-        <option value="Cá">Cá</option>
-        <option value="Hồ">Hồ</option>
-    </select>
-</label>
-
-
+                            Item:
+                            <select name="item" value={newProduct.item} onChange={handleInputChange} defaultValue="">
+                                <option value="" disabled>Chọn loại sản phẩm bạn muốn thêm</option>
+                                <option value="Cá">Cá</option>
+                                <option value="Hồ">Hồ</option>
+                            </select>
+                        </label>
                         {newProduct.item === 'Cá' && (
                             <>
                                 <label>
@@ -247,8 +259,11 @@ const ProductManagement = ({ products, setProducts }) => {
                             </>
                         )}
 
+
                         <div className="add-product">
-                            <button id="add-product" onClick={handleAddProduct}>Thêm</button>
+                            <button id="add-product" onClick={handleAddProduct}>
+                                {isEditing ? "Lưu" : "Thêm"}
+                            </button>
                         </div>
                     </div>
                 </div>
