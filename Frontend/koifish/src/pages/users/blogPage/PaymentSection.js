@@ -19,12 +19,18 @@ const PaymentSection = () => {
     setSelectedPackage(null);
   };
 
-  const handlePaymentClick = () => {
+  const handlePaymentClick = (id) => {
+    setSelectedPackage(id);
     setShowQrPopup(true);
   };
 
   const closePopup = () => {
     setShowQrPopup(false);
+  };
+
+  const handlePaymentConfirmation = () => {
+    alert('Cảm ơn bạn đã thanh toán!- Vui lòng đợi 5p để được nhận gói dịch vụ');
+    closePopup();
   };
 
   return (
@@ -37,7 +43,7 @@ const PaymentSection = () => {
             className={`package-option ${selectedPackage === pkg.id ? 'highlight' : ''}`}
             onMouseEnter={() => handleMouseEnter(pkg.id)}
             onMouseLeave={handleMouseLeave}
-            onClick={handlePaymentClick}
+            onClick={() => handlePaymentClick(pkg.id)}
           >
             <h4>{pkg.name}</h4>
             <p>{pkg.description}</p>
@@ -57,6 +63,9 @@ const PaymentSection = () => {
               <p>Số Tài Khoản: 123456789</p>
               <p>Thanh Toán: {packages.find(pkg => pkg.id === selectedPackage)?.price} VND</p>
             </div>
+            <button className="payment-confirmation-btn" onClick={handlePaymentConfirmation}>
+              Đã Thanh Toán
+            </button>
           </div>
         </div>
       )}
