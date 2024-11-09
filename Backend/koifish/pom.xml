@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.2</version>
+		<version>3.3.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.arjuncodes</groupId>
 	<artifactId>koisystem</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>studentsystem</name>
+	<name>koisystem</name>
 	<description>Full stack application using Spring Boot and react</description>
 	<properties>
 		<java.version>11</java.version>
