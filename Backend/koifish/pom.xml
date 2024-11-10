@@ -15,6 +15,7 @@
 	<description>Full stack application using Spring Boot and react</description>
 	<properties>
 		<java.version>11</java.version>
+
 	</properties>
 	<dependencies>
 		<dependency>
