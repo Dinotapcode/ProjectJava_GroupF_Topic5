@@ -1,194 +1,77 @@
-import React, { useState } from "react";
-import FateCalculator from "./FateCalculator";
+import React, { useState, useEffect, useCallback } from "react";
+import DateAndSex from "./DateAndSex";
 import ResultSection from "./ResultSection";
 
-// Hàm xử lý dữ liệu tư vấn dựa trên ngũ hành
-function adviceData(element) {
-    const dataFish = [
-        // Danh sách các loài cá Koi tương ứng với ngũ hành
-        {
-            element: "Kim",
-            koiSpecies: "Cá Koi Showa",
-            koiQuantity: "Chẵn",
-            koiImage: "link_to_showa_image.jpg",
-            koiInfo: "Cá Koi Showa có màu sắc rực rỡ, mang lại may mắn cho gia chủ.",
-        },
-        {
-            element: "Thủy",
-            koiSpecies: "Cá Koi Asagi",
-            koiQuantity: "Lẻ",
-            koiImage: "link_to_asagi_image.jpg",
-            koiInfo: "Cá Koi Asagi tượng trưng cho sự bình yên.",
-        },
-        {
-            element: "Mộc",
-            koiSpecies: "Cá Koi Kohaku",
-            koiQuantity: "Chẵn",
-            koiImage: "link_to_kohaku_image.jpg",
-            koiInfo: "Cá Koi Kohaku mang lại sự thịnh vượng và giàu có.",
-        },
-        {
-            element: "Hỏa",
-            koiSpecies: "Cá Koi Shiro Utsuri",
-            koiQuantity: "Lẻ",
-            koiImage: "link_to_tancho_image.jpg",
-            koiInfo: "Cá Koi Tancho là biểu tượng của quyết tâm.",
-        },
-        {
-            element: "Thổ",
-            koiSpecies: "Cá Koi Sanke",
-            koiQuantity: "Chẵn",
-            koiImage: "link_to_sanke_image.jpg",
-            koiInfo: "Cá Koi Sanke tượng trưng cho sự ổn định.",
-        },
-    ];
-
-    const dataPond = [
-        // Danh sách các hình dạng và vị trí ao tương ứng với ngũ hành
-        { element: "Kim", pondShape: "Vuông", pondLocation: "Phía Tây", pondDirection: "Tây Nam" },
-        { element: "Thủy", pondShape: "Tròn", pondLocation: "Phía Bắc", pondDirection: "Bắc" },
-        { element: "Mộc", pondShape: "Bầu dục", pondLocation: "Phía Đông", pondDirection: "Đông Nam" },
-        { element: "Hỏa", pondShape: "Chữ nhật", pondLocation: "Phía Nam", pondDirection: "Nam" },
-        { element: "Thổ", pondShape: "Vô định", pondLocation: "Phía Nam", pondDirection: "Nam" },
-    ];
-
-    const dataElement = [
-        // Bảng tương sinh và tương khắc của các ngũ hành
-        { element: "Kim", support: "Thổ", conflict: "Hỏa" },
-        { element: "Mộc", support: "Thủy", conflict: "Kim" },
-        { element: "Thủy", support: "Kim", conflict: "Thổ" },
-        { element: "Hỏa", support: "Mộc", conflict: "Thủy" },
-        { element: "Thổ", support: "Hỏa", conflict: "Mộc" },
-    ];
-
-    // Tìm thông tin tương ứng cho ngũ hành đã chọn
-    const fishInfo = dataFish.find((fish) => fish.element === element);
-    const pondInfo = dataPond.find((pond) => pond.element === element);
-    const elementInfo = dataElement.find((e) => e.element === element);
-
-    // Tìm thông tin cá và ao của ngũ hành tương sinh và tương khắc
-    const supportFish = dataFish.find((fish) => fish.element === elementInfo?.support);
-    const conflictFish = dataFish.find((fish) => fish.element === elementInfo?.conflict);
-    const supportPond = dataPond.find((pond) => pond.element === elementInfo?.support);
-    const conflictPond = dataPond.find((pond) => pond.element === elementInfo?.conflict);
-
-    return { fishInfo, pondInfo, supportFish, conflictFish, supportPond, conflictPond };
-}
-
-function checkCompatibility(
-    element,
-    species,
-    quantity,
-    pondShape,
-    location,
-    direction
-) {
-    const advice = adviceData(element);
-    let score = 0;
-    let suggestion = "";
-    let suggestionSpecies = "";
-    let suggestionQuantity = "";
-    let suggestionPondShape = "";
-    let suggestionLocation = "";
-    let suggestionDirection = "";
-
-    // So sánh với dữ liệu từ adviceData
-    if (species === advice.supportFish.koiSpecies) {
-        score += 20;
-        suggestionSpecies += "Ngũ hành " + element + " rất hợp với giống cá " + species + ", điều này mang lại sự thịnh vượng và cân bằng năng lượng cho không gian sống.";
-    } else if (species === advice.conflictFish.koiSpecies) {
-        score += 0;
-        suggestionSpecies += "Giống cá " + species + " xung khắc với ngũ hành " + element + ". Bạn nên xem xét chọn một giống cá khác để tránh ảnh hưởng tiêu cực đến phong thủy.";
-    } else {
-        score += 10;
-        suggestionSpecies += "Giống cá " + species + " không hoàn toàn tương thích với ngũ hành " + element + ", có thể ảnh hưởng một phần đến sự cân bằng năng lượng, tuy nhiên không gây ra ảnh hưởng lớn.";
-    }
-
-    if (quantity === advice.supportFish.koiQuantity) {
-        score += 20;
-        suggestionQuantity += "Số lượng cá rất phù hợp với ngũ hành, giúp tăng cường vượng khí và mang lại sự hài hòa trong không gian.";
-    }
-    else {
-        score += 10;
-        suggestionQuantity += "Số lượng cá không tối ưu cho phong thủy, có thể dẫn đến mất cân bằng nhẹ trong vượng khí.";
-    }
-
-    if (pondShape === advice.supportPond.pondShape) {
-        score += 20;
-        suggestionPondShape += "Hình dạng hồ cá rất hợp với ngũ hành, tạo ra sự lưu thông năng lượng thuận lợi và ổn định.";
-    } else if (pondShape === advice.conflictPond.pondShape) {
-        score += 0;
-        suggestionPondShape += "Hình dạng hồ cá xung khắc với ngũ hành " + element + ", hãy cân nhắc thay đổi để tạo sự hài hòa hơn.";
-    } else {
-        score += 10;
-        suggestionPondShape += "Hình dạng hồ cá chưa tối ưu, có thể làm giảm sự lưu thông năng lượng tích cực trong khu vực.";
-    }
-
-    if (location === advice.supportPond.pondLocation) {
-        score += 20;
-        suggestionLocation += "Vị trí hồ cá rất tốt cho ngũ hành, đảm bảo nguồn năng lượng tốt sẽ được dẫn vào không gian sống của bạn.";
-    } else if (location === advice.conflictPond.pondLocation) {
-        score += 0;
-        suggestionLocation += "Vị trí hồ cá không nên ở " + location + " vì điều này có thể gây ảnh hưởng tiêu cực đến dòng chảy năng lượng.";
-    } else {
-        score += 10;
-        suggestionLocation += "Vị trí hồ cá chưa hợp lí, nhưng vẫn có thể duy trì được sự ổn định trong dòng chảy năng lượng.";
-    }
-
-    if (direction === advice.supportPond.pondDirection) {
-        score += 20;
-        suggestionDirection += "Hướng của hồ cá rất tốt cho ngũ hành, giúp đón nhận năng lượng tích cực từ các phương hướng thuận lợi.";
-    } else if (direction === advice.conflictFish) {
-        score += 0;
-        suggestionDirection += "Hướng của hồ cá không nên là " + direction + " vì điều này có thể dẫn đến xung khắc lớn về năng lượng.";
-    } else {
-        score += 10;
-        suggestionDirection += "Hướng của hồ cá chưa phù hợp, nhưng không gây ra sự xung khắc lớn về năng lượng, có thể cân nhắc điều chỉnh để tối ưu hơn.";
-    }
-
-    suggestion +=
-        score > 70
-            ? "Tổng thể rất tốt cho phong thủy hồ cá cá, bạn có thể hoàn toàn yên tâm về sự hài hòa và may mắn."
-            : "Một vài yếu tố cần được xem xét và điều chỉnh để cải thiện phong thủy tổng thể, giúp tạo ra không gian sống cân bằng và thịnh vượng hơn.";
-
-    return {
-        score,
-        suggestionSpecies,
-        suggestionQuantity,
-        suggestionPondShape,
-        suggestionLocation,
-        suggestionDirection,
-        suggestion,
-    };
-}
-
-
 const TraCuu = () => {
-    const [element, setElement] = useState("");
+    const [koiSpeciesOptions, setKoiSpeciesOptions] = useState([]);
+    const [pondShapeOptions, setPondShapeOptions] = useState([]);
     const [koiSpecies, setKoiSpecies] = useState("");
     const [koiQuantity, setKoiQuantity] = useState("");
     const [pondShape, setPondShape] = useState("");
     const [location, setLocation] = useState("");
     const [direction, setDirection] = useState("");
     const [result, setResult] = useState(null);
-    const [percent, setPercent] = useState(-10);
 
-    const koiSpeciesOptions = [
-        "Cá Koi Showa",
-        "Cá Koi Asagi",
-        "Cá Koi Kohaku",
-        "Cá Koi Shiro Utsuri",
-        "Cá Koi Sanke",
-    ];
+    const [dateAndSex, setDateAndSex] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    // Fetch koi species and pond shape options from API
+    useEffect(() => {
+        const fetchOptions = async () => {
+            try {
+                const koiSpeciesResponse = await fetch("http://localhost:8083/api/v1/user/koiSpecies");
+                const pondShapeResponse = await fetch("http://localhost:8083/api/v1/user/pondShape");
+
+                if (!koiSpeciesResponse.ok || !pondShapeResponse.ok) {
+                    throw new Error("Không thể truy cập API");
+                }
+
+                const koiSpeciesData = await koiSpeciesResponse.json();
+                const pondShapeData = await pondShapeResponse.json();
+
+                setKoiSpeciesOptions(koiSpeciesData);
+                setPondShapeOptions(pondShapeData);
+            } catch (err) {
+                setError("Có lỗi xảy ra khi truy cập API.");
+            }
+        };
+
+        fetchOptions();
+    }, []);
+
+    // Memoize the handleResult function to prevent unnecessary re-renders
+    const handleResult = useCallback((result) => {
+        setDateAndSex(result);
+    }, []);
+
+    const handleLookup = async () => {
+        if (!dateAndSex?.birthDate || !dateAndSex?.gender || !koiSpecies || !koiQuantity || !pondShape || !location || !direction) {
+            alert("Vui lòng nhập đầy đủ thông tin.");
+            return;
+        }
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            const response = await fetch(
+                `http://localhost:8083/api/v1/user/compatibility?birthDate=${dateAndSex.birthDate}&gender=${dateAndSex.gender}&species=${koiSpecies}&quantity=${koiQuantity}&pondShape=${pondShape}&location=${location}&direction=${direction}`
+            );
+            if (!response.ok) {
+                throw new Error("Không thể truy cập API");
+            }
+            const data = await response.json();
+            setResult(data);
+        } catch (err) {
+            setError("Có lỗi xảy ra khi truy cập API.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
     const koiQuantityOptions = ["Chẵn", "Lẻ"];
-    const pondShapeOptions = [
-        "Vuông",
-        "Tròn",
-        "Hình bầu dục",
-        "Tam giác",
-        "Chữ nhật",
-        "Vô định ",
-    ];
     const locationOptions = [
         "Phía Bắc",
         "Phía Nam",
@@ -210,37 +93,12 @@ const TraCuu = () => {
         "Tây Nam",
     ];
 
-    const handleConsult = () => {
-        if (
-            !element ||
-            !koiSpecies ||
-            !koiQuantity ||
-            !pondShape ||
-            !location ||
-            !direction
-        ) {
-            alert("Vui lòng điền đầy đủ thông tin.");
-            return;
-        }
-
-        const compatibility = checkCompatibility(
-            element,
-            koiSpecies,
-            koiQuantity,
-            pondShape,
-            location,
-            direction
-        );
-        setResult(compatibility);
-        setPercent(compatibility.score);
-    };
-
     return (
         <section id="traCuu">
             <article className="layout">
                 <section className="layout__input">
                     <h2 className="input__title">Tra Cứu Độ Phù Hợp</h2>
-                    <FateCalculator onResult={setElement} />
+                    <DateAndSex onResult={handleResult} />
 
                     <div className="input__group">
                         <label htmlFor="species">Loài cá Koi:</label>
@@ -322,8 +180,8 @@ const TraCuu = () => {
                         </select>
                     </div>
 
-                    <button className="input__btnResult" onClick={handleConsult}>
-                        Tra cứu
+                    <button className="input__btnResult" onClick={handleLookup} disabled={loading}>
+                        {loading ? "Đang tra cứu..." : "Tra cứu"}
                     </button>
                 </section>
 
@@ -333,10 +191,10 @@ const TraCuu = () => {
                             <h3>Mức độ phù hợp với cá Koi của bạn</h3>
                             <div className="result__percent">
                                 <div className="percent">
-                                    <div className="percent-value">{percent}%</div>
+                                    <div className="percent-value">{result.score}%</div>
                                     <div
                                         className="percent-loading"
-                                        style={{ top: `calc(100% - ${percent}% - 10%)` }}
+                                        style={{ top: `calc(100% - ${result.score}% - 20%)` }}
                                     ></div>
                                 </div>
                             </div>
