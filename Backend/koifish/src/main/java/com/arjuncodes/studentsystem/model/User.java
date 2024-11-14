@@ -16,12 +16,20 @@ public class User {
     private String email;
     private String phone;
     private boolean enabled;
-
+    private String wallet;
     public User() {
     }
 
     public int getId() {
         return id;
+    }
+
+    public String getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(String wallet) {
+        this.wallet = wallet;
     }
 
     public void setId(int id) {
