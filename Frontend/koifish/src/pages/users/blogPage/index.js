@@ -1,20 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import BlogPage from './BlogPage';
-import BlogDetail from './BlogDetail';
+import { BrowserRouter as Router } from 'react-router-dom';
+import BlogRouter from './BlogRouter';  // Import BlogRouter
 import './style.scss'; 
 
 function App() {
   return (
     <Router>
-      <Routes>
-        {}
-        <Route path="/" element={<BlogPage />} />
-        
-        {}
-        <Route path="/post/:id" element={<BlogDetail />} />
-      </Routes>
+      <BlogRouter />  {/* Chỉ render BlogRouter */}
     </Router>
   );
 }

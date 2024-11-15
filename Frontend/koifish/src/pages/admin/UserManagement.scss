@@ -1,0 +1,59 @@
+.user-management {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    .setting-add-user-btn {
+        margin-bottom: 20px;
+        text-align: center;
+        
+        h1 {
+            font-size: 24px;
+            color: #333;
+        }
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f1f1f1;
+        }
+
+        td img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .btn-disable, .btn-enable {
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            color: white;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .btn-disable {
+            background-color: #f44336;  // Màu đỏ cho cấm
+        }
+
+        .btn-enable {
+            background-color: #4caf50;  // Màu xanh cho mở cấm
+        }
+
+        .btn-disable:hover, .btn-enable:hover {
+            opacity: 0.8;
+        }
+    }
+}

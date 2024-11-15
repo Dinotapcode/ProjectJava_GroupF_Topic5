@@ -1,89 +1,62 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom'; // Add Link import
+import React, { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import './style.scss';
-import img1 from '../../../assets/users/images/img_blog/anh1.jpg';
-import img2 from '../../../assets/users/images/img_blog/anh2.jpg';
-import img3 from '../../../assets/users/images/img_blog/anh3.jpg';
-
-// Danh sách bài viết
-const blogPosts = [
-  {
-    id: 1,
-    title: 'Understanding Koi Fish in Feng Shui',
-    date: 'October 12, 2024',
-    content: 'KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI',
-    image: img1
-  },
-  {
-    id: 2,
-    title: 'How to Choose the Right Pond for Your Koi',
-    date: 'October 10, 2024',
-    content: 'KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI',
-    image: img2
-  },
-  {
-    id: 3,
-    title: 'The Five Elements and Koi Fish Selection',
-    date: 'October 8, 2024',
-    content: 'KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI KOI',
-    image: img3
-  }
-];
-
-const recentPosts = blogPosts.slice(0, 3); // Lấy 3 bài viết gần đây
-
-function BlogPost({ id, title, date, content, image }) {
-  return (
-    <div className="blog-post">
-      <img src={image} alt={title} className="blog-image" />
-      <h2>{title}</h2>
-      <p className="date">{date}</p>
-      <p>{content}</p>
-      <Link to={`/post/${id}`} className="read-more">Read more</Link>
-    </div>
-  );
-}
-
-function RecentPost({ id, title, date }) {
-  return (
-    <div className="recent-post">
-      <h4><Link to={`/post/${id}`}>{title}</Link></h4>
-      <p className="date">{date}</p>
-    </div>
-  );
-}
 
 const BlogDetail = () => {
-  const { id } = useParams(); // Lấy id từ URL
-  const post = blogPosts.find(post => post.id === parseInt(id)); // Tìm bài viết theo id
+  // Lấy id từ URL
+  const { id } = useParams();  // Lấy id từ tham số URL
+  
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    // Kiểm tra nếu id có sẵn trong URL
+    if (id) {
+      console.log('Fetching post with id:', id);  // Kiểm tra id
+
+      setLoading(true); // Đặt lại loading = true khi bắt đầu tải dữ liệu
+
+      // Fetch dữ liệu bài viết từ API
+      fetch(`http://localhost:8083/post/get/${id}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log('Fetched data:', data);  // Kiểm tra dữ liệu nhận được
+          setPost(data);
+          setLoading(false);  // Đặt loading = false khi nhận được dữ liệu
+        })
+        .catch(error => {
+          console.error('Error fetching post:', error);
+          setLoading(false);
+        });
+    }
+  }, [id]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  // Nếu không tìm thấy bài viết, hiển thị thông báo
   if (!post) {
-    return <h2>Không tìm thấy bài viết!</h2>;
+    return <p>Post not found.</p>;
   }
 
   return (
-    <div className='container'>
-      <div className="blog-layout"> { }
-        <div className="blog-detail">
-          <h1>{post.title}</h1>
-          <p className="date">{post.date}</p>
-          <img src={post.image} alt={post.title} className="blog-image" />
-          <p>{post.content}</p>
-        </div>
-        <div className="recent-posts"> { }
-          <h3>Các bài viết gần đây</h3>
-          {recentPosts.map((post) => (
-            <RecentPost
-              key={post.id}
-              id={post.id}
-              title={post.title}
-              date={post.date}
-            />
-          ))}
-        </div>
+    <div className="container">
+      <div className="blog-detail">
+        {/* Tiêu đề bài viết */}
+        <h1>{post.title}</h1>
+        {/* Ngày đăng bài viết */}
+        <p className="date">{post.date}</p>
+        {/* Hiển thị ảnh nếu có */}
+        {post.image && <img src={require(`../../../assets/admin/img_blog/${post.image}`)} alt={post.title} className="blog-image" />}
+        {/* Nội dung bài viết */}
+        <p>{post.content}</p>
+
+        {/* Link để quay lại trang Blog */}
+        <Link to="/blog" className="back-to-blog">Back to Blog</Link>
       </div>
     </div>
   );
-}
+};
 
 export default BlogDetail;

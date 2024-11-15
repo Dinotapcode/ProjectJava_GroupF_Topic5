@@ -1,109 +1,106 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FaPlus, FaMoneyBillWave } from "react-icons/fa";
+import { MdOutlinePayments } from "react-icons/md";
 import './style.scss';
-import img1 from '../../../assets/users/images/img_blog/anh1.jpg';
-import img2 from '../../../assets/users/images/img_blog/anh2.jpg';
-import img3 from '../../../assets/users/images/img_blog/anh3.jpg';
-import CreateBlogPopup from './Popup';
-
-const initialBlogPosts = [
-  {
-    id: 1,
-    title: 'Understanding Koi Fish in Feng Shui',
-    date: 'October 12, 2024',
-    content: 'Koi fish have long been associated with good fortune and abundance...',
-    image: img1,
-  },
-  {
-    id: 2,
-    title: 'How to Choose the Right Pond for Your Koi',
-    date: 'October 10, 2024',
-    content: 'Selecting the appropriate pond size, depth, and location...',
-    image: img2,
-  },
-  {
-    id: 3,
-    title: 'The Five Elements and Koi Fish Selection',
-    date: 'October 8, 2024',
-    content: 'Each element (wood, fire, earth, metal, water) plays a crucial role...',
-    image: img3,
-  }
-];
+import CreateBlogPostPopup from './CreateBlogPost';
+import PaymentSection from './PaymentSection';
 
 const BlogPage = () => {
-  const [isPopupOpen, setPopupOpen] = useState(false);
-  const [blogPosts, setBlogPosts] = useState(initialBlogPosts);
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
 
-  const togglePopup = () => {
-    setPopupOpen(!isPopupOpen);
-  };
+  useEffect(() => {
+    fetch('http://localhost:8083/post/all')
+      .then(response => response.json())
+      .then(data => {
+        setBlogPosts(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching blog posts:', error);
+        setLoading(false);
+      });
+
+    fetch('http://localhost:8083/subscriptions/getAll')
+      .then(response => response.json())
+      .then(data => {
+        setSubscriptions(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching subscriptions:', error);
+        setLoading(false);
+      });
+  }, []);
 
   const handleCreatePost = (newPost) => {
     setBlogPosts([newPost, ...blogPosts]);
+    setShowPopup(false);
+  };
+
+  const handleSuccess = (message) => {
+    alert(message);
   };
 
   return (
-    <div className="container">
-      <div className="blog-page">
-        <div className="navbar">
-          <h2>BLOG</h2>
-        </div>
-        <div className="blog-layout">
-          <div className="blog-container">
-            <h1>Feng Shui Koi Fish Blog</h1>
-            {blogPosts.map((post) => (
-              <BlogPost
-                key={post.id}
-                id={post.id}
-                title={post.title}
-                date={post.date}
-                content={post.content}
-                image={post.image}
-              />
-            ))}
-          </div>
-          <div className="recent-posts">
-            <h3>Các bài viết gần đây</h3>
-            {blogPosts.slice(0, 3).map((post) => (
-              <RecentPost
-                key={post.id}
-                id={post.id}
-                title={post.title}
-                date={post.date}
-              />
-            ))}
-          </div>
-        </div>
-        <button className="create-blog-btn" onClick={togglePopup}>
-          + Tạo bài viết
+    <div className="blog-page">
+      <h1>Blog</h1>
+      <div className="blog-actions">
+        <button className='create-blog-btn' onClick={() => setShowPopup(true)}>
+          <FaPlus className='create-icons' />
         </button>
-        {isPopupOpen && (
-          <CreateBlogPopup onClose={togglePopup} onCreate={handleCreatePost} />
-        )}
+        <button className='payment-btn' onClick={() => setShowPaymentForm(true)}>
+          <MdOutlinePayments className='payment-icons' />
+        </button>
       </div>
+
+      {showPopup && (
+        <CreateBlogPostPopup
+          onClose={() => setShowPopup(false)}
+          onCreate={handleCreatePost}
+          onSuccess={handleSuccess}
+        />
+      )}
+
+      {showPaymentForm && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <PaymentSection
+              onConfirmPayment={() => setShowPaymentForm(false)}
+              subscriptions={subscriptions}
+              onClose={() => setShowPaymentForm(false)}
+            />
+            <button className="close-payment-btn" onClick={() => setShowPaymentForm(false)}>Close</button>
+          </div>
+        </div>
+      )}
+
+      {loading ? (
+        <p>Loading blog posts...</p>
+      ) : (
+        blogPosts.length > 0 ? (
+          blogPosts.map((post) => {
+            console.log('Post ID:', post.postId);
+            return (
+              <div key={post.postId} className="blog-post">
+                <img src={require(`../../../assets/admin/img_blog/${post.image}`)} alt={post.title} className="blog-image" />
+                <h2>{post.title}</h2>
+                <p className="date">{post.date}</p>
+                <p>{post.content.substring(0, 100)}...</p>
+                <Link to={`/blog/${post.postId}`} className="read-more">Read more</Link>
+              </div>
+            );
+          })
+        ) : (
+          <p>No posts available</p>
+        )
+      )}
     </div>
   );
 };
-
-function RecentPost({ id, title, date }) {
-  return (
-    <div className="recent-post">
-      <h4><Link to={`/post/${id}`}>{title}</Link></h4>
-      <p className="date">{date}</p>
-    </div>
-  );
-}
-
-function BlogPost({ id, title, date, content, image }) {
-  return (
-    <div className="blog-post">
-      <img src={image} alt={title} className="blog-image" />
-      <h2>{title}</h2>
-      <p className="date">{date}</p>
-      <p>{content}</p>
-      <Link to={`/post/${id}`} className="read-more">Read more</Link>
-    </div>
-  );
-}
 
 export default BlogPage;
