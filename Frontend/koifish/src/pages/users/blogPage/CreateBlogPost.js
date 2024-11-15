@@ -1,9 +1,7 @@
-// D:\Project Java\ProjectJava_GroupF_Topic5\fe\koifish\src\pages\users\blogPage\component\CreateBlogPostPopup.js
-
 import React, { useState } from 'react';
 import './style.scss';
-import PaymentSection from './PaymentSection'; 
-const CreateBlogPostPopup = ({ onClose, onCreate }) => {
+
+const CreateBlogPostPopup = ({ onClose, onCreate, onSuccess }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [username, setUsername] = useState('');
@@ -16,25 +14,37 @@ const CreateBlogPostPopup = ({ onClose, onCreate }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newPost = {
-      id: Math.floor(Math.random() * 1000), 
-      title,
-      content,
-      username,
-      date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-      image: image ? URL.createObjectURL(image) : null,
-    };
+    // Random user_id for demo purposes
+    const userId = Math.floor(Math.random() * 1000) + 1;
 
-    onCreate(newPost);
+    // Creating FormData object
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    formData.append('image', image);
+    onSuccess('Your post will be reviewed');
     onClose();
+    // Sending the data to backend
+    fetch('http://localhost:8083/post/add', {
+      method: 'POST',
+      body: formData,
+    })
+    .then(response => response.json())
+    .then(newPost => {
+      onCreate(newPost);
+      console.log('New blog post added');
+    })
+    .catch(error => {
+      console.error('Error creating post:', error);
+    });
   };
 
   return (
     <div className="popup-overlay">
       <div className="popup-content">
-        <h2>Tạo bài viết</h2>
+        <h2>Create Post</h2>
         <form onSubmit={handleSubmit}>
-          <label>Tiêu đề:</label>
+          <label>Title:</label>
           <input
             type="text"
             value={title}
@@ -49,24 +59,15 @@ const CreateBlogPostPopup = ({ onClose, onCreate }) => {
             required
           />
 
-          <label>Tên người tạo:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-
-          <label>Hình ảnh:</label>
-          <input type="file" onChange={handleImageChange} />
+          <label>Image:</label>
+          <input accept="image/*" type="file" onChange={handleImageChange} />
 
           <div className="popup-buttons">
-            <button type="submit">Tạo</button>
-            <button type="button" onClick={onClose}>Hủy tạo</button>
+            <button type="submit">Create</button>
+            <button type="button" onClick={onClose}>Cancel</button>
           </div>
         </form>
       </div>
-      <PaymentSection /> {}
     </div>
   );
 };

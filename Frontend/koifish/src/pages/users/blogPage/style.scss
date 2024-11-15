@@ -1,6 +1,8 @@
 @use "sass:map";
 @import "../../../styles/pages/theme";
 
+
+
 .blog-page {
   .navbar {
     background-color: #000000;
@@ -53,29 +55,39 @@
   .blog-post {
     border-bottom: 2px solid map-get($theme-colors, "main-red");
     padding: 20px 0;
-
+    border-radius: 10px;
+    transition: transform 0.5s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+  
+    &:hover {
+      background-color: lighten(map-get($theme-colors, "main-red"), 40%); // Thay đổi màu nền khi hover
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+  
     &:last-child {
       border-bottom: none;
     }
-
+  
     h2 {
       color: map-get($theme-colors, "main-red");
       margin: 0;
+      transition: color 0.3s ease;
     }
-
+  
     .date {
       font-size: 1.2em;
       color: darken(#000000, 20%);
       margin-bottom: 10px;
     }
-
+  
     p {
-      font-size: 2em;
+      font-size: 1.1em;
       line-height: 1.6;
       color: #4d4d4d;
       margin-bottom: 20px;
     }
-
+  
     .read-more {
       display: inline-block;
       margin-top: 10px;
@@ -85,13 +97,12 @@
       font-weight: bold;
       border: 2px solid map-get($theme-colors, "main-red");
       border-radius: 5px;
-      transition:
-        background-color 0.3s ease,
-        color 0.3s ease;
-
+      transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  
       &:hover {
         background-color: map-get($theme-colors, "main-red");
-        color: white;
+        color: #fff;
+        transform: scale(1.05);
       }
     }
   }
@@ -212,6 +223,7 @@
   }
 }
 
+/* Style cho form tạo bài viết */
 .create-blog-post {
   form {
     display: flex;
@@ -249,55 +261,65 @@
   }
 }
 
-/* Create Blog Button */
 .create-blog-btn {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 80px;  /* Đặt nút ở góc dưới */
+  right: 10px;   /* Đặt nút ở góc phải */
   padding: 10px 20px;
   background-color: #3498db;
   color: white;
   border: none;
-  border-radius: 50px;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
   cursor: pointer;
   font-size: 1.2em;
   transition: background-color 0.3s ease;
   z-index: 10;
-
+  .create-icons {
+    height: 100%;
+    width: 100%;
+  }
   &:hover {
     background-color: #2980b9;
   }
 }
 
+/* Popup overlay với nền mờ tối */
 .popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5); /* Nền mờ */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 100;
 }
 
+/* Nội dung popup */
 .popup-content {
   padding: 20px;
   border-radius: 5px;
-  background: white;
+  background: rgb(244, 0, 0);
   width: 400px;
 }
 
+/* Style cho các label trong form */
 label {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
 }
 
+/* Style cho các input và textarea */
 input[type="text"],
-textarea,
-input[type="file"] {
+textarea {
   width: 100%;
   padding: 8px;
   margin-bottom: 15px;
@@ -305,11 +327,27 @@ input[type="file"] {
   border-radius: 4px;
 }
 
-.popup-buttons {
-  display: flex;
-  justify-content: space-between;
+textarea {
+  resize: vertical; /* Cho phép thay đổi kích thước textarea theo chiều dọc */
 }
 
+/* Button trong form */
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #2980b9;
+  }
+}
+
+/* Phong cách tổng thể cho popup */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -318,118 +356,226 @@ input[type="file"] {
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
+.popup-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  width: 400px;
+  max-width: 90%;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Phong cách cho form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  label {
+    font-size: 1rem;
+    color: #555;
+  }
+
+  input,
+  textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+  }
+
+  input[type="file"] {
+    padding: 3px;
+  }
+}
+
+/* Phong cách cho các nút */
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #2980b9;
+    }
+
+    &:last-of-type {
+      background-color: #e74c3c;
+
+      &:hover {
+        background-color: #c0392b;
+      }
+    }
+  }
+}
+
+
 .payment-section {
+  margin: 20px;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-  h3 {
-    margin-bottom: 20px;
-    color: #333;
+  h2 {
     text-align: center;
+    color: #333;
   }
 
-  .package-options {
-    display: flex;
-    gap: 20px;
-    justify-content: space-around;
+  .subscription-list {
+    margin-bottom: 20px;
 
-    .package-option {
-      padding: 15px;
+    h3 {
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    .subscription-item {
       background-color: #fff;
+      padding: 10px;
       border: 1px solid #ddd;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-
-      h4 {
-        margin-bottom: 10px;
-        color: #555;
-      }
+      border-radius: 5px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
       p {
-        margin: 0;
-        color: #777;
+        margin: 5px 0;
       }
 
-      &:hover,
-      &.highlight {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-        border-color: #007bff;
+      button {
+        background-color: #3498db;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #2980b9;
+        }
       }
     }
   }
 
-  .qr-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    width: 90%;
-    max-width: 400px;
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
-    .qr-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    label {
+      font-weight: bold;
+      color: #333;
+    }
 
-      .close-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 18px;
-        cursor: pointer;
-        color: #999;
-        transition: color 0.2s;
+    input {
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
 
-        &:hover {
-          color: #333;
-        }
-      }
+    button {
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
 
-      .qr-code {
-        margin-bottom: 20px;
-
-        img {
-          width: 150px;
-          height: 150px;
-        }
-      }
-
-      .account-info {
-        margin-bottom: 20px;
-        text-align: center;
-
-        p {
-          margin: 5px 0;
-          color: #444;
-        }
-      }
-
-      .payment-confirmation-btn {
-        padding: 10px 20px;
-        background-color: #28a745;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-
-        &:hover {
-          background-color: #218838;
-        }
+      &:hover {
+        background-color: #219150;
       }
     }
   }
 }
+
+.payment-btn {
+  position: fixed;
+  bottom: 10px;  /* Đặt nút ở góc dưới */
+  right: 10px;   /* Đặt nút ở góc phải */
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: background-color 0.3s ease;
+  z-index: 10;
+  &:hover {
+    background-color: #2980b9;
+  }
+}
+
+.create-blog-btn, .payment-btn {
+  padding: 5px;
+  font-size: 5em;
+}
+
+.subscription-selection {
+  display: flex;
+  gap: 15px; /* Khoảng cách giữa các nút */
+}
+
+.cancel-payment-btn {
+  background-color: #f44336;  // Màu đỏ cho nút hủy
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d32f2f;  // Màu đỏ đậm khi hover
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.cancel-button {
+  background-color: #f44336; // Màu đỏ cho nút hủy
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-left: 235px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.cancel-button:hover {
+  background-color: #d32f2f;
+}
+
