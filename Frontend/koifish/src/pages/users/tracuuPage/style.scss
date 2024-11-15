@@ -165,7 +165,7 @@ $percentResult: "/assets/users/images/img_tracuu/result/percentResult.png";
                     max-width: 100%;
                     height: auto;
                     border-radius: 5px;
-                    aspect-ratio: 2 / 1;
+                    object-fit: contain;
                 }
 
                 &__percent {

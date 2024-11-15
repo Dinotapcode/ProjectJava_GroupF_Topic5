@@ -3,6 +3,7 @@
   height: 100vh;
   padding: 20px;
   box-sizing: border-box;
+  background-color: #f4f4f9;
 
   .sidebar {
     width: 300px;
@@ -11,6 +12,7 @@
     padding: 20px;
     box-sizing: border-box;
     margin-right: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   .profile-pic {
@@ -23,19 +25,25 @@
     background-size: cover;
     background-position: center;
     position: relative;
+    transition: transform 0.3s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
   .name {
     text-align: center;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     margin-top: 10px;
+    color: #333333;
   }
 
   .title {
     text-align: center;
-    font-size: 14px;
-    color: #888888;
+    font-size: 16px;
+    color: #666666;
     margin-bottom: 20px;
   }
 
@@ -43,20 +51,29 @@
     display: block;
     width: 100%;
     text-align: center;
-    padding: 10px 0;
+    padding: 12px 0;
     margin: 10px 0;
     border-radius: 5px;
     text-decoration: none;
     color: #ffffff;
     font-weight: bold;
+    transition: background-color 0.3s;
   }
 
   .home-button {
     background-color: #4caf50;
+
+    &:hover {
+      background-color: #45a049;
+    }
   }
 
   .logout-button {
     background-color: #f44336;
+
+    &:hover {
+      background-color: #e53935;
+    }
   }
 
   .menu {
@@ -66,16 +83,53 @@
   }
 
   .menu-item {
-    padding: 10px 0;
+    padding: 10px 15px;
     border-top: 1px solid #d0d0d0;
     display: flex;
     align-items: center;
     font-size: 14px;
     color: #333333;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-radius: 6px;
+    margin: 5px 0;
+    position: relative;
+
+    &.active {
+      background: linear-gradient(135deg, #4a90e2, #357abd);
+      color: white;
+      
+      svg {
+        color: white;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 4px;
+        background-color: #4a90e2;
+        border-radius: 2px;
+      }
+    }
+
+    &:hover {
+      background-color: #f0f0f0;
+      transform: translateX(5px);
+      
+      &:not(.active) {
+        svg {
+          color: #4a90e2;
+        }
+      }
+    }
 
     svg {
       margin-right: 10px;
       color: #888888;
+      transition: color 0.3s ease;
     }
 
     a {
@@ -98,5 +152,164 @@
     background-color: #ffffff;
     border-radius: 5px;
     font-size: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+}
+
+.update-form {
+    padding: 20px;
+    
+    .form-group {
+        margin-bottom: 15px;
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        textarea {
+            height: 100px;
+        }
+    }
+    
+    .update-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        
+        &:hover {
+            background-color: #45a049;
+        }
+    }
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  
+  button {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+.update-button {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+  
+  &:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.cancel-button {
+  background: linear-gradient(135deg, #ff4444, #cc0000);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(255, 68, 68, 0.2);
+  
+  &:hover {
+    background: linear-gradient(135deg, #cc0000, #b30000);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 68, 68, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Cập nhật style cho các nút trong sidebar
+.button {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  &.home-button {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+  }
+  
+  &.logout-button {
+    background: linear-gradient(135deg, #f44336, #e53935);
+  }
+}
+
+.wallet-info {
+    padding: 20px;
+    
+    h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .balance-container {
+        background-color: #f5f5f5;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+        h3 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .balance-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    }
 }

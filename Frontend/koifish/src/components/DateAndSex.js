@@ -1,17 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-// Hàm tính mệnh dựa trên năm sinh và giới tính
-function calculateElement(gender, birthYear) {
-    const elementCycle = ["Kim", "Thủy", "Mộc", "Hỏa", "Thổ"];
-    const elementIndex = (birthYear % 10) % 5;
-
-    // Điều chỉnh mệnh cho nam và nữ theo quy luật âm dương
-    return gender === "male"
-        ? elementCycle[elementIndex]
-        : elementCycle[(elementIndex + 2) % 5];
-}
-
-const FateCalculator = ({ onResult }) => {
+const DateAndSex = ({ onResult }) => {
     const today = new Date();
     const currentYear = today.getFullYear();
     const minYear = currentYear - 100;
@@ -19,8 +8,8 @@ const FateCalculator = ({ onResult }) => {
     const [day, setDay] = useState("");
     const [month, setMonth] = useState("");
     const [year, setYear] = useState("");
-    const [birthHour, setBirthHour] = useState("");
     const [gender, setGender] = useState("");
+    const [birthHour, setBirthHour] = useState("");
 
     const days = Array.from({ length: 31 }, (_, i) => i + 1);
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -33,17 +22,15 @@ const FateCalculator = ({ onResult }) => {
     ];
 
     useEffect(() => {
-        // Kiểm tra nếu đủ dữ liệu thì mới tính mệnh
         if (day && month && year && gender) {
-            const birthYear = parseInt(year, 10);
-            const element = calculateElement(gender, birthYear);
-            onResult(element);  // Gửi kết quả về component cha
-        } else {
-            onResult("");  // Nếu thiếu thông tin, gửi giá trị rỗng
+            const birthDate = `${year}-${month}-${day}`;
+            const result = { birthDate, gender };
+            onResult(result);  // Call onResult when the form is complete
         }
-    }, [day, month, year, gender, onResult]);
+    }, [day, month, year, gender, onResult]);  // Depend on day, month, year, and gender
 
     return (
+
         <>
             <form className="input__group">
                 <label htmlFor="birthDate">Ngày sinh:</label>
@@ -118,4 +105,4 @@ const FateCalculator = ({ onResult }) => {
     );
 };
 
-export default FateCalculator;
+export default DateAndSex;
