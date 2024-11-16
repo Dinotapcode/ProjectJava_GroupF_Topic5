@@ -17,10 +17,9 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping(path = "/login")
-   public ResponseEntity<?> loginUser(@RequestBody LoginDTO loginDTO) {
+   public ResponseEntity<?> loginUser(@RequestParam String email, @RequestParam String password) {
 
         LoginResponse loginResponse = loginService.loginUser(loginDTO);
         return ResponseEntity.ok(loginResponse);
-
     }
 }
