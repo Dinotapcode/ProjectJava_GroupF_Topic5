@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import './style.scss';
+import './detail.scss';
 
 const BlogDetail = () => {
   // Lấy id từ URL
