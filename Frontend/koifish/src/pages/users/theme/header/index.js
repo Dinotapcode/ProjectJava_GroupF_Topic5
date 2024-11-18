@@ -3,13 +3,35 @@ import { ROUTERS } from '../../../../utils/router';
 import './style.scss';
 import logo from '../../../../assets/logo/logo.png';
 import BackToHome from '../../../../components/BackToHome';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RiMenuFold4Line } from "react-icons/ri";
 
 const Header = () => {
     const [isShrunk, setIsShrunk] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [user, setUser] = useState(null);
     const menuRef = useRef(null); // Tham chiếu đến menu
+    const role = sessionStorage.getItem('role');
+    const userId = sessionStorage.getItem('userId');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (userId) {
+            // Assuming you have a token stored in localStorage or a state
+            
+            fetch(`http://localhost:8083/api/user/${userId}`, {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => {
+                setUser(data); // Lưu thông tin người dùng vào state
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+            });
+        }
+    }, [userId]);
+    
 
     useEffect(() => {
         const handleScroll = () => {
@@ -50,6 +72,17 @@ const Header = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const handleLogout = () => {
+        // Xóa thông tin đăng nhập khỏi sessionStorage
+        sessionStorage.removeItem('userId');
+        sessionStorage.removeItem('role');
+        // Hiển thị thông báo
+        alert('Đăng xuất thành công');
+
+        // Chuyển hướng người dùng về trang đăng nhập
+        navigate(ROUTERS.USER.HOME);
+    };
+
     return (
         <>
             <header className={`header ${isShrunk ? 'shrink' : ''}`}>
@@ -61,11 +94,17 @@ const Header = () => {
                         <li className="header__top-navbar-item">
                             <i className="fa-solid fa-phone"></i> 19008080
                         </li>
-                        <li className="header__top-navbar-item header__top-navbar-item--guest">
-                            <Link to={ROUTERS.USER.LOGIN} className="header__top-navbar-item">Đăng nhập</Link>
-                        </li>
-                        <li className="header__top-navbar-item header__top-navbar-item--member">
-                            <Link to={ROUTERS.USER.LOGOUT} className="header__top-navbar-item">Đăng xuất</Link>
+                        <li className="header__top-navbar-item">
+                            {sessionStorage.getItem('userId') ? (
+                                <span onClick={handleLogout} className="header__top-navbar-item header__top-navbar-item--member">
+                                    Đăng xuất
+                                </span>
+                            ) : (
+                                <Link to={ROUTERS.USER.LOGIN}
+                                    className="header__top-navbar-item header__top-navbar-item--guest">
+                                    Đăng nhập
+                                </Link>
+                            )}
                         </li>
                     </ul>
                 </nav>
@@ -84,14 +123,17 @@ const Header = () => {
                                 <Link to={menu.path} className="header__main-navbar-link">{menu.name}</Link>
                             </li>
                         ))}
-                        <li className="header__main-navbar-item header__top-navbar-item--member">
-                            <span>Anh long</span>
-                            <Link to={ROUTERS.USER.HOME} className="header__main-navbar-avatar">
-                                <img src={logo} alt="avatar" />
-                            </Link>
-                        </li>
+                        {sessionStorage.getItem('userId') ? (
+                            <li className="header__main-navbar-item header__top-navbar-item--member">
+                                <span>Anh long</span>
+                                <Link to={ROUTERS.USER.HOME} className="header__main-navbar-avatar">
+                                    <img src={logo} alt="avatar" />
+                                </Link>
+                            </li>
+                        ) : null}
+
                     </ul>
-                    <u className=  {`header__main-navbar-list header__main-navbar-menu--close ${isMenuOpen ? 'header__main-navbar-menu-icon--open' : ''}`}>
+                    <u className={`header__main-navbar-list header__main-navbar-menu--close ${isMenuOpen ? 'header__main-navbar-menu-icon--open' : ''}`}>
                         <li className="header__main-navbar-item header__main-navbar-menu-icon">
                             <RiMenuFold4Line className='menu-icon' onClick={handleMenuToggle} />
                         </li>

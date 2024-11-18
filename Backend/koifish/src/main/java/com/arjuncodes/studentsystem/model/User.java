@@ -1,7 +1,7 @@
 package com.arjuncodes.studentsystem.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "user")
@@ -11,14 +11,31 @@ public class User {
     private int id;
     private String userName;
     private String password;
-    private Date birthday;
+    private LocalDate birthday;
     private String avatar;
     private String email;
     private String phone;
     private boolean enabled;
     private String wallet;
+    private String role;
     public User() {
     }
+    public User(int id, String userName, String email, String password) {
+        this.id = id;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+
+    }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 
     public int getId() {
         return id;
@@ -52,11 +69,11 @@ public class User {
         this.password = password;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

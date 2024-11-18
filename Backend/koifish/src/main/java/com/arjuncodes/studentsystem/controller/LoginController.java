@@ -1,15 +1,15 @@
 package com.arjuncodes.studentsystem.controller;
 
-import com.arjuncodes.studentsystem.Dto.LoginDTO;
-import com.arjuncodes.studentsystem.response.LoginResponse;
+import com.arjuncodes.studentsystem.model.User;
 import com.arjuncodes.studentsystem.service.LoginService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api")
 public class LoginController {
 
@@ -17,9 +17,18 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping(path = "/login")
-   public ResponseEntity<?> loginUser(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<Map<String, Object>> loginUser(@RequestBody User loginRequest) {
+        return loginService.loginUser(loginRequest);
+    }
 
-        LoginResponse loginResponse = loginService.loginUser(loginDTO);
-        return ResponseEntity.ok(loginResponse);
+
+    @PostMapping(path = "/register")
+    public ResponseEntity<String> registerUser(@RequestBody User registerRequest) {
+
+        String response = loginService.addUser(registerRequest);
+        if (response.equals("Email is already registered")) {
+            return ResponseEntity.badRequest().body("Email is already registered");
+        }
+        return ResponseEntity.ok(response);
     }
 }

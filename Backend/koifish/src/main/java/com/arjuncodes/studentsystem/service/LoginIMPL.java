@@ -1,20 +1,18 @@
 package com.arjuncodes.studentsystem.service;
 
-//import com.arjuncodes.studentsystem.Dto.LoginDTO;
-//import com.arjuncodes.studentsystem.Dto.UserDTO;
 import com.arjuncodes.studentsystem.model.User;
 import com.arjuncodes.studentsystem.repository.LoginRepository;
-import com.arjuncodes.studentsystem.response.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class LoginIMPL implements LoginService {
-
 
     @Autowired
     private LoginRepository loginRepository;
@@ -22,48 +20,62 @@ public class LoginIMPL implements LoginService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     @Override
-    public String addUser(UserDTO userDTO) {
+    public ResponseEntity<Map<String, Object>> loginUser(User loginRequest) {
+        String email = loginRequest.getEmail();
+        String password = loginRequest.getPassword();
 
-
-        User user = new User(
-                user.getId(),
-                user,.getUserName(),
-                userDTO.getEmail(),
-                this.passwordEncoder.encode(userDTO.getPassword())
-        );
-
-        loginRepository.save(user);
-        return user.getUserName();
-
-
-
+        User user = loginRepository.findByEmail(email);
+        if (user != null) {
+            // Kiểm tra mật khẩu đã mã hóa
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "Login Success");
+                response.put("userId", user.getId());
+                response.put("role", user.getRole());
+                return ResponseEntity.ok(response);
+            } else {
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "Password does not match");
+                return ResponseEntity.status(400).body(response);
+            }
+        } else {
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "User not found");
+            return ResponseEntity.status(404).body(response);
+        }
     }
 
+
     @Override
-    public LoginResponse loginUser(String email, String password) {
-        String msg = "";
-        User user1 = loginRepository.findByEmail(email);
-        if (user1 != null) {
-            String password = user1.getPassword();
-            String encodedPassword = user1.getPassword();
-            Boolean isPasswordCorrect = passwordEncoder.matches(password, encodedPassword);
-            if (isPasswordCorrect) {
-                Optional<User> user = loginRepository.findOneByEmailAndPassword(loginDTO.getEmail(), encodedPassword);
-                if (user.isPresent()) {
-                    return new LoginResponse("login Sucess", true);
-                } else {
-                    return new LoginResponse("login Failed", false);
-                }
-            } else {
-                return new LoginResponse("Password Not Match", false);
-            }
-        } else{
-            return new LoginResponse("Mail not exits", false);
+    public String addUser(User user) {
+
+        if (loginRepository.existsByEmail(user.getEmail())) {
+            return "Email is already registered";
         }
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
+        if (user.getWallet() == null) {
+            user.setWallet("default_wallet");
+        }
+        user.setBirthday(LocalDate.now());
+        if (user.getAvatar() == null) {
+            user.setAvatar("default_avatar");
+        }
+        if (user.getBirthday() == null) {
+            user.setBirthday(LocalDate.now());
+        }
+        if (user.getPhone() == null) {
+            user.setPhone("0000000000");
+        }
+
+        if (!user.isEnabled()) {
+            user.setEnabled(true);
+        }
+        user.setRole("USER");
+        loginRepository.save(user);
+        return user.getUserName();
     }
-}
 
+}
