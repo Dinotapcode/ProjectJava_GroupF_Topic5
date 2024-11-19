@@ -1,145 +1,64 @@
-// src/pages/ProductDetailPage.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import ProductDetail from '../../../components/ProductDetail'; // Nhập component
+import ProductDetail from '../../../components/ProductDetail';
 import './ProductDetailPage.scss';
-
-const initialProducts = [
-    { 
-        id: 1, 
-        name: 'Cá phong thủy', 
-        price: 2000000, 
-        img: require('../../../assets/users/images/img_sp/1.png'), 
-        item: 'fish', 
-        type: 'Loại cá', 
-        description: 'Mô tả cá phong thủy...', 
-        info1: 'Đỏ', 
-        info2: '500g', 
-        info3: 'Việt Nam'
-        
-    },
-    { 
-        id: 2, 
-        name: 'Hồ thủy sinh', 
-        price: 1000000, 
-        img: require('../../../assets/users/images/img_sp/aquarium.jpg'), 
-        item: 'aquarium', 
-        type: 'Hình dạng', 
-        description: 'Mô tả hồ thủy sinh...', 
-        info1:'1m x 0.5m x 0.5m', 
-        info2:'Kính cường lực', 
-        info3: 'Nhật Bản'
-        
-    },
-    { 
-        id: 3, 
-        name: 'Cá cảnh 1', 
-        price: 1500000, 
-        img: require('../../../assets/users/images/img_sp/1.png'), 
-        item: 'fish', 
-        type: 'Loại cá', 
-        description: 'Mô tả cá phong thủy...', 
-        info1: 'Đỏ', 
-        info2: '500g', 
-        info3: 'Việt Nam'
-    },
-    { 
-        id: 4, 
-        name: 'Hồ thủy sinh 2', 
-        price: 2500000, 
-        img: require('../../../assets/users/images/img_sp/aquarium.jpg'), 
-        item: 'aquarium', 
-        type: 'Hình dạng', 
-        description: 'Mô tả hồ thủy sinh...', 
-        info1:'1m x 0.5m x 0.5m', 
-        info2:'Kính cường lực', 
-        info3: 'Nhật Bản'
-    },
-    { 
-        id: 5, 
-        name: 'Cá cảnh 2', 
-        price: 1800000, 
-        img: require('../../../assets/users/images/img_sp/1.png'), 
-        item: 'fish', 
-        type: 'Loại cá', 
-        description: 'Mô tả cá phong thủy...', 
-        info1: 'Đỏ', 
-        info2: '500g', 
-        info3: 'Việt Nam'
-    },
-    { 
-        id: 6, 
-        name: 'Hồ thủy sinh 3', 
-        price: 2200000, 
-        img: require('../../../assets/users/images/img_sp/aquarium.jpg'), 
-        item: 'aquarium', 
-        type: 'Hình dạng', 
-        description: 'Mô tả hồ thủy sinh...', 
-        info1:'1m x 0.5m x 0.5m', 
-        info2:'Kính cường lực', 
-        info3: 'Nhật Bản'
-    },
-    { 
-        id: 7, 
-        name: 'Cá đuôi đỏ', 
-        price: 1700000, 
-        img: require('../../../assets/users/images/img_sp/1.png'), 
-        item: 'fish', 
-        type: 'Loại cá', 
-        description: 'Mô tả cá phong thủy...', 
-        info1: 'Đỏ', 
-        info2: '500g', 
-        info3: 'Việt Nam'
-    },
-    { 
-        id: 8, 
-        name: 'Hồ thủy sinh 4', 
-        price: 2800000, 
-        img: require('../../../assets/users/images/img_sp/aquarium.jpg'), 
-        item: 'aquarium', 
-        type: 'Hình dạng', 
-        description: 'Mô tả hồ thủy sinh...', 
-        info1:'1m x 0.5m x 0.5m', 
-        info2:'Kính cường lực', 
-        info3: 'Nhật Bản'
-    },
-    { 
-        id: 9, 
-        name: 'Cá bảy màu', 
-        price: 1600000, 
-        img: require('../../../assets/users/images/img_sp/1.png'), 
-        item: 'fish', 
-        type: 'Loại cá', 
-        description: 'Mô tả cá phong thủy...', 
-        info1: 'Đỏ', 
-        info2: '500g', 
-        info3: 'Việt Nam'
-    },
-    { 
-        id: 10, 
-        name: 'Hồ thủy sinh 5', 
-        price: 3000000, 
-        img: require('../../../assets/users/images/img_sp/aquarium.jpg'), 
-        item: 'aquarium', 
-        type: 'Hình dạng', 
-        description: 'Mô tả hồ thủy sinh...', 
-        info1:'1m x 0.5m x 0.5m', 
-        info2:'Kính cường lực', 
-        info3: 'Nhật Bản'
-    },
-];
 
 const ProductDetailPage = () => {
     const { id } = useParams();
-    const product = initialProducts.find(product => product.id === parseInt(id));
+    const [product, setProduct] = useState(null);
+    const [user, setUser] = useState(null); // state để lưu thông tin người dùng
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    // Lấy thông tin sản phẩm và người dùng
+    useEffect(() => {
+        const fetchProductAndUser = async () => {
+            try {
+                // Fetch sản phẩm
+                const productResponse = await fetch(`http://localhost:8083/api/products/detail?id=${id}`);
+                if (!productResponse.ok) {
+                    throw new Error('Sản phẩm không tồn tại');
+                }
+                const productData = await productResponse.json();
+                setProduct(productData);
+
+                // Fetch thông tin người dùng
+                const userResponse = await fetch(`http://localhost:8083/api/public/${7}`); // Giả sử ID người dùng là 1
+                if (!userResponse.ok) {
+                    throw new Error('Không thể lấy thông tin người dùng');
+                }
+                const userData = await userResponse.json();
+                setUser(userData);
+
+                setLoading(false);
+            } catch (err) {
+                setError(err.message);
+                setLoading(false);
+            }
+        };
+
+        fetchProductAndUser();
+    }, [id]);
+
+    if (loading) {
+        return <p>Đang tải sản phẩm...</p>;
+    }
+
+    if (error) {
+        return (
+            <div>
+                <p>{error}</p>
+                <button onClick={() => window.history.back()}>Quay lại</button>
+            </div>
+        );
+    }
 
     return (
         <div className="product-detail-page">
-            {/* Nếu không tìm thấy sản phẩm, có thể hiển thị thông báo lỗi */}
-            {product ? (
-                <ProductDetail product={product} />
+            {product && user ? (
+                <ProductDetail product={product} user={user} />
             ) : (
-                <p>Sản phẩm không tồn tại.</p>
+                <p>Sản phẩm hoặc người dùng không tồn tại.</p>
             )}
         </div>
     );

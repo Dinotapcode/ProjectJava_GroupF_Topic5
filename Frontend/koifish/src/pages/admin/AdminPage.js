@@ -3,6 +3,7 @@ import ProductManagement from './ProductManagement';
 import PostManagement from './PostManagement';
 import UserManagement from './UserManagement';
 import PaymentManagement from './PaymentManagement';
+import ConsultationSchedule from './ConsultationSchedule';  // Thêm import cho ConsultationSchedule
 import './style.scss';
 
 const AdminPage = () => {
@@ -28,6 +29,10 @@ const AdminPage = () => {
                 return (
                     <ProductManagement products={products} setProducts={setProducts} />
                 );
+            case 'consultationSchedule':
+                return (
+                    <ConsultationSchedule />
+                );
             case 'blogManagement':
                 return (
                     <PostManagement posts={posts} setPosts={setPosts} />
@@ -37,7 +42,7 @@ const AdminPage = () => {
                     <UserManagement users={users} setUsers={setUsers} />
                 );
             case 'servicePackageManagement':
-                return(
+                return (
                     <PaymentManagement subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
                 );
             default:

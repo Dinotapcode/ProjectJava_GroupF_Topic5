@@ -1,41 +1,76 @@
 import React, { useState } from 'react';
 
-const ProductDetail = ({ product }) => {
+const ProductDetail = ({ product, user }) => {
+    const [contact, setContact] = useState('');
+    const [date, setDate] = useState('');
+    const [time, setTime] = useState('');
     const [isPopupVisible, setIsPopupVisible] = useState(false);
-    const [formData, setFormData] = useState({
-        name: '',
-        phone: '',
-        email: '',
-        date: '',
-        time: '' // Thêm trường giờ vào formData
-    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-    if (!product) {
-        return <div>Không tìm thấy sản phẩm!</div>;
-    }
-
+    // Hàm mở popup khi nhấn vào "Đặt lịch tư vấn"
     const handleConsultationClick = () => {
         setIsPopupVisible(true);
     };
 
+    // Hàm đóng popup
     const handleClosePopup = () => {
         setIsPopupVisible(false);
+        setSuccessMessage('');
+        setErrorMessage('');
     };
 
+    // Hàm xử lý thay đổi input
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        if (name === "contact") {
+            setContact(value);
+        } else if (name === "date") {
+            setDate(value);
+        } else if (name === "time") {
+            setTime(value);
+        }
     };
 
-    const handleSubmit = (e) => {
+    // Hàm xử lý khi submit form
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Thông tin tư vấn:', formData);
-        setIsPopupVisible(false);
+        setIsSubmitting(true);
+
+        const consultationData = {
+            user_id: user.id,
+            product_id: product.id,
+            contact: contact,
+            date: date,
+            time: time,
+        };
+
+        try {
+            const response = await fetch('http://localhost:8083/api/v1/consultations/schedule', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(consultationData),
+            });
+
+            if (response.ok) {
+                setSuccessMessage('Đặt lịch tư vấn thành công!');
+                setContact('');
+                setDate('');
+                setTime('');
+            } else {
+                setErrorMessage('Đã xảy ra lỗi khi tạo lịch hẹn.');
+            }
+        } catch (error) {
+            setErrorMessage('Lỗi kết nối với server.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
+    // Hàm kiểm tra nhấp ngoài popup
     const handlePopupClick = (e) => {
         if (e.target === e.currentTarget) {
             handleClosePopup();
@@ -46,7 +81,7 @@ const ProductDetail = ({ product }) => {
         <div className="product-detail">
             <div className="product-detail-container">
                 <div className="product-image">
-                    <img src={product.img} alt={product.name} />
+                    <img src={`/img_products/${product.img}`} alt={product.name} />
                 </div>
                 <div className="product-info">
                     <h1>{product.name}</h1>
@@ -77,65 +112,62 @@ const ProductDetail = ({ product }) => {
 
             {isPopupVisible && (
                 <div className="popup" onClick={handlePopupClick}>
-                    <div className="popup-content">
+                    <div className="popup-content" onClick={(e) => e.stopPropagation()}>
                         <span className="close-popup" onClick={handleClosePopup}>X</span>
                         <h2>Đặt lịch tư vấn</h2>
+
+                        {/* Hiển thị thông tin người dùng */}
+                        <label>
+                            Họ tên:
+                            <input
+                                type="text"
+                                value={user.userName}  // Sử dụng user.userName thay vì user.name
+                                disabled
+                            />
+                        </label>
                         <form onSubmit={handleSubmit}>
-                            <label>
-                                Họ tên:
-                                <input 
-                                    type="text" 
-                                    name="name" 
-                                    value={formData.name} 
-                                    onChange={handleChange} 
-                                    placeholder='Trần Văn A'
-                                    required 
-                                />
-                            </label>
-                            <label>
-                                Số điện thoại:
-                                <input 
-                                    type="tel" 
-                                    name="phone" 
-                                    value={formData.phone} 
-                                    onChange={handleChange} 
-                                    placeholder='0987654321'
-                                    required 
-                                />
-                            </label>
+                            <input type="hidden" name="product_id" value={product.id} />
+                            <input type="hidden" name="user_id" value={user.id} />
                             <label>
                                 Email:
-                                <input 
-                                    type="email" 
-                                    name="email" 
-                                    value={formData.email} 
-                                    onChange={handleChange} 
-                                    placeholder='example@gmail.com'
-                                    required 
+                                <input
+                                    type="email"
+                                    name="contact"
+                                    value={contact}
+                                    onChange={handleChange}
+                                    placeholder="example@gmail.com"
+                                    required
                                 />
                             </label>
                             <label>
                                 Ngày hẹn:
-                                <input 
-                                    type="date" 
-                                    name="date" 
-                                    value={formData.date} 
-                                    onChange={handleChange} 
-                                    required 
+                                <input
+                                    type="date"
+                                    name="date"
+                                    value={date}
+                                    onChange={handleChange}
+                                    required
                                 />
                             </label>
                             <label>
                                 Giờ hẹn:
-                                <input 
-                                    type="time" 
-                                    name="time" 
-                                    value={formData.time} 
-                                    onChange={handleChange} 
-                                    required 
+                                <input
+                                    type="time"
+                                    name="time"
+                                    value={time}
+                                    onChange={handleChange}
+                                    required
                                 />
                             </label>
+
+                            {/* Hiển thị thông báo thành công/lỗi */}
+                            {successMessage && <p className="success-message">{successMessage}</p>}
+                            {errorMessage && <p className="error-message">{errorMessage}</p>}
+
                             <div className='btn'>
-                                <button type="submit">Gửi thông tin</button>
+                                <button type="submit" disabled={isSubmitting}>
+                                    {isSubmitting ? 'Đang gửi...' : 'Gửi thông tin'}
+                                </button>
                             </div>
                         </form>
                     </div>
