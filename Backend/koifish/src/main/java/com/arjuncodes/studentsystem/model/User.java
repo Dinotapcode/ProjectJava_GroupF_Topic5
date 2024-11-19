@@ -1,7 +1,7 @@
 package com.arjuncodes.studentsystem.model;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "user")
@@ -11,7 +11,7 @@ public class User {
     private int id;
     private String userName;
     private String password;
-    private LocalDate birthday;
+    private Date birthday;
     private String avatar;
     private String email;
     private String phone;
@@ -69,11 +69,11 @@ public class User {
         this.password = password;
     }
 
-    public LocalDate getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 

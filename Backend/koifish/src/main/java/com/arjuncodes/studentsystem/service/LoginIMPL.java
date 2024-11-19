@@ -57,17 +57,16 @@ public class LoginIMPL implements LoginService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         if (user.getWallet() == null) {
-            user.setWallet("default_wallet");
+            user.setWallet(null);
         }
-        user.setBirthday(LocalDate.now());
         if (user.getAvatar() == null) {
-            user.setAvatar("default_avatar");
+            user.setAvatar(null);
         }
         if (user.getBirthday() == null) {
-            user.setBirthday(LocalDate.now());
+            user.setBirthday(null);
         }
         if (user.getPhone() == null) {
-            user.setPhone("0000000000");
+            user.setPhone(null);
         }
 
         if (!user.isEnabled()) {
