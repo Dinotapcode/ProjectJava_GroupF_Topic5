@@ -56,23 +56,24 @@ public class LoginIMPL implements LoginService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        if (user.getWallet() == null) {
-            user.setWallet(null);
-        }
-        if (user.getAvatar() == null) {
-            user.setAvatar(null);
-        }
-        if (user.getBirthday() == null) {
-            user.setBirthday(null);
-        }
-        if (user.getPhone() == null) {
-            user.setPhone(null);
-        }
+//        if (user.getWallet() == null) {
+//            user.setWallet("default_wallet");
+//        }
+//        user.setBirthday(LocalDate.now());
+//        if (user.getAvatar() == null) {
+//            user.setAvatar("default_avatar");
+//        }
+//        if (user.getBirthday() == null) {
+//            user.setBirthday(Date);
+//        }
+//        if (user.getPhone() == null) {
+//            user.setPhone("0000000000");
+//        }
 
         if (!user.isEnabled()) {
             user.setEnabled(true);
         }
-        user.setRole("USER");
+        user.setRole(User.Role.ROLE_USER);
         loginRepository.save(user);
         return user.getUserName();
     }

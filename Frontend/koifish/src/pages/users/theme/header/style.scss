@@ -109,6 +109,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
 
         &-menu--close {
             display: none;
+        
             .menu-icon {
                 width: 30px;
                 height: 30px;
@@ -151,7 +152,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
                 aspect-ratio: 1 / 1;
                 border-radius: 50%;
                 object-fit: cover;
-                border: #262626 solid 1px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             }
         }
         span {
@@ -222,7 +223,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
         }
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1080px) {
         .header__main-navbar-menu {
             display: none;
             /* Ẩn menu khi cửa sổ nhỏ hơn 880px */
@@ -231,39 +232,43 @@ $back-to-top-text-color: white; // Màu chữ cho nút
         .header__main-navbar-menu--close {
             display: block;
             background-color: rgb(255, 255, 255);
-            width: 50px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             display: flex;
             justify-content: center;
             align-items: center;
-            border-radius: 10px;
+            border-radius: 50%;
             z-index: 1000;
             /* Hiển thị icon menu khi cửa sổ nhỏ hơn 880px */
         }
 
         .header__main-navbar-menu-icon--open {
             position: absolute;
-            top: 40px;
-            right: 20px;
+            transform: translate(-50%, -50%);
+            top: 60px;
+            right: -2.5px;
+
+            .header__main-navbar-menu-icon {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
         }
 
         .header__main-navbar-menu--open {
             padding-top: 120px;
             position: absolute;
-            width: 50vw;
+            width: 40vw;
             height: 100vh;
             box-sizing: border-box;
             display: flex;
-            /* Hiển thị lại menu khi nhấn icon */
             flex-direction: column;
-            /* Chuyển menu thành dạng cột */
             justify-content: start;
             background-color: rgb(255, 255, 255);
             top: -10px;
             left: 0;
             z-index: 10;
-            /* Giảm giá trị z-index của menu nếu cần */
-            outline: rgba(0, 0, 0, 0.5) solid 50vw;
+            outline: rgba(0, 0, 0, 0.5) solid 100vw;
 
             .header__main-navbar-item {
                 width: 100%;
@@ -272,27 +277,33 @@ $back-to-top-text-color: white; // Màu chữ cho nút
             .header__top-navbar-item--member {
                 position: absolute;
                 top: 50px;
-                width: 85%;
-                aspect-ratio: 5 / 1;
-                padding: 5px 0;
+                width: 90%;
+                min-height: 50px;
+                aspect-ratio: 6 / 1;
+                padding: 2.5px 0;
                 background-color: #9b98987e;
                 border-radius: 15px;
                 display: flex;
-                justify-content: end;
+                justify-content: center;
                 align-items: center;
-                gap: 7.5%;
+                gap: 15px;
             }
 
             .header__main-navbar-avatar {
-                margin-right: 7.5%;
                 img {
-                    height: 80%;
+                    height: 90%;
                     min-height: 40px;
                 }
             }
             span {
                 display: block;
                 font-size: 18px;
+                font-weight: 700;
+                margin-left: 10px;
+                color: #262626;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
     }

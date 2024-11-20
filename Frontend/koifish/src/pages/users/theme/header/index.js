@@ -21,6 +21,7 @@ const Header = () => {
             
             fetch(`http://localhost:8083/api/user/${userId}`, {
                 method: 'GET',
+                credentials: 'include',
             })
             .then(response => response.json())
             .then(data => {
@@ -61,12 +62,21 @@ const Header = () => {
         };
     }, [isMenuOpen]);
 
-    const [menus] = useState([
-        { name: "Giới Thiệu", path: ROUTERS.USER.GIOITHIEU },
-        { name: "Blog tin tức", path: ROUTERS.USER.BLOG },
-        { name: "Dịch vụ tư vấn", path: ROUTERS.USER.TRACUU },
-        { name: "Sản phẩm phong thủy", path: ROUTERS.USER.SANPHAM },
-    ]);
+    const [menus] = useState(() => {
+        const baseMenus = [
+            { name: "Giới Thiệu", path: ROUTERS.USER.GIOITHIEU },
+            { name: "Blog tin tức", path: ROUTERS.USER.BLOG },
+            { name: "Dịch vụ tư vấn", path: ROUTERS.USER.TRACUU },
+            { name: "Sản phẩm phong thủy", path: ROUTERS.USER.SANPHAM },
+        ];
+    
+        if (role === 'ROLE_ADMIN') {
+            baseMenus.push({ name: "Quản lý", path: ROUTERS.ADMIN });
+        }
+    
+        return baseMenus;
+    });
+    
 
     const handleMenuToggle = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -125,8 +135,8 @@ const Header = () => {
                         ))}
                         {sessionStorage.getItem('userId') ? (
                             <li className="header__main-navbar-item header__top-navbar-item--member">
-                                <span>Anh long</span>
-                                <Link to={ROUTERS.USER.HOME} className="header__main-navbar-avatar">
+                                <span>Trần đình công siêu nhân</span>
+                                <Link to={ROUTERS.USER.PROFILE} className="header__main-navbar-avatar">
                                     <img src={logo} alt="avatar" />
                                 </Link>
                             </li>

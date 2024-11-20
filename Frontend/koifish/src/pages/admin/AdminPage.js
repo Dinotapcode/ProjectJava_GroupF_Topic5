@@ -3,14 +3,16 @@ import ProductManagement from './ProductManagement';
 import PostManagement from './PostManagement';
 import UserManagement from './UserManagement';
 import PaymentManagement from './PaymentManagement';
-import ConsultationSchedule from './ConsultationSchedule';  // Thêm import cho ConsultationSchedule
+import ConsultationSchedule from './ConsultationSchedule';
+import FateManagement from './FateManagement';
 import './style.scss';
 
 const AdminPage = () => {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [products, setProducts] = useState([]);
-    const [posts, setPosts] = useState([]);  // Thêm state cho bài viết
-    const [users, setUsers] = useState([]);  // Thêm state cho người dùng
+    const [posts, setPosts] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [fates, setFates] = useState([]);
     const [subscriptions, setSubscriptions] = useState([]);
 
     const renderContent = () => {
@@ -45,6 +47,10 @@ const AdminPage = () => {
                 return (
                     <PaymentManagement subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
                 );
+            case 'fateManagement':
+                return (
+                    <FateManagement fates={fates} setFates={setFates} />
+                );
             default:
                 return null;
         }
@@ -57,6 +63,7 @@ const AdminPage = () => {
                     <ul>
                         <li onClick={() => setActiveTab('dashboard')}>Dashboard</li>
                         <li onClick={() => setActiveTab('userManagement')}>Quản lý người dùng</li>
+                        <li onClick={() => setActiveTab('fateManagement')}>Quản lý Tra cứu</li>
                         <li onClick={() => setActiveTab('productManagement')}>Quản lý sản phẩm</li>
                         <li onClick={() => setActiveTab('servicePackageManagement')}>Quản lý gói dịch vụ</li>
                         <li onClick={() => setActiveTab('blogManagement')}>Quản lý bài viết</li>
