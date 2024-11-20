@@ -33,17 +33,75 @@ $non-active-background: #ffffff;
 
     .fate__search {
         display: flex;
-        justify-content: center;
         align-items: center;
+        justify-content: space-between;
+        gap: 5px;
+        /* Khoảng cách giữa các phần tử */
+        padding: 10px;
+        width: fit-content;
+    }
 
-        input {
-                border: none;
-            padding: 10px 20px; 
-            border-radius: 15px 15px 0 0;
-            font-size: 2.2rem;
-            color: #333;
-            font-weight: bold;
-            width: 60%;
+    .fate__search select {
+        padding: 8px 12px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #fff;
+        outline: none;
+        transition: border-color 0.3s ease;
+
+        /* Thay đổi màu viền khi focus */
+        &:focus {
+            border-color: #4caf50;
+        }
+    }
+
+    .fate__search button {
+        padding: 8px 16px;
+        font-size: 14px;
+        background-color: #f44336;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #d32f2f;
+        }
+    }
+
+    .list-container {
+        padding: 20px;
+        max-width: 100%;
+        overflow-x: auto;
+
+        button {
+            padding: 5px 10px;
+            margin: 0 5px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:first-of-type {
+                background-color: #4caf50;
+                color: #fff;
+
+                &:hover {
+                    background-color: #45a049;
+                }
+            }
+
+            &:last-of-type {
+                background-color: #f44336;
+                color: #fff;
+
+                &:hover {
+                    background-color: #e53935;
+                }
+            }
         }
     }
 }

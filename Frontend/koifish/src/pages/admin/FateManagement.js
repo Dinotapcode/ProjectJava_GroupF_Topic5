@@ -9,7 +9,6 @@ function FateManagement() {
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState("element");
   const [selectedType, setSelectedType] = useState("pond"); // 'pond' hoặc 'koi'
-
   const [formData, setFormData] = useState({
     id: "",
     element: "",
@@ -22,7 +21,7 @@ function FateManagement() {
     description: "",
   });
 
-  const [isFormVisible, setIsFormVisible] = useState(false); // Trạng thái hiển thị form
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   useEffect(() => {
     fetchAllData();
@@ -34,12 +33,10 @@ function FateManagement() {
         fetch(`${API_BASE_URL}/koi/all`),
         fetch(`${API_BASE_URL}/pond/all`),
       ]);
-
       const [koiData, pondData] = await Promise.all([
         koiRes.json(),
         pondRes.json(),
       ]);
-
       setKois(koiData);
       setPonds(pondData);
     } catch (error) {
@@ -82,7 +79,7 @@ function FateManagement() {
       await fetch(url, { method, body: payload });
       await fetchAllData();
       resetFormData();
-      setIsFormVisible(false); // Ẩn form sau khi lưu thành công
+      setIsFormVisible(false);
       alert("Thao tác thành công!");
     } catch (error) {
       console.error("Error saving data:", error);
@@ -109,15 +106,15 @@ function FateManagement() {
       quantity: item.quantity || "",
       location: item.location || "",
       direction: item.direction || "",
-      image: null, // Không thể hiển thị lại file gốc
+      image: null,
       description: item.description || "",
     });
-    setIsFormVisible(true); // Hiển thị form khi nhấn sửa
+    setIsFormVisible(true);
   };
 
   const handleAdd = () => {
     resetFormData();
-    setIsFormVisible(true); // Hiển thị form khi nhấn thêm
+    setIsFormVisible(true);
   };
 
   const resetFormData = () => {
@@ -139,8 +136,8 @@ function FateManagement() {
   };
 
   const handleCancelForm = () => {
-    setIsFormVisible(false); // Đóng form
-    resetFormData(); // Reset lại dữ liệu form
+    setIsFormVisible(false);
+    resetFormData();
   };
 
   const filteredData = search
@@ -153,7 +150,6 @@ function FateManagement() {
 
   return (
     <div className="fate-management">
-      {/* Buttons to toggle between Pond and Koi */}
       <div className="fate__control">
         <button onClick={() => setSelectedType("pond")} disabled={selectedType === "pond"}>
           Quản lý Hồ
@@ -163,7 +159,6 @@ function FateManagement() {
         </button>
       </div>
 
-      {/* Search */}
       <div className="fate__search">
         <select value={search} onChange={(e) => setSearch(e.target.value)}>
           <option value="">-- Chọn --</option>
@@ -187,10 +182,8 @@ function FateManagement() {
         <button onClick={handleClearFilter}>Hủy Lọc</button>
       </div>
 
-      {/* Nút thêm mới */}
       <button onClick={handleAdd}>Thêm Mới</button>
 
-      {/* Form nhập liệu */}
       {isFormVisible && (
         <FormComponent
           formData={formData}
@@ -198,11 +191,10 @@ function FateManagement() {
           handleInputChange={handleInputChange}
           handleFileChange={handleFileChange}
           handleAddOrUpdate={handleAddOrUpdate}
-          handleCancelForm={handleCancelForm} // Truyền hàm hủy
+          handleCancelForm={handleCancelForm}
         />
       )}
 
-      {/* List */}
       <ListComponent
         data={filteredData}
         selectedType={selectedType}
@@ -221,24 +213,11 @@ const FormComponent = ({
   handleAddOrUpdate,
   handleCancelForm,
 }) => (
-  <div style={{ position: "relative" }}>
+  <div className="form-container">
     <h2>{selectedType === "pond" ? "Thêm/Sửa Hồ" : "Thêm/Sửa Cá"}</h2>
-
-    {/* Nút Chéo để đóng form */}
-    <button
-      onClick={handleCancelForm}
-      style={{
-        position: "absolute",
-        top: 0,
-        right: 0,
-        background: "transparent",
-        border: "none",
-        fontSize: "20px",
-      }}
-    >
+    <button className="form-close-btn" onClick={handleCancelForm}>
       &times;
     </button>
-
     <input
       type="text"
       name="element"
@@ -280,7 +259,7 @@ const FormComponent = ({
           onChange={handleInputChange}
         />
         <input
-          type="text"
+          type="number"
           name="quantity"
           placeholder="Số lượng"
           value={formData.quantity}
@@ -292,21 +271,19 @@ const FormComponent = ({
           value={formData.description}
           onChange={handleInputChange}
         />
-        <input type="file" onChange={handleFileChange} />
+        <input type="file" name="image" onChange={handleFileChange} />
       </>
     )}
-    <button onClick={handleAddOrUpdate}>
-      {formData.id ? "Cập nhật" : "Thêm mới"}
-    </button>
+    <button onClick={handleAddOrUpdate}>Lưu</button>
   </div>
 );
 
 const ListComponent = ({ data, selectedType, handleEdit, handleDelete }) => (
-  <div>
-    <h2>{selectedType === "pond" ? "Danh sách Hồ" : "Danh sách Cá"}</h2>
+  <div className="list-container">
     <table>
       <thead>
         <tr>
+          <th>STT</th>
           <th>Mệnh</th>
           {selectedType === "pond" ? (
             <>
@@ -319,14 +296,17 @@ const ListComponent = ({ data, selectedType, handleEdit, handleDelete }) => (
               <th>Loài</th>
               <th>Số lượng</th>
               <th>Mô tả</th>
+              <th>Ảnh</th>
             </>
           )}
           <th>Hành động</th>
         </tr>
       </thead>
       <tbody>
-        {data.map((item) => (
-          <tr key={item[selectedType === "pond" ? "pondId" : "koiId"]}>
+        {data.map((item, index) => (
+          <tr key={index}>
+            {/* Số thứ tự */}
+            <td>{index + 1}</td>
             <td>{item.element}</td>
             {selectedType === "pond" ? (
               <>
@@ -339,6 +319,9 @@ const ListComponent = ({ data, selectedType, handleEdit, handleDelete }) => (
                 <td>{item.species}</td>
                 <td>{item.quantity}</td>
                 <td>{item.description}</td>
+                <td>
+                  <img src={item.image || ""} alt="Koi" width={50} />
+                </td>
               </>
             )}
             <td>

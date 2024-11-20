@@ -107,15 +107,51 @@ $back-to-top-text-color: white; // Màu chữ cho nút
 
         }
 
-        &-menu--close {
+        &-menu-icon--close {
             display: none;
+            
         
             .menu-icon {
-                width: 30px;
-                height: 30px;
-                color: #474747;
+                width: 50px;
+                height: 50px;
                 transition: all ease-in 0.3s;
                 cursor: pointer;
+                .checkboxtoggler {
+                    width: 45px;
+                    aspect-ratio: 1 / 1;
+                    display: flex;
+                    position: absolute;
+                    justify-content: center;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    flex-direction: column;
+                    gap: 10px;
+                    cursor: pointer;
+                  
+                    .line {
+                      background: #000000;
+                      height: 0.3em;
+                      border-radius: 10em;
+                      transition: transform 500ms, scaleX 500ms;
+                  
+                      &.checked {
+                        background: map-get($theme-colors, "main-red");
+                        &.line-1 {
+                          transform: rotate(45deg) translateY(0.7em) translateX(0.7em);
+                        }
+                  
+                        &.line-2 {
+                          transform: rotate(-45deg) translateY(0em) translateX(0em);
+                        }
+                  
+                        &.line-3 {
+                          transform: scaleX(0);
+                          transform-origin: left;
+                        }
+                      }
+                    }
+                  }
             }
             :hover .menu-icon{
                 transform: scale(1.1);
@@ -225,37 +261,6 @@ $back-to-top-text-color: white; // Màu chữ cho nút
 
     @media (max-width: 1080px) {
         .header__main-navbar-menu {
-            display: none;
-            /* Ẩn menu khi cửa sổ nhỏ hơn 880px */
-        }
-
-        .header__main-navbar-menu--close {
-            display: block;
-            background-color: rgb(255, 255, 255);
-            width: 45px;
-            height: 45px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            z-index: 1000;
-            /* Hiển thị icon menu khi cửa sổ nhỏ hơn 880px */
-        }
-
-        .header__main-navbar-menu-icon--open {
-            position: absolute;
-            transform: translate(-50%, -50%);
-            top: 60px;
-            right: -2.5px;
-
-            .header__main-navbar-menu-icon {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-        }
-
-        .header__main-navbar-menu--open {
             padding-top: 120px;
             position: absolute;
             width: 40vw;
@@ -266,14 +271,16 @@ $back-to-top-text-color: white; // Màu chữ cho nút
             justify-content: start;
             background-color: rgb(255, 255, 255);
             top: -10px;
-            left: 0;
+            left: -40vw;
             z-index: 10;
-            outline: rgba(0, 0, 0, 0.5) solid 100vw;
-
+            opacity: 0;
+            outline: rgba(0, 0, 0, 0) solid 100vw;
+            transition: all 0.5s ease;
+    
             .header__main-navbar-item {
                 width: 100%;
             }
-
+    
             .header__top-navbar-item--member {
                 position: absolute;
                 top: 50px;
@@ -288,7 +295,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
                 align-items: center;
                 gap: 15px;
             }
-
+    
             .header__main-navbar-avatar {
                 img {
                     height: 90%;
@@ -306,6 +313,50 @@ $back-to-top-text-color: white; // Màu chữ cho nút
                 text-overflow: ellipsis;
             }
         }
+
+        .header__main-navbar-menu--open {
+            left: 0;
+            opacity: 1;
+            outline: rgba(0, 0, 0, 0.5) solid 100vw;
+        }
+        
+        .header__main-navbar-menu-icon--close {
+            display: block;
+            background-color: rgb(255, 255, 255);
+            border: rgb(255, 255, 255) solid 7.5px;
+            margin: 0 0 7.5px 0;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            z-index: 1000;
+            transition: margin 1s ease;
+
+            &.shrink {
+                margin: 7.5px 0 0 0;
+            }
+        }
+
+        .header__main-navbar-menu-icon--open {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 59px;
+            right: -10px;
+            transition: top 0.8s ease;
+
+            &.shrink {
+                top: 31.5px;
+            }
+
+            .header__main-navbar-menu-icon {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
     }
 }
 

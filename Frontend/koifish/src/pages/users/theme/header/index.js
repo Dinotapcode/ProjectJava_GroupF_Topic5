@@ -18,21 +18,21 @@ const Header = () => {
     useEffect(() => {
         if (userId) {
             // Assuming you have a token stored in localStorage or a state
-            
+
             fetch(`http://localhost:8083/api/user/${userId}`, {
                 method: 'GET',
                 credentials: 'include',
             })
-            .then(response => response.json())
-            .then(data => {
-                setUser(data); // Lưu thông tin người dùng vào state
-            })
-            .catch(error => {
-                console.error('Error fetching user data:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    setUser(data); // Lưu thông tin người dùng vào state
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                });
         }
     }, [userId]);
-    
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -69,14 +69,14 @@ const Header = () => {
             { name: "Dịch vụ tư vấn", path: ROUTERS.USER.TRACUU },
             { name: "Sản phẩm phong thủy", path: ROUTERS.USER.SANPHAM },
         ];
-    
+
         if (role === 'ROLE_ADMIN') {
             baseMenus.push({ name: "Quản lý", path: ROUTERS.ADMIN });
         }
-    
+
         return baseMenus;
     });
-    
+
 
     const handleMenuToggle = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -143,9 +143,22 @@ const Header = () => {
                         ) : null}
 
                     </ul>
-                    <u className={`header__main-navbar-list header__main-navbar-menu--close ${isMenuOpen ? 'header__main-navbar-menu-icon--open' : ''}`}>
+                    <u className={`header__main-navbar-list header__main-navbar-menu-icon--close  ${isMenuOpen ? 'header__main-navbar-menu-icon--open' : ''} ${isShrunk ? 'shrink' : ''}`}>
                         <li className="header__main-navbar-item header__main-navbar-menu-icon">
-                            <RiMenuFold4Line className='menu-icon' onClick={handleMenuToggle} />
+                            <div className="menu-icon">
+                                <input
+                                    type="checkbox"
+                                    id="toggleChecker"
+                                    checked={isMenuOpen}
+                                    onChange={handleMenuToggle}
+                                    style={{ display: 'none' }}
+                                />
+                                <label htmlFor="toggleChecker" className="checkboxtoggler">
+                                    <div className={`line line-1 ${isMenuOpen ? 'checked' : ''}`}></div>
+                                    <div className={`line line-2 ${isMenuOpen ? 'checked' : ''}`}></div>
+                                    <div className={`line line-3 ${isMenuOpen ? 'checked' : ''}`}></div>
+                                </label>
+                            </div>
                         </li>
                     </u>
                 </nav>
