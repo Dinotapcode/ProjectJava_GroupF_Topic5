@@ -9,7 +9,10 @@ import { RiMenuFold4Line } from "react-icons/ri";
 const Header = () => {
     const [isShrunk, setIsShrunk] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({
+        userName: '',
+        avatar: null
+    });
     const menuRef = useRef(null); // Tham chiếu đến menu
     const role = sessionStorage.getItem('role');
     const userId = sessionStorage.getItem('userId');
@@ -19,7 +22,7 @@ const Header = () => {
         if (userId) {
             // Assuming you have a token stored in localStorage or a state
 
-            fetch(`http://localhost:8083/api/user/${userId}`, {
+            fetch(`http://localhost:8083/api/public/${userId}`, {
                 method: 'GET',
                 credentials: 'include',
             })
@@ -135,9 +138,17 @@ const Header = () => {
                         ))}
                         {sessionStorage.getItem('userId') ? (
                             <li className="header__main-navbar-item header__top-navbar-item--member">
-                                <span>Trần đình công siêu nhân</span>
+                                <span>{user.userName}</span>
                                 <Link to={ROUTERS.USER.PROFILE} className="header__main-navbar-avatar">
-                                    <img src={logo} alt="avatar" />
+                                    <img
+                                        src={
+                                            user.avatar
+                                                ? require(`../../../../assets/admin/avatar_user/uploads/${user.avatar}`)
+                                                : require(`../../../../assets/admin/avatar_user/defaults/default_avatar.png`)
+                                        }
+                                        alt="Avatar"
+                                        className="avatar"
+                                    />
                                 </Link>
                             </li>
                         ) : null}
