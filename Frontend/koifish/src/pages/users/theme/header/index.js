@@ -133,7 +133,7 @@ const Header = () => {
                     <ul className={`header__main-navbar-list header__main-navbar-menu ${isMenuOpen ? 'header__main-navbar-menu--open' : ''}`}>
                         {menus.map((menu, menuKey) => (
                             <li key={menuKey} className="header__main-navbar-item">
-                                <Link to={menu.path} className="header__main-navbar-link">{menu.name}</Link>
+                                <Link to={menu.path} className="header__main-navbar-link" onClick={() => setIsMenuOpen(false)}>{menu.name}</Link>
                             </li>
                         ))}
                         {sessionStorage.getItem('userId') ? (
