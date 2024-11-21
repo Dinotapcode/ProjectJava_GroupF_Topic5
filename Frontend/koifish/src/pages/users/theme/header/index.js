@@ -3,13 +3,38 @@ import { ROUTERS } from '../../../../utils/router';
 import './style.scss';
 import logo from '../../../../assets/logo/logo.png';
 import BackToHome from '../../../../components/BackToHome';
-import { Link } from 'react-router-dom';
-import { RiMenuFold4Line } from "react-icons/ri";
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
     const [isShrunk, setIsShrunk] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [user, setUser] = useState({
+        userName: '',
+        avatar: null
+    });
     const menuRef = useRef(null); // Tham chiếu đến menu
+    const role = sessionStorage.getItem('role');
+    const userId = sessionStorage.getItem('userId');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (userId) {
+            // Assuming you have a token stored in localStorage or a state
+
+            fetch(`http://localhost:8083/api/public/${userId}`, {
+                method: 'GET',
+                credentials: 'include',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setUser(data); // Lưu thông tin người dùng vào state
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                });
+        }
+    }, [userId]);
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -39,15 +64,35 @@ const Header = () => {
         };
     }, [isMenuOpen]);
 
-    const [menus] = useState([
-        { name: "Giới Thiệu", path: ROUTERS.USER.GIOITHIEU },
-        { name: "Blog tin tức", path: ROUTERS.USER.BLOG },
-        { name: "Dịch vụ tư vấn", path: ROUTERS.USER.TRACUU },
-        { name: "Sản phẩm phong thủy", path: ROUTERS.USER.SANPHAM },
-    ]);
+    const [menus] = useState(() => {
+        const baseMenus = [
+            { name: "Giới Thiệu", path: ROUTERS.USER.GIOITHIEU },
+            { name: "Blog tin tức", path: ROUTERS.USER.BLOG },
+            { name: "Dịch vụ tư vấn", path: ROUTERS.USER.TRACUU },
+            { name: "Sản phẩm phong thủy", path: ROUTERS.USER.SANPHAM },
+        ];
+
+        if (role === 'ROLE_ADMIN') {
+            baseMenus.push({ name: "Quản lý", path: ROUTERS.ADMIN });
+        }
+
+        return baseMenus;
+    });
+
 
     const handleMenuToggle = () => {
         setIsMenuOpen(!isMenuOpen);
+    };
+
+    const handleLogout = () => {
+        // Xóa thông tin đăng nhập khỏi sessionStorage
+        sessionStorage.removeItem('userId');
+        sessionStorage.removeItem('role');
+        // Hiển thị thông báo
+        alert('Đăng xuất thành công');
+
+        // Chuyển hướng người dùng về trang đăng nhập
+        navigate(ROUTERS.USER.HOME);
     };
 
     return (
@@ -61,11 +106,17 @@ const Header = () => {
                         <li className="header__top-navbar-item">
                             <i className="fa-solid fa-phone"></i> 19008080
                         </li>
-                        <li className="header__top-navbar-item header__top-navbar-item--guest">
-                            <Link to={ROUTERS.USER.LOGIN} className="header__top-navbar-item">Đăng nhập</Link>
-                        </li>
-                        <li className="header__top-navbar-item header__top-navbar-item--member">
-                            <Link to={ROUTERS.USER.LOGOUT} className="header__top-navbar-item">Đăng xuất</Link>
+                        <li className="header__top-navbar-item">
+                            {sessionStorage.getItem('userId') ? (
+                                <span onClick={handleLogout} className="header__top-navbar-item header__top-navbar-item--member">
+                                    Đăng xuất
+                                </span>
+                            ) : (
+                                <Link to={ROUTERS.USER.LOGIN}
+                                    className="header__top-navbar-item header__top-navbar-item--guest">
+                                    Đăng nhập
+                                </Link>
+                            )}
                         </li>
                     </ul>
                 </nav>
@@ -81,19 +132,43 @@ const Header = () => {
                     <ul className={`header__main-navbar-list header__main-navbar-menu ${isMenuOpen ? 'header__main-navbar-menu--open' : ''}`}>
                         {menus.map((menu, menuKey) => (
                             <li key={menuKey} className="header__main-navbar-item">
-                                <Link to={menu.path} className="header__main-navbar-link">{menu.name}</Link>
+                                <Link to={menu.path} className="header__main-navbar-link" onClick={() => setIsMenuOpen(false)}>{menu.name}</Link>
                             </li>
                         ))}
-                        <li className="header__main-navbar-item header__top-navbar-item--member">
-                            <span>Anh long</span>
-                            <Link to={ROUTERS.USER.HOME} className="header__main-navbar-avatar">
-                                <img src={logo} alt="avatar" />
-                            </Link>
-                        </li>
+                        {sessionStorage.getItem('userId') ? (
+                            <li className="header__main-navbar-item header__top-navbar-item--member">
+                                <span>{user.userName}</span>
+                                <Link to={ROUTERS.USER.PROFILE} className="header__main-navbar-avatar">
+                                    <img
+                                        src={
+                                            user.avatar
+                                                ? require(`../../../../assets/admin/avatar_user/uploads/${user.avatar}`)
+                                                : require(`../../../../assets/admin/avatar_user/defaults/default_avatar.png`)
+                                        }
+                                        alt="Avatar"
+                                        className="avatar"
+                                    />
+                                </Link>
+                            </li>
+                        ) : null}
+
                     </ul>
-                    <u className=  {`header__main-navbar-list header__main-navbar-menu--close ${isMenuOpen ? 'header__main-navbar-menu-icon--open' : ''}`}>
+                    <u className={`header__main-navbar-list header__main-navbar-menu-icon--close  ${isMenuOpen ? 'header__main-navbar-menu-icon--open' : ''} ${isShrunk ? 'shrink' : ''}`}>
                         <li className="header__main-navbar-item header__main-navbar-menu-icon">
-                            <RiMenuFold4Line className='menu-icon' onClick={handleMenuToggle} />
+                            <div className="menu-icon">
+                                <input
+                                    type="checkbox"
+                                    id="toggleChecker"
+                                    checked={isMenuOpen}
+                                    onChange={handleMenuToggle}
+                                    style={{ display: 'none' }}
+                                />
+                                <label htmlFor="toggleChecker" className="checkboxtoggler">
+                                    <div className={`line line-1 ${isMenuOpen ? 'checked' : ''}`}></div>
+                                    <div className={`line line-2 ${isMenuOpen ? 'checked' : ''}`}></div>
+                                    <div className={`line line-3 ${isMenuOpen ? 'checked' : ''}`}></div>
+                                </label>
+                            </div>
                         </li>
                     </u>
                 </nav>

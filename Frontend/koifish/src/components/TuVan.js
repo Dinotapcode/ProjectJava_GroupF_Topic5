@@ -25,7 +25,7 @@ const TuVan = () => {
 
         try {
             const response = await fetch(
-                `http://localhost:8083/api/v1/user/fate?birthDate=${dateAndSex.birthDate}&gender=${dateAndSex.gender}`
+                `http://localhost:8083/api/public/fate?birthDate=${dateAndSex.birthDate}&gender=${dateAndSex.gender}`
             );
             if (!response.ok) {
                 throw new Error("Không thể truy cập API");

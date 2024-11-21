@@ -1,235 +1,326 @@
 import React, { useState, useEffect } from "react";
-import { FaUser, FaHeart, FaBox, FaEnvelope } from "react-icons/fa";
+import { FaUser, FaBox, FaWallet } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { ROUTERS } from "../../../utils/router";
 import "./style.scss";
 
-// Base URL for your API
-const API_BASE_URL = "http://localhost:8083/user";
-
-// API function to get user profile by ID using fetch
-const updateUserProfile = async (id, userData) => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userName: userData.name,
-                email: userData.email,
-                phone: userData.phone,
-            })
-        });
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error updating profile:', error);
-        throw error;
-    }
-};
-
 const PersonalPage = () => {
-    const [profile, setProfile] = useState({});
-    const [walletBalance, setWalletBalance] = useState(0);
-    const userId = localStorage.getItem('userId') || null; // Get userId from localStorage after login(dòng này xác định id khi login)
-    const [activeSection, setActiveSection] = useState('profile');
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        bio: ''
-    });
-    const navigate = useNavigate();
+  const [user, setUser] = useState({
+    userName: "",
+    email: "",
+    phone: "",
+    birthday: "",
+    wallet: "",
+    avatar: null,
+  });
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [activeMenu, setActiveMenu] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [error, setError] = useState(null);
+  const [result, setResult] = useState(null);
+
+  const role = sessionStorage.getItem("role");
+  const userId = sessionStorage.getItem("userId");
+  const navigate = useNavigate();
+
+  const [newUser, setNewUser] = useState({
+    userName: "",
+    email: "",
+    avatar: null,
+    phone: "",
+    birthday: "",
+  });
+
+  if (!userId) {
+    // Assuming you have a token stored in localStorage or a state
+
+    navigate(ROUTERS.USER.HOME);
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    // Add one day to get tomorrow's date
+    date.setDate(date.getDate() + 1);
+    // Ensure the date is formatted as 'yyyy-mm-dd'
+    return date.toISOString().split("T")[0];
+  };
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+      }, 3000); // Message will disappear after 3 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
+  
+  useEffect(() => {
+    fetch(`http://localhost:8083/api/public/${userId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Fetched data: ", data);
+        setUser({
+          userName: data.userName,
+          email: data.email,
+          phone: data.phone,
+          birthday: formatDate(data.birthday), // Format the birthday here
+          wallet: data.wallet,
+          avatar: data.avatar || null,
+        });
+        setNewUser({
+          userName: data.userName || "",
+          email: data.email || "",
+          avatar: data.avatar || null,
+          phone: data.phone || "",
+          birthday: formatDate(data.birthday) || "", // Format the birthday here as well
+        });
+      })
+      .catch((error) => console.error("Error fetching user data: ", error));
+  }, [userId]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewUser({ ...newUser, [name]: value });
+  };
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
     };
+  }, [previewUrl]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const updatedUser = await updateUserProfile(userId, formData);
-            setProfile(updatedUser);
-            alert('Cập nhật thông tin thành công!');
-        } catch (error) {
-            console.error('Error:', error);
-            alert('Có lỗi xảy ra khi cập nhật thông tin!');
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Tạo preview URL cho ảnh mới
+      const newPreviewUrl = URL.createObjectURL(file);
+
+      // Xóa preview URL cũ nếu có
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+
+      setPreviewUrl(newPreviewUrl);
+      setNewUser({ ...newUser, avatar: file });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("userName", newUser.userName);
+    formData.append("email", newUser.email);
+    formData.append("phone", newUser.phone);
+    formData.append("birthday", newUser.birthday);
+
+    // Chỉ append avatar nếu có file mới
+    if (newUser.avatar instanceof File) {
+      formData.append("avatar", newUser.avatar);
+    }
+
+    try {
+      setLoading(true);
+      const response = await fetch(
+        `http://localhost:8083/api/public/update/${userId}`,
+        {
+          method: "PUT",
+          body: formData,
         }
-    };
+      );
 
-    const getUserProfile = async (id) => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/${id}`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch profile');
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || "Cập nhật thất bại.");
+      }
+
+      const resultText = await response.text();
+      setMessage("Cập nhật thành công!");
+
+      // Lấy tên file avatar mới từ response
+      const newAvatarPath = resultText.split("avatar: ")[1];
+
+      // Cập nhật state với avatar mới
+      setUser((prev) => ({
+        ...prev,
+        userName: newUser.userName,
+        email: newUser.email,
+        phone: newUser.phone,
+        birthday: newUser.birthday,
+        avatar: newAvatarPath,
+      }));
+
+      // Reset preview URL
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+        setPreviewUrl(null);
+      }
+
+      navigate(0);
+      setActiveMenu(null); // Reset to show welcome message
+    } catch (error) {
+      console.error("Error:", error);
+      setMessage("Có lỗi xảy ra. Vui lòng thử lại.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleLogout = () => {
+    // Xóa thông tin đăng nhập khỏi sessionStorage
+    sessionStorage.removeItem("userId");
+    sessionStorage.removeItem("role");
+    // Hiển thị thông báo
+    alert("Đăng xuất thành công");
+
+    // Chuyển hướng người dùng về trang đăng nhập
+    navigate(ROUTERS.USER.HOME);
+  };
+  return (
+    <div className="personal-page">
+      <div className="sidebar">
+        <div className="user-profile">
+          <img
+            src={
+              user.avatar
+                ? require(`../../../assets/admin/avatar_user/uploads/${user.avatar}`)
+                : require(`../../../assets/admin/avatar_user/defaults/default_avatar.png`)
             }
-            const data = await response.json();
-            setFormData({
-                name: data.userName || '',
-                email: data.email || '',
-                phone: data.phone || '',
-                bio: data.bio || ''
-            });
-            setWalletBalance(data.wallet || 0);
-            return data;
-        } catch (error) {
-            console.error('Error fetching profile:', error);
-            throw error;
-        }
-    };
+            alt="Avatar"
+            className="avatar"
+          />
 
-    const handleLogout = () => {
-        // Xóa token từ localStorage
-        localStorage.removeItem('token');
-        // Xóa thông tin người dùng từ localStorage nếu có
-        localStorage.removeItem('user');
-        // Chuyển hướng về trang chủ
-        navigate('/');
-    };
+          <h3>{user.userName}</h3>
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const data = await getUserProfile(userId);
-                setProfile(data);
-            } catch (error) {
-                console.error("Failed to load profile:", error);
-            }
-        };
-        fetchProfile();
-    }, [userId]);
-
-    return (
-        <div className="container">
-            <div className="profile-container">
-                <div className="sidebar">
-                    <div
-                        className="profile-pic"
-                        style={{ backgroundImage: profile.picture ? `url(${profile.picture})` : "" }}
-                    ></div>
-                    <div className="name">{profile.name || "Ảnh đại diện"}</div>
-
-                    <Link to="/" className="button home-button">TRANG CHỦ</Link>
-                    <button onClick={handleLogout} className="button logout-button">ĐĂNG XUẤT</button>
-                    <ul className="menu">
-                        <li 
-                            className={`menu-item ${activeSection === 'profile' ? 'active' : ''}`} 
-                            onClick={() => setActiveSection('profile')}
-                        >
-                            <FaUser />
-                            <span>Cập nhật thông tin cá nhân</span>
-                        </li>
-                        <li 
-                            className={`menu-item ${activeSection === 'orders' ? 'active' : ''}`}
-                            onClick={() => setActiveSection('orders')}
-                        >
-                            <FaBox />
-                            <span>Quản lý đơn hàng</span>
-                        </li>
-                        <li 
-                            className={`menu-item ${activeSection === 'wallet' ? 'active' : ''}`}
-                            onClick={() => setActiveSection('wallet')}
-                        >
-                            <FaHeart />
-                            <span>Ví của tôi</span>
-                        </li>
-                    </ul>
-                </div>
-                <div className="content">
-                    {activeSection === 'profile' ? (
-                        <div>
-                            <div className="profile-info">
-                                
-                                <h2>Chào mừng {profile.name} đến với website FengshuiKoi</h2>
-                                
-                            </div>
-                            
-                            <button 
-                                className="update-button"
-                                onClick={() => setActiveSection('update-profile')}
-                            >
-                                Cập nhật thông tin
-                            </button>
-                        </div>
-                    ) : activeSection === 'update-profile' ? (
-                        <form onSubmit={handleSubmit} className="update-form">
-                            <h2>Cập nhật thông tin cá nhân</h2>
-                            <div className="form-group">
-                                <label>Tên:</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleInputChange}
-                                    placeholder="Nhập tên của bạn"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Email:</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleInputChange}
-                                    placeholder="Nhập email của bạn"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Số điện thoại:</label>
-                                <input
-                                    type="tel"
-                                    name="phone"
-                                    value={formData.phone}
-                                    onChange={handleInputChange}
-                                    placeholder="Nhập số điện thoại của bạn"
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Giới thiệu:</label>
-                                <textarea
-                                    name="bio"
-                                    value={formData.bio}
-                                    onChange={handleInputChange}
-                                    placeholder="Giới thiệu về bản thân"
-                                />
-                            </div>
-                            <div className="button-group">
-                                <button type="submit" className="update-button">
-                                    Lưu thông tin
-                                </button>
-                                <button 
-                                    type="button" 
-                                    className="cancel-button"
-                                    onClick={() => setActiveSection('profile')}
-                                >
-                                    Hủy
-                                </button>
-                            </div>
-                        </form>
-                    ) : activeSection === 'wallet' ? (
-                        <div className="wallet-info">
-                            <h2>Ví của tôi</h2>
-                            <div className="balance-container">
-                                <h3>Số dư hiện tại:</h3>
-                                <p className="balance-amount">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(walletBalance)}</p>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="profile-info">
-                            <p>Chào mừng {profile.name} đến với website FengshuiKoi</p>
-                        </div>
-                    )}
-                </div>
-            </div>
+          <div className="action-buttons">
+            <Link to={ROUTERS.USER.HOME} className="btn primary">
+              TRANG CHỦ
+            </Link>
+            <button className="btn danger" onClick={handleLogout}>
+              ĐĂNG XUẤT
+            </button>
+          </div>
         </div>
-    );
+
+        <div className="menu-list">
+          <div
+            className={`menu-item ${activeMenu === "profile" ? "active" : ""}`}
+            onClick={() => setActiveMenu("profile")}
+          >
+            <FaUser /> Cập nhật thông tin cá nhân
+          </div>
+          <div
+            className={`menu-item ${activeMenu === "orders" ? "active" : ""}`}
+            onClick={() => setActiveMenu("orders")}
+          >
+            <FaBox /> Quản lý lịch hẹn
+          </div>
+          <div
+            className={`menu-item ${activeMenu === "wallet" ? "active" : ""}`}
+            onClick={() => setActiveMenu("wallet")}
+          >
+            <FaWallet /> Ví của tôi: {user.wallet || 0} VNĐ
+          </div>
+        </div>
+      </div>
+
+      <div className="main-content">
+        {!activeMenu && (
+          <div className="welcome-message">
+            Chào mừng {user.userName} đến với website Fengshuikoi
+          </div>
+        )}
+
+        {activeMenu === "profile" && (
+          <div className="content-section">
+            <h2 className="title-edit">Thông tin cá nhân</h2>
+            <div className="profile-container">
+              <div className="avatar-section">
+                <img
+                  src={
+                    previewUrl ||
+                    (user.avatar
+                      ? require(`../../../assets/admin/avatar_user/uploads/${user.avatar}`)
+                      : require(`../../../assets/admin/avatar_user/defaults/default_avatar.png`))
+                  }
+                  alt="Avatar"
+                  className="avatar"
+                />
+                <div className="avatar-upload">
+                  <input
+                    type="file"
+                    id="avatar-input"
+                    onChange={handleAvatarChange}
+                    accept="image/*"
+                    hidden
+                  />
+                  <label htmlFor="avatar-input" className="upload-btn">
+                    Chọn ảnh
+                  </label>
+                </div>
+              </div>
+
+              <form onSubmit={handleSubmit} className="profile-form">
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Tên người dùng</label>
+                    <input
+                      type="text"
+                      name="userName"
+                      value={newUser.userName}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Email</label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={newUser.email}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Số điện thoại</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={newUser.phone}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Ngày sinh</label>
+                    <input
+                      type="date"
+                      name="birthday"
+                      value={newUser.birthday}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+
+                <button type="submit" className="submit-btn" disabled={loading}>
+                  {loading ? "Đang cập nhật..." : "Lưu thay đổi"}
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {message && <div className="message-toast fade-out">{message}</div>}
+    </div>
+  );
 };
 
 export default PersonalPage;

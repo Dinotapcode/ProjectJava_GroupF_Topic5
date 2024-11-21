@@ -4,6 +4,7 @@
 .sanpham-page {
     padding: 20px;
     margin: 0 40px;
+    min-height: 602px;
 
     h1 {
         text-align: center;
@@ -52,6 +53,7 @@
 
         &:hover {
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); // Hiệu ứng đổ bóng khi hover
+            transform: translateY(-5px); // Dịch chuyển nhẹ lên trên khi hover
         }
 
         img {
@@ -72,6 +74,7 @@
             color: map-get($theme-colors, "main-red"); // Màu đỏ cho giá sản phẩm
         }
     }
+
     button {
         width: 100px;
         height: 30px;
@@ -82,6 +85,7 @@
             background-color 0.3s,
             transform 0.3s;
         font-size: 1.5em;
+
         &:hover {
             background-color: rgb(10, 163, 209);
             color: white;

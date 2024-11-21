@@ -9,7 +9,10 @@ import java.util.List;
 
 @Repository
 public interface KoiRepository extends JpaRepository<Koi, Integer> {
-    List<Koi> findByElement(String element);
     @Query("SELECT DISTINCT k.species FROM Koi k")
     List<String> findDistinctSpeciesBy();
+
+    List<Koi> findByElement(String element);
+    List<Koi> findBySpecies(String species);
+
 }

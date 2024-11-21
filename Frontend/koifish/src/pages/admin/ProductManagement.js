@@ -5,65 +5,105 @@ const ProductManagement = ({ products, setProducts }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editIndex, setEditIndex] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [newProduct, setNewProduct] = useState({
+        name: "",
         item: "",
         type: "",
-        name: "",
+        price: "",
+        img: null,
         description: "",
-        origin: "",
-        color: "",
-        weight: "",
-        size: "",
-        material: "",
-        image: "placeholder.jpg",  // giá trị mặc định cho image
+        info1: "",
+        info2: "",
+        info3: "",
     });
 
+    // Xử lý thay đổi input
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setNewProduct({ ...newProduct, [name]: value });
     };
 
-    const handleAddProduct = () => {
-        if (isEditing) {
-            const updatedProducts = [...products];
-            updatedProducts[editIndex] = { ...newProduct };
-            setProducts(updatedProducts);
-            setIsEditing(false);
-        } else {
-            setProducts([...products, { ...newProduct, id: products.length + 1 }]);
+    // Xử lý file ảnh
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setNewProduct({ ...newProduct, img: file });
         }
-        setShowPopup(false);
-        resetForm();
     };
 
+    // Thêm hoặc cập nhật sản phẩm
+    const handleAddProduct = async () => {
+        if (!newProduct.name || !newProduct.item  || !newProduct.price) {
+            alert('Vui lòng điền đầy đủ các trường bắt buộc!');
+            return;
+        }
+
+        try {
+            setIsLoading(true);
+            const method = isEditing ? 'PUT' : 'POST';
+            const url = isEditing
+                ? `http://localhost:8083/api/products/update/${products[editIndex].id}`
+                : 'http://localhost:8083/api/products/add';
+
+            const formData = new FormData();
+            formData.append('name', newProduct.name);
+            formData.append('item', newProduct.item);
+            formData.append('type', newProduct.type);
+            formData.append('price', newProduct.price);
+            formData.append('description', newProduct.description);
+            formData.append('info1', newProduct.info1);
+            formData.append('info2', newProduct.info2);
+            formData.append('info3', newProduct.info3);
+            formData.append('image', newProduct.img);
+
+            const response = await fetch(url, {
+                method,
+                body: formData,
+            });
+
+            if (!response.ok) throw new Error('Không thể thêm hoặc cập nhật sản phẩm.');
+
+            const product = await response.json();
+            const updatedProducts = isEditing
+                ? products.map((p, index) => (index === editIndex ? product : p))
+                : [...products, product];
+
+            setProducts(updatedProducts);
+            setShowPopup(false);
+            resetForm();
+        } catch (error) {
+            console.error('Có lỗi xảy ra:', error);
+            alert('Không thể thêm hoặc cập nhật sản phẩm.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // Reset form
     const resetForm = () => {
         setNewProduct({
+            name: "",
             item: "",
             type: "",
-            name: "",
+            price: "",
+            img: null,
             description: "",
-            origin: "",
-            color: "",
-            weight: "",
-            size: "",
-            material: "",
-            image: "placeholder.jpg",
+            info1: "",
+            info2: "",
+            info3: "",
         });
         setIsEditing(false);
         setEditIndex(null);
     };
 
+    // Đóng popup
     const handleClosePopup = () => {
         setShowPopup(false);
         resetForm();
     };
 
-    const handlePopupClick = (e) => {
-        if (e.target.classList.contains('popup')) {
-            handleClosePopup();
-        }
-    };
-
+    // Chỉnh sửa sản phẩm
     const handleEditProduct = (index) => {
         setNewProduct(products[index]);
         setShowPopup(true);
@@ -71,114 +111,135 @@ const ProductManagement = ({ products, setProducts }) => {
         setEditIndex(index);
     };
 
-    const handleDeleteProduct = (index) => {
-        setProducts(products.filter((_, i) => i !== index));
+    // Xóa sản phẩm
+    const handleDeleteProduct = async (index) => {
+        if (!window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) return;
+
+        const productToDelete = products[index];
+        try {
+            const response = await fetch(`http://localhost:8083/api/products/delete/${productToDelete.id}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                setProducts(products.filter((_, i) => i !== index));
+                alert('Sản phẩm đã được xóa thành công.');
+            } else {
+                alert('Không thể xóa sản phẩm.');
+            }
+        } catch (error) {
+            console.error('Có lỗi khi xóa sản phẩm:', error);
+            alert('Không thể kết nối đến server.');
+        }
     };
 
+    // Fetch sản phẩm khi component load
     useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (e.key === 'Escape') {
-                handleClosePopup();
+        const fetchProducts = async () => {
+            try {
+                setIsLoading(true);
+                const response = await fetch('http://localhost:8083/api/products/all');
+                if (!response.ok) throw new Error('Không thể tải danh sách sản phẩm.');
+
+                const data = await response.json();
+                setProducts(data);
+            } catch (error) {
+                console.error('Có lỗi xảy ra:', error);
+                alert('Không thể tải danh sách sản phẩm.');
+            } finally {
+                setIsLoading(false);
             }
         };
 
-        if (showPopup) {
-            window.addEventListener('keydown', handleKeyDown);
-        }
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [showPopup]);
+        fetchProducts();
+    }, [setProducts]);
 
     return (
         <div className="product-management">
-            <div className='setting-add-product-btn'>
+            <div className="setting-add-product-btn">
                 <h1>Quản lý sản phẩm</h1>
-                <button className='btn-add' onClick={() => setShowPopup(true)}>Thêm sản phẩm</button>
+                <button className="btn-add" onClick={() => setShowPopup(true)}>Thêm sản phẩm</button>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>Item</th>
-                        <th>Loại</th>
-                        <th>Tên</th>
-                        <th>Ảnh</th>
-                        <th>Nguồn gốc</th>
-                        <th>Active</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {products.map((product, index) => (
-                        <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td>{product.item}</td>
-                            <td>{product.type}</td>
-                            <td>{product.name}</td>
-                            <td>
-                                <img
-                                    src={product.image}
-                                    alt={product.name}
-                                    className="product-image"
-                                />
-                            </td>
-                            <td>{product.origin}</td>
-                            <td>
-                                <button onClick={() => handleEditProduct(index)}>Sửa</button>
-                                <button onClick={() => handleDeleteProduct(index)}>Xóa</button>
-                            </td>
+
+            {isLoading ? (
+                <div className="loading">Đang tải dữ liệu...</div>
+            ) : (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Item</th>
+                            <th>Loại</th>
+                            <th>Tên</th>
+                            <th>Ảnh</th>
+                            <th>Nguồn gốc</th>
+                            <th>Thao tác</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {products.map((product, index) => (
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{product.item}</td>
+                                <td>{product.type}</td>
+                                <td>{product.name}</td>
+                                <td>
+                                    <img
+                                        src={`/img_products/${product.img}`}
+                                        alt={product.name}
+                                        className="product-image"
+                                    />
+                                </td>
+                                <td>{product.info3}</td>
+                                <td>
+                                    <button className="btn-product" onClick={() => handleEditProduct(index)}>Sửa</button>
+                                    <button className="btn-product" onClick={() => handleDeleteProduct(index)}>Xóa</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
 
             {showPopup && (
-                <div className="popup" onClick={handlePopupClick}>
+                <div className="popup" onClick={() => setShowPopup(false)}>
                     <div className="popup-content" onClick={(e) => e.stopPropagation()}>
                         <button className="close-btn" onClick={handleClosePopup}>X</button>
                         <h2>{isEditing ? "Sửa sản phẩm" : "Thêm sản phẩm"}</h2>
+
                         <label>
                             Tên:
-                            <input
-                                type="text"
-                                name="name"
-                                value={newProduct.name}
-                                onChange={handleInputChange}
-                            />
+                            <input type="text" name="name" value={newProduct.name} onChange={handleInputChange} />
                         </label>
                         <label>
                             Mô tả:
-                            <input
-                                type="text"
-                                name="description"
-                                value={newProduct.description}
-                                onChange={handleInputChange}
-                            />
+                            <input type="text" name="description" value={newProduct.description} onChange={handleInputChange} />
                         </label>
                         <label>
                             Ảnh:
-                            <input
-                                type="text"
-                                name="image"
-                                value={newProduct.image}
-                                onChange={handleInputChange}
-                            />
+                            <input type="file" accept="image/*" onChange={handleFileChange} />
                         </label>
                         <label>
+                            Giá:
+                            <input type="number" name="price" value={newProduct.price} onChange={handleInputChange} />
+                        </label>
+
+                        <label>
                             Item:
-                            <select name="item" value={newProduct.item} onChange={handleInputChange} defaultValue="">
-                                <option value="" disabled>Chọn loại sản phẩm bạn muốn thêm</option>
-                                <option value="Cá">Cá</option>
-                                <option value="Hồ">Hồ</option>
+                            <select name="item" value={newProduct.item} onChange={handleInputChange}>
+                                <option value="" disabled>Chọn loại sản phẩm</option>
+                                <option value="fish">Cá</option>
+                                <option value="aquarium">Hồ</option>
                             </select>
                         </label>
-                        {newProduct.item === 'Cá' && (
+
+                        {/* Conditional fields based on 'item' */}
+                        {newProduct.item === 'fish' && (
                             <>
                                 <label>
                                     Loại cá:
                                     <select name="type" value={newProduct.type} onChange={handleInputChange}>
-                                        <option value="" selected disabled>Chọn loại cá</option>
+                                        <option disabled value="">Chọn loại cá</option>
                                         <option value="Cá Koi Showa">Cá Koi Showa</option>
                                         <option value="Cá Koi Asagi">Cá Koi Asagi</option>
                                         <option value="Cá Koi Kohaku">Cá Koi Kohaku</option>
@@ -188,40 +249,25 @@ const ProductManagement = ({ products, setProducts }) => {
                                 </label>
                                 <label>
                                     Màu sắc:
-                                    <input
-                                        type="text"
-                                        name="color"
-                                        value={newProduct.color}
-                                        onChange={handleInputChange}
-                                    />
+                                    <input type="text" name="info1" value={newProduct.info1} onChange={handleInputChange} />
                                 </label>
                                 <label>
                                     Cân nặng:
-                                    <input
-                                        type="text"
-                                        name="weight"
-                                        value={newProduct.weight}
-                                        onChange={handleInputChange}
-                                    />
+                                    <input type="text" name="info2" value={newProduct.info2} onChange={handleInputChange} />
                                 </label>
                                 <label>
                                     Xuất xứ:
-                                    <input
-                                        type="text"
-                                        name="origin"
-                                        value={newProduct.origin}
-                                        onChange={handleInputChange}
-                                    />
+                                    <input type="text" name="info3" value={newProduct.info3} onChange={handleInputChange} />
                                 </label>
                             </>
                         )}
 
-                        {newProduct.item === 'Hồ' && (
+                        {newProduct.item === 'aquarium' && (
                             <>
                                 <label>
                                     Hình dạng hồ:
                                     <select name="type" value={newProduct.type} onChange={handleInputChange}>
-                                        <option value="">Chọn hình dạng hồ</option>
+                                        <option disabled value="">Chọn hình dạng hồ</option>
                                         <option value="Hồ hình vuông">Hồ hình vuông</option>
                                         <option value="Hồ hình tròn">Hồ hình tròn</option>
                                         <option value="Hồ hình bầu dục">Hồ hình bầu dục</option>
@@ -230,41 +276,24 @@ const ProductManagement = ({ products, setProducts }) => {
                                     </select>
                                 </label>
                                 <label>
+                                    Màu sắc:
+                                    <input type="text" name="info1" value={newProduct.info1} onChange={handleInputChange} />
+                                </label>
+                                <label>
                                     Kích thước:
-                                    <input
-                                        type="text"
-                                        name="size"
-                                        value={newProduct.size}
-                                        onChange={handleInputChange}
-                                    />
+                                    <input type="text" name="info2" value={newProduct.info2} onChange={handleInputChange} />
                                 </label>
                                 <label>
-                                    Chất liệu:
-                                    <input
-                                        type="text"
-                                        name="material"
-                                        value={newProduct.material}
-                                        onChange={handleInputChange}
-                                    />
-                                </label>
-                                <label>
-                                    Xuất xứ:
-                                    <input
-                                        type="text"
-                                        name="origin"
-                                        value={newProduct.origin}
-                                        onChange={handleInputChange}
-                                    />
+                                    Vật liệu:
+                                    <input type="text" name="info3" value={newProduct.info3} onChange={handleInputChange} />
                                 </label>
                             </>
                         )}
-
-
-                        <div className="add-product">
-                            <button id="add-product" onClick={handleAddProduct}>
-                                {isEditing ? "Lưu" : "Thêm"}
-                            </button>
-                        </div>
+                        <div className='add-product'>
+                        <button className="btn-save" onClick={handleAddProduct} disabled={isLoading}>
+                            {isLoading ? "Đang xử lý..." : isEditing ? "Lưu thay đổi" : "Thêm sản phẩm"}
+                        </button>
+                    </div>
                     </div>
                 </div>
             )}

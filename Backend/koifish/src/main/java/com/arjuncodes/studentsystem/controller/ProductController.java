@@ -3,51 +3,114 @@ package com.arjuncodes.studentsystem.controller;
 import com.arjuncodes.studentsystem.model.Product;
 import com.arjuncodes.studentsystem.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
+
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @CrossOrigin
 @RequestMapping("api/products")
 public class ProductController {
 
+    private static final String UPLOAD_DIR = "Frontend/koifish/public/img_products";  // Đường dẫn lưu ảnh
 
     @Autowired
     private ProductService productService;
 
-    // Get all products
+    // Lấy tất cả sản phẩm
     @GetMapping("/all")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 
-    // Get product by ID
+    // Lấy sản phẩm theo ID
     @GetMapping("/detail")
     public Product getProductById(@RequestParam Integer id) {
-        return productService.getProductById(id);  // Trả về sản phẩm theo id
+        return productService.getProductById(id);
     }
 
+    // Thêm sản phẩm mới kèm hình ảnh
+    @PostMapping("/add")
+    public ResponseEntity<Product> addProduct(
+            @RequestParam("name") String name,
+            @RequestParam("item") String item,
+            @RequestParam("type") String type,
+            @RequestParam("price") BigDecimal price,
+            @RequestParam(value = "image", required = false) MultipartFile image,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "info1", required = false) String info1,
+            @RequestParam(value = "info2", required = false) String info2,
+            @RequestParam(value = "info3", required = false) String info3
+    ) {
+        try {
+            Product product = new Product();
+            product.setName(name);
+            product.setItem(item);
+            product.setType(type);
+            product.setPrice(price);
+            product.setDescription(description);
+            product.setInfo1(info1);
+            product.setInfo2(info2);
+            product.setInfo3(info3);
 
-    // Add a new product
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Product addProduct(@RequestBody Product product) {
-        return productService.addProduct(product);  // Thêm sản phẩm mới
+            Product savedProduct = productService.saveProduct(product, image);
+            return ResponseEntity.ok(savedProduct);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
     }
 
-    // Update an existing product by ID
     @PutMapping("/update/{id}")
-    public Product updateProduct(@PathVariable Integer id, @RequestBody Product product) {
-        return productService.updateProduct(id, product);  // Cập nhật sản phẩm theo id
+    public ResponseEntity<Product> updateProduct(
+            @PathVariable Integer id,
+            @RequestParam("name") String name,
+            @RequestParam("item") String item,
+            @RequestParam("type") String type,
+            @RequestParam("price") BigDecimal price,
+            @RequestParam(value = "image", required = false) MultipartFile image,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "info1", required = false) String info1,
+            @RequestParam(value = "info2", required = false) String info2,
+            @RequestParam(value = "info3", required = false) String info3
+    ) {
+        try {
+            Product existingProduct = productService.getProductById(id);
+            if (existingProduct == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            existingProduct.setName(name);
+            existingProduct.setItem(item);
+            existingProduct.setType(type);
+            existingProduct.setPrice(price);
+            existingProduct.setDescription(description);
+            existingProduct.setInfo1(info1);
+            existingProduct.setInfo2(info2);
+            existingProduct.setInfo3(info3);
+
+            Product updatedProduct = productService.saveProduct(existingProduct, image);
+            return ResponseEntity.ok(updatedProduct);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
     }
 
-    // Delete a product by ID
+    // Xóa sản phẩm theo ID
     @DeleteMapping("/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable Integer id) {
-        productService.deleteProduct(id);  // Xóa sản phẩm theo id
+        try {
+            productService.deleteProduct(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Lỗi khi xóa sản phẩm: " + e.getMessage());
+        }
     }
 }
