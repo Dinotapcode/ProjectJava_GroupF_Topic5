@@ -4,119 +4,123 @@
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
-}
 
-h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-    
-}
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 2px solid black;  // Khung cho bảng
-}
+    }
 
-th, td {
-    padding: 10px;
-    text-align: center;
-    border: 1px solid black;  // Khung cho mỗi ô trong bảng
-    font-size: 15px;
-}
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border: 2px solid black; // Khung cho bảng
+    }
 
-th {
-    background-color: #f0f0f0;
-    font-weight: bold;
-}
+    th,
+    td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid black; // Khung cho mỗi ô trong bảng
+        font-size: 15px;
+    }
 
-button {
-    padding: 8px 15px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+    th {
+        background-color: #f0f0f0;
+        font-weight: bold;
+    }
 
-button:hover {
-    opacity: 0.8;
-}
+    button {
+        padding: 8px 15px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
 
-.edit-schedule {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+    button:hover {
+        opacity: 0.8;
+    }
 
-label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 14px;
-    color: #555;
-}
+    .edit-schedule {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-input[type="text"], input[type="date"], input[type="time"] {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #555;
+    }
 
-button {
-    background-color: #4CAF50;
-    color: white;
-    font-size: 16px;
-}
+    input[type="text"],
+    input[type="date"],
+    input[type="time"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
 
-button:hover {
-    background-color: #45a049;
-}
+    button {
+        background-color: #4CAF50;
+        color: white;
+        font-size: 16px;
+    }
 
-button.cancel {
-    background-color: #f44336;
-}
+    button:hover {
+        background-color: #45a049;
+    }
 
-button.cancel:hover {
-    background-color: #e53935;
-}
+    button.cancel {
+        background-color: #f44336;
+    }
 
-button.update {
-    background-color: #008CBA;
-}
+    button.cancel:hover {
+        background-color: #e53935;
+    }
 
-button.update:hover {
-    background-color: #007B9A;
-}
+    button.update {
+        background-color: #008CBA;
+    }
 
-button.delete {
-    background-color: #f44336;
-}
+    button.update:hover {
+        background-color: #007B9A;
+    }
 
-button.delete:hover {
-    background-color: #e53935;
-}
+    button.delete {
+        background-color: #f44336;
+    }
 
-button.edit {
-    background-color: #ff9800;
-}
+    button.delete:hover {
+        background-color: #e53935;
+    }
 
-button.edit:hover {
-    background-color: #fb8c00;
-}
+    button.edit {
+        background-color: #ff9800;
+    }
 
-.loading {
-    text-align: center;
-    font-size: 18px;
-    color: #555;
+    button.edit:hover {
+        background-color: #fb8c00;
+    }
+
+    .loading {
+        text-align: center;
+        font-size: 18px;
+        color: #555;
+    }
+
 }

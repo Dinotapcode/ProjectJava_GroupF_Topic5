@@ -4,30 +4,37 @@ import "./FateManagement.scss";
 const API_BASE_URL = "http://localhost:8083/api/public";
 
 function FateManagement() {
+  // State quản lý dữ liệu
   const [kois, setKois] = useState([]);
   const [ponds, setPonds] = useState([]);
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState("element");
   const [selectedType, setSelectedType] = useState("pond"); // 'pond' hoặc 'koi'
-  const [formData, setFormData] = useState({
-    id: "",
-    element: "",
-    species: "",
-    shape: "",
-    quantity: "",
-    location: "",
-    direction: "",
-    image: null,
-    description: "",
-  });
-
+  const [formData, setFormData] = useState(initFormData());
   const [isFormVisible, setIsFormVisible] = useState(false);
 
+  // Fetch dữ liệu khi component được mount
   useEffect(() => {
     fetchAllData();
   }, []);
 
-  const fetchAllData = async () => {
+  // Hàm khởi tạo form mặc định
+  function initFormData() {
+    return {
+      id: "",
+      element: "",
+      species: "",
+      shape: "",
+      quantity: "",
+      location: "",
+      direction: "",
+      image: null,
+      description: "",
+    };
+  }
+
+  // Lấy dữ liệu từ API
+  async function fetchAllData() {
     try {
       const [koiRes, pondRes] = await Promise.all([
         fetch(`${API_BASE_URL}/koi/all`),
@@ -42,8 +49,9 @@ function FateManagement() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }
 
+  // Xử lý nhập liệu cho form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -53,27 +61,17 @@ function FateManagement() {
     setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
   };
 
-  const handleAddOrUpdate = async () => {
+  // Thêm hoặc cập nhật dữ liệu
+  async function handleAddOrUpdate() {
     const isPond = selectedType === "pond";
     const isEditing = !!formData.id;
     const url = `${API_BASE_URL}/${isPond ? "pond" : "koi"}/${isEditing ? "update" : "add"}`;
     const method = isEditing ? "PUT" : "POST";
 
     const payload = new FormData();
-    if (isPond) {
-      payload.append("pondId", formData.id || "");
-      payload.append("element", formData.element);
-      payload.append("shape", formData.shape);
-      payload.append("location", formData.location);
-      payload.append("direction", formData.direction);
-    } else {
-      payload.append("koiId", formData.id || "");
-      payload.append("element", formData.element);
-      payload.append("species", formData.species);
-      payload.append("quantity", formData.quantity);
-      payload.append("description", formData.description);
-      if (formData.image) payload.append("file", formData.image);
-    }
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value !== null && value !== "") payload.append(key, value);
+    });
 
     try {
       await fetch(url, { method, body: payload });
@@ -84,9 +82,10 @@ function FateManagement() {
     } catch (error) {
       console.error("Error saving data:", error);
     }
-  };
+  }
 
-  const handleDelete = async (id) => {
+  // Xóa dữ liệu
+  async function handleDelete(id) {
     const url = `${API_BASE_URL}/${selectedType}/${id}`;
     try {
       await fetch(url, { method: "DELETE" });
@@ -95,12 +94,13 @@ function FateManagement() {
     } catch (error) {
       console.error("Error deleting item:", error);
     }
-  };
+  }
 
+  // Sửa dữ liệu
   const handleEdit = (item) => {
     setFormData({
       id: item[selectedType === "pond" ? "pondId" : "koiId"],
-      element: item.element,
+      element: item.element || "",
       species: item.species || "",
       shape: item.shape || "",
       quantity: item.quantity || "",
@@ -118,28 +118,10 @@ function FateManagement() {
   };
 
   const resetFormData = () => {
-    setFormData({
-      id: "",
-      element: "",
-      species: "",
-      shape: "",
-      quantity: "",
-      location: "",
-      direction: "",
-      image: null,
-      description: "",
-    });
+    setFormData(initFormData());
   };
 
-  const handleClearFilter = () => {
-    setSearch("");
-  };
-
-  const handleCancelForm = () => {
-    setIsFormVisible(false);
-    resetFormData();
-  };
-
+  // Bộ lọc dữ liệu
   const filteredData = search
     ? (selectedType === "pond" ? ponds : kois).filter(
         (item) => item[searchType] === search
@@ -150,6 +132,7 @@ function FateManagement() {
 
   return (
     <div className="fate-management">
+      {/* Điều khiển loại quản lý */}
       <div className="fate__control">
         <button onClick={() => setSelectedType("pond")} disabled={selectedType === "pond"}>
           Quản lý Hồ
@@ -159,6 +142,7 @@ function FateManagement() {
         </button>
       </div>
 
+      {/* Thanh tìm kiếm */}
       <div className="fate__search">
         <select value={search} onChange={(e) => setSearch(e.target.value)}>
           <option value="">-- Chọn --</option>
@@ -179,11 +163,12 @@ function FateManagement() {
             <option value="species">Loài</option>
           )}
         </select>
-        <button onClick={handleClearFilter}>Hủy Lọc</button>
+        <button onClick={() => setSearch("")}>Hủy Lọc</button>
       </div>
 
       <button onClick={handleAdd}>Thêm Mới</button>
 
+      {/* Hiển thị form */}
       {isFormVisible && (
         <FormComponent
           formData={formData}
@@ -191,10 +176,11 @@ function FateManagement() {
           handleInputChange={handleInputChange}
           handleFileChange={handleFileChange}
           handleAddOrUpdate={handleAddOrUpdate}
-          handleCancelForm={handleCancelForm}
+          handleCancelForm={() => setIsFormVisible(false)}
         />
       )}
 
+      {/* Hiển thị danh sách */}
       <ListComponent
         data={filteredData}
         selectedType={selectedType}
@@ -218,6 +204,7 @@ const FormComponent = ({
     <button className="form-close-btn" onClick={handleCancelForm}>
       &times;
     </button>
+    {/* Các input cho form */}
     <input
       type="text"
       name="element"
@@ -227,50 +214,15 @@ const FormComponent = ({
     />
     {selectedType === "pond" ? (
       <>
-        <input
-          type="text"
-          name="shape"
-          placeholder="Hình dạng"
-          value={formData.shape}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="location"
-          placeholder="Vị trí"
-          value={formData.location}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="direction"
-          placeholder="Hướng"
-          value={formData.direction}
-          onChange={handleInputChange}
-        />
+        <input type="text" name="shape" placeholder="Hình dạng" value={formData.shape} onChange={handleInputChange} />
+        <input type="text" name="location" placeholder="Vị trí" value={formData.location} onChange={handleInputChange} />
+        <input type="text" name="direction" placeholder="Hướng" value={formData.direction} onChange={handleInputChange} />
       </>
     ) : (
       <>
-        <input
-          type="text"
-          name="species"
-          placeholder="Loài"
-          value={formData.species}
-          onChange={handleInputChange}
-        />
-        <input
-          type="number"
-          name="quantity"
-          placeholder="Số lượng"
-          value={formData.quantity}
-          onChange={handleInputChange}
-        />
-        <textarea
-          name="description"
-          placeholder="Mô tả"
-          value={formData.description}
-          onChange={handleInputChange}
-        />
+        <input type="text" name="species" placeholder="Loài" value={formData.species} onChange={handleInputChange} />
+        <input type="number" name="quantity" placeholder="Số lượng" value={formData.quantity} onChange={handleInputChange} />
+        <textarea name="description" placeholder="Mô tả" value={formData.description} onChange={handleInputChange} />
         <input type="file" name="image" onChange={handleFileChange} />
       </>
     )}
@@ -296,7 +248,6 @@ const ListComponent = ({ data, selectedType, handleEdit, handleDelete }) => (
               <th>Loài</th>
               <th>Số lượng</th>
               <th>Mô tả</th>
-              <th>Ảnh</th>
             </>
           )}
           <th>Hành động</th>
@@ -305,7 +256,6 @@ const ListComponent = ({ data, selectedType, handleEdit, handleDelete }) => (
       <tbody>
         {data.map((item, index) => (
           <tr key={index}>
-            {/* Số thứ tự */}
             <td>{index + 1}</td>
             <td>{item.element}</td>
             {selectedType === "pond" ? (
@@ -319,16 +269,11 @@ const ListComponent = ({ data, selectedType, handleEdit, handleDelete }) => (
                 <td>{item.species}</td>
                 <td>{item.quantity}</td>
                 <td>{item.description}</td>
-                <td>
-                  <img src={item.image || ""} alt="Koi" width={50} />
-                </td>
               </>
             )}
             <td>
               <button onClick={() => handleEdit(item)}>Sửa</button>
-              <button onClick={() => handleDelete(item[selectedType === "pond" ? "pondId" : "koiId"])}>
-                Xóa
-              </button>
+              <button onClick={() => handleDelete(item[selectedType === "pond" ? "pondId" : "koiId"])}>Xóa</button>
             </td>
           </tr>
         ))}

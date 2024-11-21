@@ -30,6 +30,10 @@ public class KoiService {
         koiRepository.deleteById(id);
     }
 
+    public List<String> getKoiSpeciesOptions() {
+        return koiRepository.findDistinctSpeciesBy();
+    }
+
     public List<Koi> getKoiByElement(String element) {
         return koiRepository.findByElement(element);
     }

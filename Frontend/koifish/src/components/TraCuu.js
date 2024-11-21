@@ -40,6 +40,28 @@ const TraCuu = () => {
         fetchOptions();
     }, []);
 
+    const koiQuantityOptions = ["Chẵn", "Lẻ"];
+    const locationOptions = [
+        "Phía Bắc",
+        "Phía Nam",
+        "Phía Đông",
+        "Phía Tây",
+        "Phía Tây Bắc",
+        "Phía Đông Nam",
+        "Phía Đông Bắc",
+        "Phía Tây Nam",
+    ];
+    const directionOptions = [
+        "Bắc",
+        "Nam",
+        "Đông",
+        "Tây",
+        "Đông Bắc",
+        "Đông Nam",
+        "Tây Bắc",
+        "Tây Nam",
+    ];
+
     // Memoize the handleResult function to prevent unnecessary re-renders
     const handleResult = useCallback((result) => {
         setDateAndSex(result);
@@ -69,29 +91,6 @@ const TraCuu = () => {
             setLoading(false);
         }
     };
-
-
-    const koiQuantityOptions = ["Chẵn", "Lẻ"];
-    const locationOptions = [
-        "Phía Bắc",
-        "Phía Nam",
-        "Phía Đông",
-        "Phía Tây",
-        "Phía Tây Bắc",
-        "Phía Đông Nam",
-        "Phía Đông Bắc",
-        "Phía Tây Nam",
-    ];
-    const directionOptions = [
-        "Bắc",
-        "Nam",
-        "Đông",
-        "Tây",
-        "Đông Bắc",
-        "Đông Nam",
-        "Tây Bắc",
-        "Tây Nam",
-    ];
 
     return (
         <section id="traCuu">

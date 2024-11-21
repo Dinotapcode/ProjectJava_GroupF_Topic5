@@ -30,6 +30,10 @@ public class PondService {
         pondRepository.deleteById(id);
     }
 
+    public List<String> getPondShapeOptions() {
+        return pondRepository.findDistinctShapeBy();
+    }
+
     public List<Pond> searchByElement(String element) {
         return pondRepository.findByElement(element);
     }

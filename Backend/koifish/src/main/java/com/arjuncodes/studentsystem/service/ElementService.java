@@ -60,13 +60,6 @@ public class ElementService {
         }
     }
 
-    public List<String> getKoiSpeciesOptions() {
-        return koiRepository.findDistinctSpeciesBy();
-    }
-    public List<String> getPondShapeOptions() {
-        return pondRepository.findDistinctShapeBy();
-    }
-
 
     public CompatibilityResult checkCompatibility(
             String birthDate, String gender, String species, String quantity, String pondShape, String location, String direction

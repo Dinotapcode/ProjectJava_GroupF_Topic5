@@ -4,6 +4,7 @@ import ProductDetail from '../../../components/ProductDetail';
 import './ProductDetailPage.scss';
 
 const ProductDetailPage = () => {
+    const API_BASE_URL = "http://localhost:8083/api";
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [user, setUser] = useState(null); // state để lưu thông tin người dùng
@@ -15,7 +16,7 @@ const ProductDetailPage = () => {
         const fetchProductAndUser = async () => {
             try {
                 // Fetch sản phẩm
-                const productResponse = await fetch(`http://localhost:8083/api/products/detail?id=${id}`);
+                const productResponse = await fetch(`${API_BASE_URL}/public/product/detail?id=${id}`);
                 if (!productResponse.ok) {
                     throw new Error('Sản phẩm không tồn tại');
                 }
@@ -23,7 +24,7 @@ const ProductDetailPage = () => {
                 setProduct(productData);
 
                 // Fetch thông tin người dùng
-                const userResponse = await fetch(`http://localhost:8083/api/public/${7}`); // Giả sử ID người dùng là 1
+                const userResponse = await fetch(`${API_BASE_URL}/public/user/1`); // Giả sử ID người dùng là 1
                 if (!userResponse.ok) {
                     throw new Error('Không thể lấy thông tin người dùng');
                 }
