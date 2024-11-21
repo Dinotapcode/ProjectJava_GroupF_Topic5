@@ -53,7 +53,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/public/user/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<User> getUserById(@PathVariable int id) {
         try {
             User user = userService.getUserById(id);

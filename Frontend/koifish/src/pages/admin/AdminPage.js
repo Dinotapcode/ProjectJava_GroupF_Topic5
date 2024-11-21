@@ -59,11 +59,10 @@ const AdminPage = () => {
                     <ul>
                         <li onClick={() => setActiveTab('dashboard')}>Dashboard</li>
                         <li onClick={() => setActiveTab('userManagement')}>Quản lý người dùng</li>
-                        <li onClick={() => setActiveTab('fateManagement')}>Quản lý Tra cứu</li>
+                        <li onClick={() => setActiveTab('fateManagement')}>Quản lý tra cứu</li>
                         <li onClick={() => setActiveTab('productManagement')}>Quản lý sản phẩm</li>
                         <li onClick={() => setActiveTab('servicePackageManagement')}>Quản lý gói dịch vụ</li>
                         <li onClick={() => setActiveTab('blogManagement')}>Quản lý bài viết</li>
-                        <li onClick={() => setActiveTab('searchManagement')}>Quản lý tra cứu</li> {/* Thêm mục mới */}
                         <li onClick={() => setActiveTab('consultationSchedule')}>Lịch tư vấn</li>
                     </ul>
                 </nav>

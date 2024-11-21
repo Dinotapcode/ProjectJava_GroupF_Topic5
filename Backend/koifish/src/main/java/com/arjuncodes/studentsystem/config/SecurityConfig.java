@@ -4,6 +4,7 @@ import com.arjuncodes.studentsystem.model.User;
 import com.arjuncodes.studentsystem.repository.LoginRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -48,9 +49,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .cors()
+                .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Cho phép các request OPTIONS (preflight)
                 .antMatchers("/api/login", "/api/register", "/api/public/**").permitAll()  // Cho phép tất cả
-                .antMatchers("/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/api/**").hasRole("ADMIN")
                 .antMatchers("/api/user/**").hasRole("USER")  // Phân quyền cho admin
                 .anyRequest().permitAll()  // Các request còn lại không yêu cầu xác thực
                 .and()

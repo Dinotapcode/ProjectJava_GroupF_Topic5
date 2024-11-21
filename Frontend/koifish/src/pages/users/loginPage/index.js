@@ -37,8 +37,6 @@ function LoginPage() {
         }
     };
 
-
-
     const handleLogin = async (email, password) => {
         try {
             const credentials = btoa(`${email}:${password}`);
@@ -59,6 +57,7 @@ function LoginPage() {
             }
 
             if (response.ok) {
+                sessionStorage.setItem('authHeader', `Basic ${credentials}`);
                 sessionStorage.setItem('role', data.role);
                 sessionStorage.setItem('userId', data.userId);
                 alert('Đăng nhập thành công');

@@ -1,57 +1,55 @@
 import React, { useEffect, useState } from "react";
 import "./FateManagement.scss";
 
-const API_BASE_URL = "http://localhost:8083/api/public";
+const API_BASE_URL = "http://localhost:8083/api";
 
 function FateManagement() {
-  // State quản lý dữ liệu
   const [kois, setKois] = useState([]);
   const [ponds, setPonds] = useState([]);
   const [search, setSearch] = useState("");
   const [searchType, setSearchType] = useState("element");
   const [selectedType, setSelectedType] = useState("pond"); // 'pond' hoặc 'koi'
-  const [formData, setFormData] = useState(initFormData());
+  const [formData, setFormData] = useState({
+    id: "",
+    element: "",
+    species: "",
+    shape: "",
+    quantity: "",
+    location: "",
+    direction: "",
+    image: null,
+    description: "",
+  });
+
   const [isFormVisible, setIsFormVisible] = useState(false);
 
-  // Fetch dữ liệu khi component được mount
   useEffect(() => {
     fetchAllData();
   }, []);
 
-  // Hàm khởi tạo form mặc định
-  function initFormData() {
-    return {
-      id: "",
-      element: "",
-      species: "",
-      shape: "",
-      quantity: "",
-      location: "",
-      direction: "",
-      image: null,
-      description: "",
-    };
-  }
-
-  // Lấy dữ liệu từ API
-  async function fetchAllData() {
+  const fetchAllData = async () => {
     try {
       const [koiRes, pondRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/koi/all`),
-        fetch(`${API_BASE_URL}/pond/all`),
+        fetch(`${API_BASE_URL}/admin/koi/all`, {
+          headers: { Authorization: sessionStorage.getItem('authHeader') },
+        }),
+        fetch(`${API_BASE_URL}/admin/pond/all`, {
+          headers: { Authorization: sessionStorage.getItem('authHeader') },
+        }),
       ]);
+
       const [koiData, pondData] = await Promise.all([
         koiRes.json(),
         pondRes.json(),
       ]);
+
       setKois(koiData);
       setPonds(pondData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }
+  };
 
-  // Xử lý nhập liệu cho form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -61,20 +59,64 @@ function FateManagement() {
     setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
   };
 
-  // Thêm hoặc cập nhật dữ liệu
-  async function handleAddOrUpdate() {
+  const handleAddOrUpdate = async () => {
     const isPond = selectedType === "pond";
     const isEditing = !!formData.id;
-    const url = `${API_BASE_URL}/${isPond ? "pond" : "koi"}/${isEditing ? "update" : "add"}`;
+    const url = `${API_BASE_URL}/admin/${isPond ? "pond" : "koi"}/${isEditing ? `update/${formData.id}` : "add"}`;
     const method = isEditing ? "PUT" : "POST";
 
-    const payload = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      if (value !== null && value !== "") payload.append(key, value);
-    });
+    let payload;
 
+    if (isPond) {
+      // Tạo payload dưới dạng JSON cho hồ
+      payload = {
+        pondId: formData.id || "",
+        element: formData.element,
+        shape: formData.shape,
+        location: formData.location,
+        direction: formData.direction
+      };
+    } else {
+      // Tạo payload dưới dạng JSON cho cá koi
+      payload = {
+        koiId: formData.id || "",
+        element: formData.element,
+        species: formData.species,
+        quantity: formData.quantity,
+        description: formData.description
+      };
+      // Nếu có file hình ảnh, thêm vào FormData
+      if (formData.image) {
+        const formDataPayload = new FormData();
+        for (const key in payload) {
+          formDataPayload.append(key, payload[key]);
+        }
+        formDataPayload.append("file", formData.image);
+        try {
+          await fetch(url, {
+            method,
+            body: formDataPayload,
+            headers: { Authorization: sessionStorage.getItem('authHeader') }
+          });
+          alert("Thao tác thành công!");
+        } catch (error) {
+          console.error("Error saving data with image:", error);
+        }
+        return;
+      }
+    }
+
+    // Gửi JSON nếu không có hình ảnh
     try {
-      await fetch(url, { method, body: payload });
+      await fetch(url, {
+        method,
+        body: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'application/json',  // Đảm bảo là JSON
+          'Authorization': sessionStorage.getItem('authHeader')
+        },
+      });
+
       await fetchAllData();
       resetFormData();
       setIsFormVisible(false);
@@ -82,25 +124,24 @@ function FateManagement() {
     } catch (error) {
       console.error("Error saving data:", error);
     }
-  }
+  };
 
-  // Xóa dữ liệu
-  async function handleDelete(id) {
-    const url = `${API_BASE_URL}/${selectedType}/${id}`;
+
+  const handleDelete = async (id) => {
+    const url = `${API_BASE_URL}/admin/${selectedType}/${id}`;
     try {
-      await fetch(url, { method: "DELETE" });
+      await fetch(url, { method: "DELETE", headers: { Authorization: sessionStorage.getItem('authHeader') }, });
       await fetchAllData();
       alert("Xóa thành công!");
     } catch (error) {
       console.error("Error deleting item:", error);
     }
-  }
+  };
 
-  // Sửa dữ liệu
   const handleEdit = (item) => {
     setFormData({
       id: item[selectedType === "pond" ? "pondId" : "koiId"],
-      element: item.element || "",
+      element: item.element,
       species: item.species || "",
       shape: item.shape || "",
       quantity: item.quantity || "",
@@ -118,21 +159,38 @@ function FateManagement() {
   };
 
   const resetFormData = () => {
-    setFormData(initFormData());
+    setFormData({
+      id: "",
+      element: "",
+      species: "",
+      shape: "",
+      quantity: "",
+      location: "",
+      direction: "",
+      image: null,
+      description: "",
+    });
   };
 
-  // Bộ lọc dữ liệu
+  const handleClearFilter = () => {
+    setSearch("");
+  };
+
+  const handleCancelForm = () => {
+    setIsFormVisible(false);
+    resetFormData();
+  };
+
   const filteredData = search
     ? (selectedType === "pond" ? ponds : kois).filter(
-        (item) => item[searchType] === search
-      )
+      (item) => item[searchType] === search
+    )
     : selectedType === "pond"
-    ? ponds
-    : kois;
+      ? ponds
+      : kois;
 
   return (
     <div className="fate-management">
-      {/* Điều khiển loại quản lý */}
       <div className="fate__control">
         <button onClick={() => setSelectedType("pond")} disabled={selectedType === "pond"}>
           Quản lý Hồ
@@ -142,7 +200,6 @@ function FateManagement() {
         </button>
       </div>
 
-      {/* Thanh tìm kiếm */}
       <div className="fate__search">
         <select value={search} onChange={(e) => setSearch(e.target.value)}>
           <option value="">-- Chọn --</option>
@@ -163,12 +220,11 @@ function FateManagement() {
             <option value="species">Loài</option>
           )}
         </select>
-        <button onClick={() => setSearch("")}>Hủy Lọc</button>
+        <button onClick={handleClearFilter}>Hủy Lọc</button>
       </div>
 
       <button onClick={handleAdd}>Thêm Mới</button>
 
-      {/* Hiển thị form */}
       {isFormVisible && (
         <FormComponent
           formData={formData}
@@ -176,11 +232,10 @@ function FateManagement() {
           handleInputChange={handleInputChange}
           handleFileChange={handleFileChange}
           handleAddOrUpdate={handleAddOrUpdate}
-          handleCancelForm={() => setIsFormVisible(false)}
+          handleCancelForm={handleCancelForm}
         />
       )}
 
-      {/* Hiển thị danh sách */}
       <ListComponent
         data={filteredData}
         selectedType={selectedType}
@@ -204,7 +259,6 @@ const FormComponent = ({
     <button className="form-close-btn" onClick={handleCancelForm}>
       &times;
     </button>
-    {/* Các input cho form */}
     <input
       type="text"
       name="element"
@@ -214,15 +268,50 @@ const FormComponent = ({
     />
     {selectedType === "pond" ? (
       <>
-        <input type="text" name="shape" placeholder="Hình dạng" value={formData.shape} onChange={handleInputChange} />
-        <input type="text" name="location" placeholder="Vị trí" value={formData.location} onChange={handleInputChange} />
-        <input type="text" name="direction" placeholder="Hướng" value={formData.direction} onChange={handleInputChange} />
+        <input
+          type="text"
+          name="shape"
+          placeholder="Hình dạng"
+          value={formData.shape}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="location"
+          placeholder="Vị trí"
+          value={formData.location}
+          onChange={handleInputChange}
+        />
+        <input
+          type="text"
+          name="direction"
+          placeholder="Hướng"
+          value={formData.direction}
+          onChange={handleInputChange}
+        />
       </>
     ) : (
       <>
-        <input type="text" name="species" placeholder="Loài" value={formData.species} onChange={handleInputChange} />
-        <input type="number" name="quantity" placeholder="Số lượng" value={formData.quantity} onChange={handleInputChange} />
-        <textarea name="description" placeholder="Mô tả" value={formData.description} onChange={handleInputChange} />
+        <input
+          type="text"
+          name="species"
+          placeholder="Loài"
+          value={formData.species}
+          onChange={handleInputChange}
+        />
+        <input
+          type="number"
+          name="quantity"
+          placeholder="Số lượng"
+          value={formData.quantity}
+          onChange={handleInputChange}
+        />
+        <textarea
+          name="description"
+          placeholder="Mô tả"
+          value={formData.description}
+          onChange={handleInputChange}
+        />
         <input type="file" name="image" onChange={handleFileChange} />
       </>
     )}
@@ -248,6 +337,7 @@ const ListComponent = ({ data, selectedType, handleEdit, handleDelete }) => (
               <th>Loài</th>
               <th>Số lượng</th>
               <th>Mô tả</th>
+              <th>Ảnh</th>
             </>
           )}
           <th>Hành động</th>
@@ -256,6 +346,7 @@ const ListComponent = ({ data, selectedType, handleEdit, handleDelete }) => (
       <tbody>
         {data.map((item, index) => (
           <tr key={index}>
+            {/* Số thứ tự */}
             <td>{index + 1}</td>
             <td>{item.element}</td>
             {selectedType === "pond" ? (
@@ -269,11 +360,16 @@ const ListComponent = ({ data, selectedType, handleEdit, handleDelete }) => (
                 <td>{item.species}</td>
                 <td>{item.quantity}</td>
                 <td>{item.description}</td>
+                <td>
+                  <img src={item.image || ""} alt="Koi" width={50} />
+                </td>
               </>
             )}
             <td>
               <button onClick={() => handleEdit(item)}>Sửa</button>
-              <button onClick={() => handleDelete(item[selectedType === "pond" ? "pondId" : "koiId"])}>Xóa</button>
+              <button onClick={() => handleDelete(item[selectedType === "pond" ? "pondId" : "koiId"])}>
+                Xóa
+              </button>
             </td>
           </tr>
         ))}
