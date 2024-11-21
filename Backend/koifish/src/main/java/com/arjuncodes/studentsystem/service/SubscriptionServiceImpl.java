@@ -19,7 +19,22 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    public List<Subscription> getActiveSubscription() {
+        return subscriptionRepository.findByStatus("ACTIVE");
+    }
+
+    @Override
     public List<Subscription> getAllSubscriptions() {
         return subscriptionRepository.findAll();
+    }
+
+    @Override
+    public Subscription getSubscriptionById(int id) {
+        return subscriptionRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void deleteSubscription(Subscription subscription) {
+        subscriptionRepository.delete(subscription);
     }
 }

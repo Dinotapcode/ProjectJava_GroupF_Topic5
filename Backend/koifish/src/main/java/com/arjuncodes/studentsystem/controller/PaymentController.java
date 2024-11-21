@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/payments")
+@RequestMapping("/api")
 @CrossOrigin
 public class PaymentController {
 
     @Autowired
     private PaymentService paymentService;
 
-    @PostMapping("/add")
+    @PostMapping("/public/payment/add")
     public String addPayment(@RequestBody Payment payment) {
         // Kiểm tra giá trị subscriptionId
         if (payment.getSubscriptionId() != 1 && payment.getSubscriptionId() != 2 && payment.getSubscriptionId() != 3) {
@@ -25,7 +25,7 @@ public class PaymentController {
         return "New payment is added";
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/public/payment/getAll")
     public List<Payment> getAllPayments() {
         return paymentService.getAllPayments();
     }

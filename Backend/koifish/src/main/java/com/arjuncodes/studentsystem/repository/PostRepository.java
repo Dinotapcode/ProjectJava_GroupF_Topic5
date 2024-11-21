@@ -9,4 +9,5 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Integer> {
     // Method to find posts with status "ACTIVE"
     List<Post> findByStatus(String status);
+
 }

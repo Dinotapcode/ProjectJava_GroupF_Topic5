@@ -36,13 +36,9 @@ const AdminPage = () => {
                     <ConsultationSchedule />
                 );
             case 'blogManagement':
-                return (
-                    <PostManagement posts={posts} setPosts={setPosts} />
-                );
+                return <PostManagement posts={posts} setPosts={setPosts} />;
             case 'userManagement':
-                return (
-                    <UserManagement users={users} setUsers={setUsers} />
-                );
+                return <UserManagement users={users} setUsers={setUsers} />;
             case 'servicePackageManagement':
                 return (
                     <PaymentManagement subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
@@ -67,6 +63,7 @@ const AdminPage = () => {
                         <li onClick={() => setActiveTab('productManagement')}>Quản lý sản phẩm</li>
                         <li onClick={() => setActiveTab('servicePackageManagement')}>Quản lý gói dịch vụ</li>
                         <li onClick={() => setActiveTab('blogManagement')}>Quản lý bài viết</li>
+                        <li onClick={() => setActiveTab('searchManagement')}>Quản lý tra cứu</li> {/* Thêm mục mới */}
                         <li onClick={() => setActiveTab('consultationSchedule')}>Lịch tư vấn</li>
                     </ul>
                 </nav>
