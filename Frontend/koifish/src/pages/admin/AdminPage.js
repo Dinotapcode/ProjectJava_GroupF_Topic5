@@ -3,13 +3,14 @@ import ProductManagement from './ProductManagement';
 import PostManagement from './PostManagement';
 import UserManagement from './UserManagement';
 import PaymentManagement from './PaymentManagement';
+import SearchManagement from './SearchManagement'; // Import component mới
 import './style.scss';
 
 const AdminPage = () => {
     const [activeTab, setActiveTab] = useState('dashboard');
     const [products, setProducts] = useState([]);
-    const [posts, setPosts] = useState([]);  // Thêm state cho bài viết
-    const [users, setUsers] = useState([]);  // Thêm state cho người dùng
+    const [posts, setPosts] = useState([]);
+    const [users, setUsers] = useState([]);
     const [subscriptions, setSubscriptions] = useState([]);
 
     const renderContent = () => {
@@ -25,21 +26,15 @@ const AdminPage = () => {
                     </div>
                 );
             case 'productManagement':
-                return (
-                    <ProductManagement products={products} setProducts={setProducts} />
-                );
+                return <ProductManagement products={products} setProducts={setProducts} />;
             case 'blogManagement':
-                return (
-                    <PostManagement posts={posts} setPosts={setPosts} />
-                );
+                return <PostManagement posts={posts} setPosts={setPosts} />;
             case 'userManagement':
-                return (
-                    <UserManagement users={users} setUsers={setUsers} />
-                );
+                return <UserManagement users={users} setUsers={setUsers} />;
             case 'servicePackageManagement':
-                return(
-                    <PaymentManagement subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
-                );
+                return <PaymentManagement subscriptions={subscriptions} setSubscriptions={setSubscriptions} />;
+            case 'searchManagement': // Thêm logic để hiển thị phần quản lý tra cứu
+                return <SearchManagement />;
             default:
                 return null;
         }
@@ -55,6 +50,7 @@ const AdminPage = () => {
                         <li onClick={() => setActiveTab('productManagement')}>Quản lý sản phẩm</li>
                         <li onClick={() => setActiveTab('servicePackageManagement')}>Quản lý gói dịch vụ</li>
                         <li onClick={() => setActiveTab('blogManagement')}>Quản lý bài viết</li>
+                        <li onClick={() => setActiveTab('searchManagement')}>Quản lý tra cứu</li> {/* Thêm mục mới */}
                         <li onClick={() => setActiveTab('consultationSchedule')}>Lịch tư vấn</li>
                     </ul>
                 </nav>

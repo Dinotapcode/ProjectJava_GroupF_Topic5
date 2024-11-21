@@ -1,40 +1,129 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PaymentManagement.scss';
 
-const PaymentManagement = ({ subscriptions = [], setSubscriptions }) => {
+
+const SubscriptionManagement = () => {
+    const [subscriptions, setSubscriptions] = useState([]);
     const [newSubscription, setNewSubscription] = useState({
-        subscription_name: '',
+        subscriptionName: '',
         price: '',
         description: '',
         duration: '',
     });
 
-    const handleAddSubscription = () => {
-        const updatedSubscriptions = [...subscriptions, { ...newSubscription, subscription_id: subscriptions.length + 1 }];
-        setSubscriptions(updatedSubscriptions);
-        setNewSubscription({ subscription_name: '', price: '', description: '', duration: '' }); // Reset form
+    // Lấy danh sách subscription từ backend
+    useEffect(() => {
+        const fetchSubscriptions = async () => {
+            try {
+                const response = await fetch('http://localhost:8083/subscriptions/admin/all');
+                const data = await response.json();
+                setSubscriptions(data);
+            } catch (error) {
+                console.error('Error fetching subscriptions:', error);
+            }
+        };
+        fetchSubscriptions();
+    }, []);
+
+    // Tạm hoãn subscription
+    const handlePauseSubscription = async (index) => {
+        const subscription = subscriptions[index];
+        try {
+            const response = await fetch(`http://localhost:8083/subscriptions/pause/${subscription.subscriptionId}`, {
+                method: 'PUT',
+            });
+            if (!response.ok) {
+                throw new Error('Failed to pause subscription');
+            }
+
+            // Cập nhật trạng thái "Paused"
+            const updatedSubscriptions = [...subscriptions];
+            updatedSubscriptions[index].status = 'Paused';
+            setSubscriptions(updatedSubscriptions);
+        } catch (error) {
+            console.error('Error pausing subscription:', error);
+        }
     };
 
-    const handlePauseSubscription = (index) => {
-        const updatedSubscriptions = [...subscriptions];
-        updatedSubscriptions[index].status = 'Paused'; // Update subscription status to "Paused"
-        setSubscriptions(updatedSubscriptions);
+    // Hủy tạm hoãn subscription
+    const handleResumeSubscription = async (index) => {
+        const subscription = subscriptions[index];
+        try {
+            const response = await fetch(`http://localhost:8083/subscriptions/resume/${subscription.subscriptionId}`, {
+                method: 'PUT',
+            });
+            if (!response.ok) {
+                throw new Error('Failed to resume subscription');
+            }
+
+            // Cập nhật trạng thái "Active"
+            const updatedSubscriptions = [...subscriptions];
+            updatedSubscriptions[index].status = 'Active';
+            setSubscriptions(updatedSubscriptions);
+        } catch (error) {
+            console.error('Error resuming subscription:', error);
+        }
     };
 
-    const handleDeleteSubscription = (index) => {
-        const updatedSubscriptions = subscriptions.filter((_, i) => i !== index);
-        setSubscriptions(updatedSubscriptions);
+    // Xóa subscription
+    const handleDeleteSubscription = async (index) => {
+        const subscription = subscriptions[index];
+        try {
+            const response = await fetch(`http://localhost:8083/subscriptions/delete/${subscription.subscriptionId}`, {
+                method: 'DELETE',
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete subscription');
+            }
+
+            // Cập nhật lại danh sách subscriptions
+            const updatedSubscriptions = subscriptions.filter((_, i) => i !== index);
+            setSubscriptions(updatedSubscriptions);
+        } catch (error) {
+            console.error('Error deleting subscription:', error);
+        }
+    };
+
+    // Thêm mới subscription
+    const handleAddSubscription = async () => {
+        try {
+            const response = await fetch('http://localhost:8083/subscriptions/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(newSubscription),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add new subscription');
+            }
+
+            const addedSubscription = await response.json();
+            setSubscriptions([...subscriptions, addedSubscription]);
+            setNewSubscription({
+                subscriptionName: '',
+                price: '',
+                description: '',
+                duration: '',
+            });
+        } catch (error) {
+            console.error('Error adding subscription:', error);
+        }
     };
 
     return (
-        <div className="payment-management">
-            <div className="add-subscription-form">
-                <h1>Quản lý gói Subscription</h1>
+        <div>
+            <h2>Subscription Management</h2>
+
+            {/* Form Thêm Subscription */}
+            <div>
+                <h3>Thêm mới gói subscription</h3>
                 <input
                     type="text"
                     placeholder="Tên gói"
-                    value={newSubscription.subscription_name}
-                    onChange={(e) => setNewSubscription({ ...newSubscription, subscription_name: e.target.value })}
+                    value={newSubscription.subscriptionName}
+                    onChange={(e) => setNewSubscription({ ...newSubscription, subscriptionName: e.target.value })}
                 />
                 <input
                     type="number"
@@ -49,14 +138,15 @@ const PaymentManagement = ({ subscriptions = [], setSubscriptions }) => {
                     onChange={(e) => setNewSubscription({ ...newSubscription, description: e.target.value })}
                 />
                 <input
-                    type="text"
-                    placeholder="Thời gian (months)"
+                    type="number"
+                    placeholder="Thời gian (ngày)"
                     value={newSubscription.duration}
                     onChange={(e) => setNewSubscription({ ...newSubscription, duration: e.target.value })}
                 />
-                <button className="btn-add" onClick={handleAddSubscription}>Thêm gói</button>
+                <button onClick={handleAddSubscription}>Thêm mới</button>
             </div>
 
+            {/* Danh sách Subscription */}
             <table>
                 <thead>
                     <tr>
@@ -71,17 +161,21 @@ const PaymentManagement = ({ subscriptions = [], setSubscriptions }) => {
                 </thead>
                 <tbody>
                     {subscriptions.map((subscription, index) => (
-                        <tr key={subscription.subscription_id}>
+                        <tr key={subscription.subscriptionId}>
                             <td>{index + 1}</td>
-                            <td>{subscription.subscription_name}</td>
+                            <td>{subscription.subscriptionName}</td>
                             <td>{subscription.price}</td>
                             <td>{subscription.description}</td>
                             <td>{subscription.duration}</td>
                             <td>{subscription.status || 'Active'}</td>
                             <td>
-                                {subscription.status !== 'Paused' && (
+                                {subscription.status !== 'Paused' ? (
                                     <button className="btn-pause" onClick={() => handlePauseSubscription(index)}>
                                         Tạm hoãn
+                                    </button>
+                                ) : (
+                                    <button className="btn-resume" onClick={() => handleResumeSubscription(index)}>
+                                        Hủy tạm hoãn
                                     </button>
                                 )}
                                 <button className="btn-delete" onClick={() => handleDeleteSubscription(index)}>
@@ -96,4 +190,4 @@ const PaymentManagement = ({ subscriptions = [], setSubscriptions }) => {
     );
 };
 
-export default PaymentManagement;
+export default SubscriptionManagement;

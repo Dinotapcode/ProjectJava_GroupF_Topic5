@@ -1,53 +1,45 @@
-.payment-management {
-    .add-subscription-form {
-        margin-bottom: 20px;
-        input {
-            padding: 10px;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            width: 200px;
-        }
-        button {
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
 
-        th {
-            background-color: #f4f4f4;
-        }
+input {
+    margin: 5px;
+    padding: 10px;
+    font-size: 14px;
+    width: 200px;
+}
 
-        td {
-            font-size: 14px;
-        }
+button {
+    padding: 8px 12px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
 
-        button {
-            padding: 8px 12px;
-            border: none;
-            cursor: pointer;
-        }
+.btn-pause {
+    background-color: #f39c12;
+    color: white;
+}
 
-        .btn-pause {
-            background-color: #f0ad4e;
-            color: white;
-        }
+.btn-resume {
+    background-color: #27ae60;
+    color: white;
+}
 
-        .btn-delete {
-            background-color: #d9534f;
-            color: white;
-        }
-    }
+.btn-delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.8;
 }

@@ -14,7 +14,7 @@ const BlogPage = () => {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:8083/post/all')
+    fetch('http://localhost:8083/post/user/all')
       .then(response => response.json())
       .then(data => {
         setBlogPosts(data);
@@ -25,7 +25,7 @@ const BlogPage = () => {
         setLoading(false);
       });
 
-    fetch('http://localhost:8083/subscriptions/getAll')
+    fetch('http://localhost:8083/subscriptions/user/all')
       .then(response => response.json())
       .then(data => {
         setSubscriptions(data);

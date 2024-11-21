@@ -2,17 +2,18 @@ package com.arjuncodes.studentsystem.controller;
 
 import com.arjuncodes.studentsystem.model.Post;
 import com.arjuncodes.studentsystem.repository.PostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.arjuncodes.studentsystem.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
-import java.util.UUID;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/post")
@@ -66,7 +67,12 @@ public class PostController {
         }
     }
 
-    @GetMapping("/all")
+    @GetMapping("/user/all")
+    public List<Post> getActivePosts() {
+        return postService.getActivePosts();
+    }
+
+    @GetMapping("/admin/all")
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
@@ -75,4 +81,19 @@ public class PostController {
     public Post getPostById(@PathVariable int id) {
         return postService.getPostById(id);
     }
+
+    @PutMapping("/update-status/{id}")
+    public ResponseEntity<String> updatePostStatus(@PathVariable int id, @RequestParam String status) {
+        try {
+            Post post = postService.getPostById(id);
+            post.setStatus(status);
+            postRepository.save(post);
+
+            return ResponseEntity.ok("Post status updated successfully to: " + status);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error updating post status: " + e.getMessage());
+        }
+    }
+
+
 }

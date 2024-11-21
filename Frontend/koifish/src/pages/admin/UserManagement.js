@@ -1,36 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './UserManagement.scss';
 
 const UserManagement = () => {
-    // Dữ liệu mẫu với các trường user_id, user_name, password, birthday, avatar, email, phone, enabled
-    const [users, setUsers] = useState([
-        { 
-            user_id: 1, 
-            user_name: 'john_doe', 
-            password: 'password123', 
-            birthday: '1990-01-01', 
-            avatar: 'avatar1.jpg', 
-            email: 'john.doe@example.com', 
-            phone: '123-456-7890', 
-            enabled: true 
-        },
-        { 
-            user_id: 2, 
-            user_name: 'jane_doe', 
-            password: 'password456', 
-            birthday: '1985-05-15', 
-            avatar: 'avatar2.jpg', 
-            email: 'jane.doe@example.com', 
-            phone: '987-654-3210', 
-            enabled: false 
-        },
-        // Thêm người dùng vào đây nếu cần
-    ]);
+    const [users, setUsers] = useState([]);
 
-    const handleToggleUserStatus = (index) => {
-        const updatedUsers = [...users];
-        updatedUsers[index].enabled = !updatedUsers[index].enabled;
-        setUsers(updatedUsers);
+    // Gọi API khi component được mount để lấy dữ liệu từ backend
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch('http://localhost:8083/user/getAll');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setUsers(data);
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        };
+        fetchUsers();
+    }, []);
+
+    const handleToggleUserStatus = async (index) => {
+        try {
+            const updatedUser = users[index];
+            const newStatus = !updatedUser.enabled;
+
+            // Gửi PUT request với trạng thái mới (true/false)
+            const response = await fetch(`http://localhost:8083/user/actions/${updatedUser.id}?enabled=${newStatus}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                // Cập nhật lại trạng thái của người dùng trong state
+                const updatedUsers = [...users];
+                updatedUsers[index].enabled = newStatus;
+                setUsers(updatedUsers);
+            } else {
+                throw new Error('Failed to update user status');
+            }
+        } catch (error) {
+            console.error('Error updating user status:', error);
+        }
     };
 
     return (
@@ -52,16 +66,16 @@ const UserManagement = () => {
                 </thead>
                 <tbody>
                     {users.map((user, index) => (
-                        <tr key={user.user_id}>
+                        <tr key={user.id}>
                             <td>{index + 1}</td>
-                            <td>{user.user_id}</td>
-                            <td>{user.user_name}</td>
+                            <td>{user.id}</td>
+                            <td>{user.userName}</td>
                             <td>{user.email}</td>
                             <td>{user.phone}</td>
                             <td>{user.enabled ? 'Đang hoạt động' : 'Bị cấm'}</td>
                             <td>
-                                <button 
-                                    className={user.enabled ? 'btn-disable' : 'btn-enable'} 
+                                <button
+                                    className={user.enabled ? 'btn-disable' : 'btn-enable'}
                                     onClick={() => handleToggleUserStatus(index)}
                                 >
                                     {user.enabled ? 'Cấm' : 'Mở cấm'}

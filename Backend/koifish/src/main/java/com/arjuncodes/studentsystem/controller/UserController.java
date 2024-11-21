@@ -55,4 +55,10 @@ public class UserController {
         }
     }
 
+    @PutMapping("/actions/{id}")
+    public String updateUserStatus(@PathVariable int id, @RequestParam boolean enabled) {
+        userService.updateUserStatus(id, enabled);
+        return enabled ? "User is now active" : "User has been banned";
+    }
+
 }

@@ -45,5 +45,12 @@ public class UserService{
         return userRepository.save(user);
     }
 
+    public void updateUserStatus(int id, boolean enabled) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        user.setEnabled(enabled);  // Assuming 'enabled' is a field in the User model
+        userRepository.save(user);
+    }
+
 
 }

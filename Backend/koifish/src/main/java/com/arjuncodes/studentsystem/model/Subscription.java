@@ -12,16 +12,17 @@ public class Subscription {
     private String subscriptionName;
     private double price;
     private String description;
-    private int duration; // Duration in days
+    private int duration;
+    private String status;
 
-    // Constructors
     public Subscription() {}
 
-    public Subscription(String subscriptionName, double price, String description, int duration) {
+    public Subscription(String subscriptionName, double price, String description, int duration, String status) {
         this.subscriptionName = subscriptionName;
         this.price = price;
         this.description = description;
         this.duration = duration;
+        this.status = status;
     }
 
     // Getters and Setters
@@ -63,5 +64,13 @@ public class Subscription {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
