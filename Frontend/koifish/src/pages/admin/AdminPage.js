@@ -20,7 +20,7 @@ const AdminPage = () => {
     const userId = sessionStorage.getItem("userId");
     const navigate = useNavigate();
     if (role !== "ROLE_ADMIN") {
-        navigate('/');
+        navigate(ROUTERS.USER.HOME);
     }
     const renderContent = () => {
         switch (activeTab) {

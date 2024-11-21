@@ -54,8 +54,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Cho phép các request OPTIONS (preflight)
                 .antMatchers("/api/login", "/api/register", "/api/public/**").permitAll()  // Cho phép tất cả
-                .antMatchers("/api/**").hasRole("ADMIN")
-                .antMatchers("/api/user/**").hasRole("USER")  // Phân quyền cho admin
+                .antMatchers("/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/api/user/**").hasAnyRole("USER", "ADMIN") // Phân quyền cho admin
                 .anyRequest().permitAll()  // Các request còn lại không yêu cầu xác thực
                 .and()
                 .httpBasic();
