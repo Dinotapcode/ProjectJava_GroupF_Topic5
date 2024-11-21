@@ -24,7 +24,7 @@ const ProductDetailPage = () => {
                 setProduct(productData);
 
                 // Fetch thông tin người dùng
-                const userResponse = await fetch(`${API_BASE_URL}/public/user/1`); // Giả sử ID người dùng là 1
+                const userResponse = await fetch(`${API_BASE_URL}/public/user/4`); // Giả sử ID người dùng là 1
                 if (!userResponse.ok) {
                     throw new Error('Không thể lấy thông tin người dùng');
                 }
