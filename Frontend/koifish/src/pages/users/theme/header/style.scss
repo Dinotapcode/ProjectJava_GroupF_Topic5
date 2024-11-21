@@ -154,8 +154,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
                   }
             }
             :hover .menu-icon{
-                transform: scale(1.1);
-                color: #000000;
+                transform: scale(0.8);
             }
         }
 
@@ -264,6 +263,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
             padding-top: 120px;
             position: absolute;
             width: 40vw;
+            min-width: 250px;
             height: 100vh;
             box-sizing: border-box;
             display: flex;
@@ -275,7 +275,8 @@ $back-to-top-text-color: white; // Màu chữ cho nút
             z-index: 10;
             opacity: 0;
             outline: rgba(0, 0, 0, 0) solid 100vw;
-            transition: all 0.5s ease;
+            transition: left 0.5s ease, outline 0.5s ease;
+
     
             .header__main-navbar-item {
                 width: 100%;

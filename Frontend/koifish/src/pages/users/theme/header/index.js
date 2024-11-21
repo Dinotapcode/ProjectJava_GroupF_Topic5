@@ -8,7 +8,10 @@ import { Link, useNavigate } from 'react-router-dom';
 const Header = () => {
     const [isShrunk, setIsShrunk] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState({
+        userName: '',
+        avatar: null
+    });
     const menuRef = useRef(null); // Tham chiếu đến menu
     const role = sessionStorage.getItem('role');
     const userId = sessionStorage.getItem('userId');
@@ -18,7 +21,7 @@ const Header = () => {
         if (userId) {
             // Assuming you have a token stored in localStorage or a state
 
-            fetch(`http://localhost:8083/api/user/${userId}`, {
+            fetch(`http://localhost:8083/api/public/${userId}`, {
                 method: 'GET',
                 credentials: 'include',
             })
@@ -129,14 +132,22 @@ const Header = () => {
                     <ul className={`header__main-navbar-list header__main-navbar-menu ${isMenuOpen ? 'header__main-navbar-menu--open' : ''}`}>
                         {menus.map((menu, menuKey) => (
                             <li key={menuKey} className="header__main-navbar-item">
-                                <Link to={menu.path} className="header__main-navbar-link">{menu.name}</Link>
+                                <Link to={menu.path} className="header__main-navbar-link" onClick={() => setIsMenuOpen(false)}>{menu.name}</Link>
                             </li>
                         ))}
                         {sessionStorage.getItem('userId') ? (
                             <li className="header__main-navbar-item header__top-navbar-item--member">
-                                <span>Trần đình công siêu nhân</span>
+                                <span>{user.userName}</span>
                                 <Link to={ROUTERS.USER.PROFILE} className="header__main-navbar-avatar">
-                                    <img src={logo} alt="avatar" />
+                                    <img
+                                        src={
+                                            user.avatar
+                                                ? require(`../../../../assets/admin/avatar_user/uploads/${user.avatar}`)
+                                                : require(`../../../../assets/admin/avatar_user/defaults/default_avatar.png`)
+                                        }
+                                        alt="Avatar"
+                                        className="avatar"
+                                    />
                                 </Link>
                             </li>
                         ) : null}
