@@ -6,6 +6,8 @@ import PaymentManagement from './PaymentManagement';
 import ConsultationSchedule from './ConsultationSchedule';
 import FateManagement from './FateManagement';
 import './style.scss';
+import { useNavigate } from 'react-router-dom';
+import { ROUTERS } from '../../utils/router';
 
 const AdminPage = () => {
     const [activeTab, setActiveTab] = useState('dashboard');
@@ -14,7 +16,12 @@ const AdminPage = () => {
     const [users, setUsers] = useState([]);
     const [fates, setFates] = useState([]);
     const [subscriptions, setSubscriptions] = useState([]);
-
+    const role = sessionStorage.getItem("role");
+    const userId = sessionStorage.getItem("userId");
+    const navigate = useNavigate();
+    if (role !== "ROLE_ADMIN") {
+        navigate('/');
+    }
     const renderContent = () => {
         switch (activeTab) {
             case 'dashboard':

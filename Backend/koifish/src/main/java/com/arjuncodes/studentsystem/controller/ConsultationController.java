@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/consultations")
+@RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000") // Cấu hình CORS cho controller này
 public class ConsultationController {
 
@@ -18,7 +18,7 @@ public class ConsultationController {
     private ConsultationsService consultationsService;
 
     // API để tạo lịch tư vấn
-    @PostMapping("/schedule")
+    @PostMapping("/public/consultation/schedule")
     public ResponseEntity<String> scheduleConsultation(@RequestBody Consultations consultation) {
         try {
             // Kiểm tra nếu product_id là null
@@ -35,7 +35,7 @@ public class ConsultationController {
     }
 
     // API để lấy danh sách tất cả consultations
-    @GetMapping("/all")
+    @GetMapping("/public/consultation/all")
     public ResponseEntity<?> getAllConsultations() {
         try {
             // Gọi service để lấy danh sách consultations
@@ -46,7 +46,7 @@ public class ConsultationController {
             return new ResponseEntity<>("Đã xảy ra lỗi khi lấy danh sách consultations", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping("/update/{id}")
+    @PutMapping("/public/consultation/update/{id}")
     public ResponseEntity<String> updateConsultation(@PathVariable Integer id, @RequestBody Consultations consultation) {
         try {
             // Kiểm tra nếu id là hợp lệ và nếu lịch tư vấn tồn tại
@@ -63,7 +63,7 @@ public class ConsultationController {
 
 
     // API để xóa lịch tư vấn
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/public/consultation/delete/{id}")
     public ResponseEntity<String> deleteConsultation(@PathVariable Integer id) {
         try {
             boolean isDeleted = consultationsService.deleteConsultation(id);
