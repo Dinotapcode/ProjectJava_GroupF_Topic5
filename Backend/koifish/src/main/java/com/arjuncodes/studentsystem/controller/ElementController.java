@@ -23,16 +23,6 @@ public class ElementController {
         return elementService.calculateUserElement(birthDate, gender);
     }
 
-    @GetMapping("/koiSpecies")
-    public List<String> getKoiSpeciesOptions() {
-        return elementService.getKoiSpeciesOptions();
-    }
-
-    @GetMapping("/pondShape")
-    public List<String> getPondShapeOptions() {
-        return elementService.getPondShapeOptions();
-    }
-
     @GetMapping("/compatibility")
     public CompatibilityResult checkCompatibility(@RequestParam String birthDate, @RequestParam String gender,
                                                   @RequestParam String species, @RequestParam String quantity,

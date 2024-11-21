@@ -27,7 +27,6 @@ public class PondController {
         return ResponseEntity.ok(savedPond);
     }
 
-
     @GetMapping("/pond/{id}")
     public ResponseEntity<Pond> getPondById(@PathVariable int id) {
         Optional<Pond> pond = pondService.getPondById(id);
@@ -38,6 +37,11 @@ public class PondController {
     public ResponseEntity<Void> deletePond(@PathVariable int id) {
         pondService.deletePond(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/pondShape")
+    public List<String> getPondShapeOptions() {
+        return pondService.getPondShapeOptions();
     }
 
     @GetMapping("/pond/search/element")

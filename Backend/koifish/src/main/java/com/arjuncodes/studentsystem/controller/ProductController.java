@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("api/products")
+@RequestMapping("/api")
 public class ProductController {
 
     private static final String UPLOAD_DIR = "Frontend/koifish/public/img_products";  // Đường dẫn lưu ảnh
@@ -25,19 +25,19 @@ public class ProductController {
     private ProductService productService;
 
     // Lấy tất cả sản phẩm
-    @GetMapping("/all")
+    @GetMapping("/public/product/all")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 
     // Lấy sản phẩm theo ID
-    @GetMapping("/detail")
+    @GetMapping("/public/product/detail")
     public Product getProductById(@RequestParam Integer id) {
         return productService.getProductById(id);
     }
 
     // Thêm sản phẩm mới kèm hình ảnh
-    @PostMapping("/add")
+    @PostMapping("/public/product/add")
     public ResponseEntity<Product> addProduct(
             @RequestParam("name") String name,
             @RequestParam("item") String item,
@@ -67,7 +67,7 @@ public class ProductController {
         }
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/public/product/update/{id}")
     public ResponseEntity<Product> updateProduct(
             @PathVariable Integer id,
             @RequestParam("name") String name,
@@ -103,7 +103,7 @@ public class ProductController {
     }
 
     // Xóa sản phẩm theo ID
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/public/product/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable Integer id) {
         try {
@@ -112,5 +112,10 @@ public class ProductController {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Lỗi khi xóa sản phẩm: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/public/product/option/type")
+    public List<String> getProductTypeOptions() {
+        return productService.getProductTypeOptions();
     }
 }

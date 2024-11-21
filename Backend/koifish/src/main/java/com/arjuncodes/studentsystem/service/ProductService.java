@@ -57,4 +57,8 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm với id: " + id)); // Kiểm tra sản phẩm tồn tại
         productRepository.delete(product); // Xóa sản phẩm khỏi database
     }
+
+    public List<String> getProductTypeOptions() {
+        return productRepository.findTypeProductBy();
+    }
 }

@@ -71,6 +71,11 @@ public class KoiController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/koiSpecies")
+    public List<String> getKoiSpeciesOptions() {
+        return koiService.getKoiSpeciesOptions();
+    }
+
     @GetMapping("/koi/search/element")
     public List<Koi> searchByElement(@RequestParam String element) {
         return koiService.getKoiByElement(element);
