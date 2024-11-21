@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { IoClose } from "react-icons/io5";
 import './ProductManagement.scss';
 
 const ProductManagement = ({ products, setProducts }) => {
@@ -204,7 +205,7 @@ const ProductManagement = ({ products, setProducts }) => {
             {showPopup && (
                 <div className="popup" onClick={() => setShowPopup(false)}>
                     <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-                        <button className="close-btn" onClick={handleClosePopup}>X</button>
+                        <button className="close-btn" onClick={handleClosePopup}><IoClose className="close-icon" /></button>
                         <h2>{isEditing ? "Sửa sản phẩm" : "Thêm sản phẩm"}</h2>
 
                         <label>

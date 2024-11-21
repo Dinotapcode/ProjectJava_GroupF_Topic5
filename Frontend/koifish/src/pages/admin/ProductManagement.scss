@@ -168,17 +168,30 @@
             position: absolute;
             top: 15px;
             right: 15px;
-            background: transparent;
+            width: 30px;
+            aspect-ratio: 1 / 1;
+            border-radius: 10px;
             border: none;
             font-size: 1.5rem;
             font-weight: bold;
             color: #333;
             cursor: pointer;
+            background-color: transparent;
+            transition: color 0.5s ease, background-color 0.5s ease;
+
+            .close-icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                height: 30px;
+                width: 30px;
+            }
+
 
             &:hover {
                 color: white;
                 background-color: #fc0404;
-                padding: 5px;
             }
         }
 
