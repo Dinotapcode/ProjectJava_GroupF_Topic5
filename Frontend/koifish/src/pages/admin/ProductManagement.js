@@ -3,6 +3,7 @@ import { IoClose } from "react-icons/io5";
 import './ProductManagement.scss';
 
 const ProductManagement = ({ products, setProducts }) => {
+    const API_BASE_URL = "http://localhost:8083/api";
     const [showPopup, setShowPopup] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editIndex, setEditIndex] = useState(null);
@@ -44,8 +45,8 @@ const ProductManagement = ({ products, setProducts }) => {
             setIsLoading(true);
             const method = isEditing ? 'PUT' : 'POST';
             const url = isEditing
-                ? `http://localhost:8083/api/products/update/${products[editIndex].id}`
-                : 'http://localhost:8083/api/products/add';
+                ? `${API_BASE_URL}/public/product/update/${products[editIndex].id}`
+                : `${API_BASE_URL}/public/product/add`;
 
             const formData = new FormData();
             formData.append('name', newProduct.name);
@@ -118,7 +119,7 @@ const ProductManagement = ({ products, setProducts }) => {
 
         const productToDelete = products[index];
         try {
-            const response = await fetch(`http://localhost:8083/api/products/delete/${productToDelete.id}`, {
+            const response = await fetch(`${API_BASE_URL}/public/product/delete/${productToDelete.id}`, {
                 method: 'DELETE',
             });
 
@@ -139,7 +140,7 @@ const ProductManagement = ({ products, setProducts }) => {
         const fetchProducts = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch('http://localhost:8083/api/products/all');
+                const response = await fetch(`${API_BASE_URL}/public/product/all`);
                 if (!response.ok) throw new Error('Không thể tải danh sách sản phẩm.');
 
                 const data = await response.json();
