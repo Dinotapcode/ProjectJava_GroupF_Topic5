@@ -3,31 +3,72 @@ import './UserManagement.scss';
 
 const UserManagement = () => {
     const [users, setUsers] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    // Gọi API khi component được mount để lấy dữ liệu từ backend
+    // Lấy dữ liệu người dùng từ API
     useEffect(() => {
         const fetchUsers = async () => {
+            setIsLoading(true);
             try {
-                const response = await fetch('http://localhost:8083/user/getAll');
+                const response = await fetch('http://localhost:8083/api/admin/user/getAll');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                setUsers(data);
+                setUsers(data); // Gán dữ liệu người dùng vào state
             } catch (error) {
                 console.error('Error fetching users:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchUsers();
     }, []);
 
-    const handleToggleUserStatus = async (index) => {
+    // Cập nhật quyền người dùng (Admin hoặc User)
+    const handleChangeRole = async (index, event) => {
+        const updatedRole = event.target.value;
+        const updatedUser = users[index];
+    
+        const currentRole = updatedUser.role;
+    
+        if (updatedRole === "ROLE_ADMIN" && currentRole !== "ROLE_ADMIN") {
+            const confirmChange = window.confirm("Bạn muốn nâng cấp tài khoản này lên quyền Admin?");
+            if (!confirmChange) return;
+        }
+    
+        if (updatedRole === "ROLE_USER" && currentRole !== "ROLE_USER") {
+            const confirmChange = window.confirm("Bạn muốn hạ cấp tài khoản này xuống quyền User?");
+            if (!confirmChange) return;
+        }
+    
         try {
-            const updatedUser = users[index];
-            const newStatus = !updatedUser.enabled;
+            const response = await fetch(`http://localhost:8083/api/admin/user/actions/${updatedUser.id}?role=${updatedRole}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (response.ok) {
+                const updatedUsers = [...users];
+                updatedUsers[index].role = updatedRole;
+                setUsers(updatedUsers);
+            } else {
+                throw new Error('Failed to update user role');
+            }
+        } catch (error) {
+            console.error('Error updating user role:', error);
+        }
+    };
 
-            // Gửi PUT request với trạng thái mới (true/false)
-            const response = await fetch(`http://localhost:8083/user/actions/${updatedUser.id}?enabled=${newStatus}`, {
+    // Cập nhật trạng thái người dùng (enable/disable)
+    const handleToggleUserStatus = async (index) => {
+        const updatedUser = users[index];
+        const newStatus = !updatedUser.enabled;
+
+        try {
+            const response = await fetch(`http://localhost:8083/api/admin/user/actions/${updatedUser.id}?enabled=${newStatus}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -35,7 +76,6 @@ const UserManagement = () => {
             });
 
             if (response.ok) {
-                // Cập nhật lại trạng thái của người dùng trong state
                 const updatedUsers = [...users];
                 updatedUsers[index].enabled = newStatus;
                 setUsers(updatedUsers);
@@ -52,39 +92,54 @@ const UserManagement = () => {
             <div className="setting-add-user-btn">
                 <h1>Quản lý người dùng</h1>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>STT</th>
-                        <th>UserId</th>
-                        <th>UserName</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Enabled</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.map((user, index) => (
-                        <tr key={user.id}>
-                            <td>{index + 1}</td>
-                            <td>{user.id}</td>
-                            <td>{user.userName}</td>
-                            <td>{user.email}</td>
-                            <td>{user.phone}</td>
-                            <td>{user.enabled ? 'Đang hoạt động' : 'Bị cấm'}</td>
-                            <td>
-                                <button
-                                    className={user.enabled ? 'btn-disable' : 'btn-enable'}
-                                    onClick={() => handleToggleUserStatus(index)}
-                                >
-                                    {user.enabled ? 'Cấm' : 'Mở cấm'}
-                                </button>
-                            </td>
+
+            {isLoading ? (
+                <div className="loading">Đang tải dữ liệu...</div>
+            ) : (
+                <table>
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>UserId</th>
+                            <th>UserName</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Enabled</th>
+                            <th>Role</th>
+                            <th>Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {users.map((user, index) => (
+                            <tr key={user.id}>
+                                <td>{index + 1}</td>
+                                <td>{user.id}</td>
+                                <td>{user.userName}</td>
+                                <td>{user.email}</td>
+                                <td>{user.phone}</td>
+                                <td>{user.enabled ? 'Đang hoạt động' : 'Bị cấm'}</td>
+                                <td>
+                                    <select
+                                        value={user.role}
+                                        onChange={(event) => handleChangeRole(index, event)}
+                                    >
+                                        <option value="ROLE_USER">User</option>
+                                        <option value="ROLE_ADMIN">Admin</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <button
+                                        className={user.enabled ? 'btn-disable' : 'btn-enable'}
+                                        onClick={() => handleToggleUserStatus(index)}
+                                    >
+                                        {user.enabled ? 'Cấm' : 'Mở cấm'}
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 };

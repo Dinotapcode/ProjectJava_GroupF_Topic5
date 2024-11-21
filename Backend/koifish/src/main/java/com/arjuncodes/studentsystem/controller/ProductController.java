@@ -9,17 +9,20 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-
 import java.math.BigDecimal;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
-
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api")
 public class ProductController {
 
-    private static final String UPLOAD_DIR = "Frontend/koifish/public/img_products";  // Đường dẫn lưu ảnh
 
     @Autowired
     private ProductService productService;
@@ -38,7 +41,7 @@ public class ProductController {
 
     // Thêm sản phẩm mới kèm hình ảnh
     @PostMapping("/public/product/add")
-    public ResponseEntity<Product> addProduct(
+    public ResponseEntity<?> addProduct(
             @RequestParam("name") String name,
             @RequestParam("item") String item,
             @RequestParam("type") String type,
@@ -50,6 +53,9 @@ public class ProductController {
             @RequestParam(value = "info3", required = false) String info3
     ) {
         try {
+            // Kiểm tra kích thước tệp ảnh nếu có
+
+
             Product product = new Product();
             product.setName(name);
             product.setItem(item);
@@ -60,15 +66,44 @@ public class ProductController {
             product.setInfo2(info2);
             product.setInfo3(info3);
 
-            Product savedProduct = productService.saveProduct(product, image);
+            if (image != null && !image.isEmpty()) {
+                String imageFilename = uploadImageFile(image);
+                if (imageFilename != null) {
+                    product.setImg(imageFilename);
+                } else {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(null); // Handle upload error
+                }
+            }
+            // Lưu sản phẩm cùng với ảnh (nếu có)
+            Product savedProduct = productService.saveProduct(product, null);
             return ResponseEntity.ok(savedProduct);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi khi xử lý ảnh: " + e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(500).build();
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi khi thêm sản phẩm: " + e.getMessage());
         }
     }
+    private String uploadImageFile(MultipartFile uploadfile) {
+        String fileName = UUID.randomUUID() + "_" + uploadfile.getOriginalFilename();
+        // Sử dụng đường dẫn tuyệt đối hoặc tương đối
+        Path destinationPath = Paths.get("Frontend/koifish/public/img_products").resolve(fileName);
 
+        try {
+            // Tạo thư mục nếu nó không tồn tại
+            Files.createDirectories(destinationPath.getParent());
+
+            Files.copy(uploadfile.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+            return fileName; // Return the filename for saving in the user entity
+        } catch (IOException e) {
+            System.out.println("Upload Image Error: " + e.getMessage());
+            return null; // Handle error appropriately
+        }
+    }
     @PutMapping("/public/product/update/{id}")
-    public ResponseEntity<Product> updateProduct(
+    public ResponseEntity<?> updateProduct(
             @PathVariable Integer id,
             @RequestParam("name") String name,
             @RequestParam("item") String item,
@@ -95,10 +130,10 @@ public class ProductController {
             existingProduct.setInfo2(info2);
             existingProduct.setInfo3(info3);
 
-            Product updatedProduct = productService.saveProduct(existingProduct, image);
+            Product updatedProduct = productService.saveProduct(existingProduct, null);
             return ResponseEntity.ok(updatedProduct);
         } catch (Exception e) {
-            return ResponseEntity.status(500).build();
+            return ResponseEntity.status(500).body("Lỗi khi cập nhật sản phẩm: " + e.getMessage());
         }
     }
 

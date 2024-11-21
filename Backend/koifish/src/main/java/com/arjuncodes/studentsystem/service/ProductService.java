@@ -3,11 +3,17 @@ package com.arjuncodes.studentsystem.service;
 import com.arjuncodes.studentsystem.model.Product;
 import com.arjuncodes.studentsystem.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.io.IOException;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +34,7 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm với id: " + id)); // Kiểm tra xem sản phẩm có tồn tại không
     }
 
-    private static final String UPLOAD_DIR = "Frontend/koifish/src/assets/admin/img_products";
+    private static final String UPLOAD_DIR = "Frontend/koifish/public/img_products";
 
 
 
@@ -36,8 +42,6 @@ public class ProductService {
         if (image != null && !image.isEmpty()) {
             // Tạo tên file với mã định danh UUID
             String fileName = UUID.randomUUID() + "_" + image.getOriginalFilename();
-            File uploadDir = new File(UPLOAD_DIR);
-
 
 
             // Lưu file ảnh
@@ -50,6 +54,9 @@ public class ProductService {
 
         return productRepository.save(product);
     }
+
+
+
 
     // Xóa sản phẩm theo ID
     public void deleteProduct(Integer id) {
