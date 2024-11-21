@@ -60,7 +60,7 @@ const PersonalPage = () => {
 
   
   useEffect(() => {
-    fetch(`http://localhost:8083/api/public/${userId}`)
+    fetch(`http://localhost:8083/api/public/user/${userId}`)
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched data: ", data);
