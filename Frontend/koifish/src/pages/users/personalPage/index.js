@@ -60,7 +60,8 @@ const PersonalPage = () => {
 
   
   useEffect(() => {
-    fetch(`http://localhost:8083/api/public/user/${userId}`)
+    fetch(`http://localhost:8083/api/user/${userId}`,{
+      headers: { Authorization: sessionStorage.getItem('authHeader') }})
       .then((response) => response.json())
       .then((data) => {
         console.log("Fetched data: ", data);
@@ -129,10 +130,11 @@ const PersonalPage = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://localhost:8083/api/public/update/${userId}`,
+        `http://localhost:8083/api/user/update/${userId}`,
         {
           method: "PUT",
           body: formData,
+          headers: { Authorization: sessionStorage.getItem('authHeader') }
         }
       );
 

@@ -20,17 +20,20 @@
         border-radius: 50%;
         margin-bottom: 15px;
         object-fit: cover;
+        transition: transform 0.3s ease;
       }
 
       h3 {
         margin: 10px 0;
         color: #333;
+        font-weight: bold;
       }
 
       .role {
         color: #666;
         font-size: 14px;
         margin-bottom: 15px;
+        font-style: italic;
       }
 
       .action-buttons {
@@ -45,15 +48,26 @@
           border-radius: 5px;
           cursor: pointer;
           font-size: 12px;
+          transition: background-color 0.3s ease, transform 0.3s ease;
 
           &.primary {
             background-color: #4caf50;
             color: white;
+
+            &:hover {
+              background-color: #45a049;
+              transform: scale(1.05);
+            }
           }
 
           &.danger {
             background-color: #f44336;
             color: white;
+
+            &:hover {
+              background-color: #e53935;
+              transform: scale(1.05);
+            }
           }
         }
       }
@@ -86,6 +100,7 @@
         &.active {
           background-color: #e3f2fd;
           color: #1976d2;
+          font-weight: bold;
         }
       }
     }
@@ -100,9 +115,9 @@
       color: #333;
       text-align: center;
       margin-top: 100px;
+      font-weight: bold;
     }
   }
-
 
   @keyframes slideIn {
     from {
@@ -172,7 +187,6 @@
   }
 
   .profile-container {
-    background-color: #a83838;
     height: 100%;
     width: 100%;
     padding: 20px;
@@ -192,6 +206,7 @@
         object-fit: cover; // Đảm bảo ảnh không bị méo
         display: block;
         margin: 0 auto;
+        transition: transform 0.3s ease;
       }
 
       label {
@@ -210,6 +225,13 @@
         bottom: 0;
         align-self: center;
         width: 150px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+
+        &:hover {
+          background-color: #1976d2;
+          color: white;
+          transform: scale(1.05);
+        }
       }
 
       .form-group {
@@ -220,6 +242,14 @@
           box-sizing: border-box;
           align-self: center;
           min-width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          transition: border-color 0.3s ease;
+
+          &:focus {
+            border-color: #1976d2;
+          }
         }
       }
     }
