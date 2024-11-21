@@ -4,7 +4,6 @@ import './style.scss';
 import logo from '../../../../assets/logo/logo.png';
 import BackToHome from '../../../../components/BackToHome';
 import { Link, useNavigate } from 'react-router-dom';
-import { RiMenuFold4Line } from "react-icons/ri";
 
 const Header = () => {
     const [isShrunk, setIsShrunk] = useState(false);

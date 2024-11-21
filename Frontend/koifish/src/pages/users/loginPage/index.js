@@ -41,6 +41,7 @@ function LoginPage() {
 
     const handleLogin = async (email, password) => {
         try {
+            const credentials = btoa(`${email}:${password}`);
             const response = await fetch('http://localhost:8083/api/login', {
                 method: 'POST',
                 headers: {
@@ -61,9 +62,9 @@ function LoginPage() {
                 sessionStorage.setItem('role', data.role);
                 sessionStorage.setItem('userId', data.userId);
                 alert('Đăng nhập thành công');
-                if (data.role === 'USER') {
+                if (data.role === 'ROLE_USER') {
                     window.location.href = '/';
-                } else if (data.role === 'ADMIN') {
+                } else if (data.role === 'ROLE_ADMIN') {
                     window.location.href = '/admin';
                 } else {
                     alert(data.message || 'Không xác định được quyền truy cập.');
