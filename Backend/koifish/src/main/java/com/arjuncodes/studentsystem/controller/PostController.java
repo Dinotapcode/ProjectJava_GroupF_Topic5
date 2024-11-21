@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/api")
 @CrossOrigin
 public class PostController {
     private static final String UPLOAD_DIR = "Frontend/koifish/src/assets/admin/img_blog";
@@ -27,7 +27,7 @@ public class PostController {
     @Autowired
     private PostRepository postRepository;
 
-    @PostMapping("/add")
+    @PostMapping("/public/post/add")
     public ResponseEntity<String> createPost(
             @RequestParam String title,
             @RequestParam String content,
@@ -67,22 +67,22 @@ public class PostController {
         }
     }
 
-    @GetMapping("/user/all")
+    @GetMapping("/public/post/all/active")
     public List<Post> getActivePosts() {
         return postService.getActivePosts();
     }
 
-    @GetMapping("/admin/all")
+    @GetMapping("/public/post/all")
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/public/post/get/{id}")
     public Post getPostById(@PathVariable int id) {
         return postService.getPostById(id);
     }
 
-    @PutMapping("/update-status/{id}")
+    @PutMapping("/public/post/update-status/{id}")
     public ResponseEntity<String> updatePostStatus(@PathVariable int id, @RequestParam String status) {
         try {
             Post post = postService.getPostById(id);

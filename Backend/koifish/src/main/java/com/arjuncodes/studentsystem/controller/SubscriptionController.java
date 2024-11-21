@@ -8,30 +8,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/subscriptions")
+@RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000")
 public class SubscriptionController {
 
     @Autowired
     private SubscriptionService subscriptionService;
 
-    @PostMapping("/add")
+    @PostMapping("/public/subscriptions/add")
     public String add(@RequestBody Subscription subscription) {
         subscriptionService.saveSubscription(subscription);
         return "New subscription is added";
     }
 
-    @GetMapping("/user/all")
+    @GetMapping("/public/subscriptions/all")
+    public List<Subscription> getAllSubscriptions() {
+        return subscriptionService.getAllSubscriptions();
+    }
+
+    @GetMapping("/public/subscriptions/all/active")
     public List<Subscription> getActiveSubscription() {
         return subscriptionService.getActiveSubscription();
     }
 
-    @GetMapping("/admin/all")
-    public List<Subscription> getAllSubscriptions() { // Đúng tên phương thức
-        return subscriptionService.getAllSubscriptions();
-    }
-
-    @PutMapping("/pause/{id}")
+    @PutMapping("/public/subscriptions/pause/{id}")
     public String pauseSubscription(@PathVariable("id") int id) {
         Subscription subscription = subscriptionService.getSubscriptionById(id);
         if (subscription != null) {
@@ -43,7 +43,7 @@ public class SubscriptionController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/public/subscriptions/delete/{id}")
     public String deleteSubscription(@PathVariable("id") int id) {
         Subscription subscription = subscriptionService.getSubscriptionById(id);
         if (subscription != null) {
@@ -54,7 +54,7 @@ public class SubscriptionController {
         }
     }
 
-    @PutMapping("/resume/{id}")
+    @PutMapping("/public/subscriptions/resume/{id}")
     public String resumeSubscription(@PathVariable int id) {
         Subscription subscription = subscriptionService.getSubscriptionById(id);
         if (subscription == null) {

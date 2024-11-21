@@ -7,7 +7,7 @@ const PaymentSection = ({ onConfirmPayment, subscriptions, onClose }) => {
   const [amount, setAmount] = useState('');
   const [status] = useState('INACTIVE');
   const [paymentDate] = useState(new Date().toISOString());
-  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [selectedPackage, setSelectedPackage] = useState('');
 
   // Handle package selection
   const handlePackageSelect = (pkg) => {
@@ -55,7 +55,6 @@ const PaymentSection = ({ onConfirmPayment, subscriptions, onClose }) => {
           <h3>Available Subscription Packages</h3>
           {selectedPackage ? (
             <div className="subscription-item">
-              <p><strong>ID:</strong> {selectedPackage.subscriptionId}</p>
               <p><strong>Name:</strong> {selectedPackage.subscriptionName}</p>
               <p><strong>Price:</strong> {selectedPackage.price} VND</p>
               <p><strong>Description:</strong> {selectedPackage.description}</p>
@@ -66,10 +65,10 @@ const PaymentSection = ({ onConfirmPayment, subscriptions, onClose }) => {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <label>Subscription ID:</label>
-          <input type="text" value={subscriptionId} readOnly required />
+          <label>Name:</label>
+          <input type="text" value={selectedPackage.subscriptionName} readOnly required />
 
-          <label>User ID:</label>
+          <label>User Name:</label>
           <input type="text" value={userId} readOnly required />
 
           <label>Amount (VND):</label>

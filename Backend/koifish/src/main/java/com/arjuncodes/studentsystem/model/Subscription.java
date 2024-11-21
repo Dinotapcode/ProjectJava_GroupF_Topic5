@@ -3,6 +3,7 @@ package com.arjuncodes.studentsystem.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "subscription")
 public class Subscription {
 
     @Id

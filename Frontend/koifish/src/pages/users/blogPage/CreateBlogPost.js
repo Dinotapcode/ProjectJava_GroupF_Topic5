@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './style.scss';
+const API_BASE_URL = "http://localhost:8083/api";
 
 const CreateBlogPostPopup = ({ onClose, onCreate, onSuccess }) => {
   const [title, setTitle] = useState('');
@@ -25,7 +26,7 @@ const CreateBlogPostPopup = ({ onClose, onCreate, onSuccess }) => {
     onSuccess('Your post will be reviewed');
     onClose();
     // Sending the data to backend
-    fetch('http://localhost:8083/post/add', {
+    fetch(`${API_BASE_URL}/public/post/add`, {
       method: 'POST',
       body: formData,
     })

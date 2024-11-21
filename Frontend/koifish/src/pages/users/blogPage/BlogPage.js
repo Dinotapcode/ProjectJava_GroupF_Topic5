@@ -5,6 +5,7 @@ import { MdOutlinePayments } from "react-icons/md";
 import './style.scss';
 import CreateBlogPostPopup from './CreateBlogPost';
 import PaymentSection from './PaymentSection';
+const API_BASE_URL = "http://localhost:8083/api";
 
 const BlogPage = () => {
   const [blogPosts, setBlogPosts] = useState([]);
@@ -14,7 +15,7 @@ const BlogPage = () => {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:8083/post/user/all')
+    fetch(`${API_BASE_URL}/public/post/all/active`)
       .then(response => response.json())
       .then(data => {
         setBlogPosts(data);
@@ -25,7 +26,7 @@ const BlogPage = () => {
         setLoading(false);
       });
 
-    fetch('http://localhost:8083/subscriptions/user/all')
+    fetch(`${API_BASE_URL}/public/subscriptions/all/active`)
       .then(response => response.json())
       .then(data => {
         setSubscriptions(data);

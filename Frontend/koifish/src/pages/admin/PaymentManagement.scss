@@ -1,45 +1,48 @@
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 16px;
-}
+.payment-management {
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 16px;
+    }
 
-table th, table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
+    table th,
+    table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
 
-input {
-    margin: 5px;
-    padding: 10px;
-    font-size: 14px;
-    width: 200px;
-}
+    input {
+        margin: 5px;
+        padding: 10px;
+        font-size: 14px;
+        width: 200px;
+    }
 
-button {
-    padding: 8px 12px;
-    margin: 5px;
-    cursor: pointer;
-    font-size: 14px;
-}
+    button {
+        padding: 8px 12px;
+        margin: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
 
-.btn-pause {
-    background-color: #f39c12;
-    color: white;
-}
+    .btn-pause {
+        background-color: #f39c12;
+        color: white;
+    }
 
-.btn-resume {
-    background-color: #27ae60;
-    color: white;
-}
+    .btn-resume {
+        background-color: #27ae60;
+        color: white;
+    }
 
-.btn-delete {
-    background-color: #e74c3c;
-    color: white;
-}
+    .btn-delete {
+        background-color: #e74c3c;
+        color: white;
+    }
 
-button:hover {
-    opacity: 0.8;
+    button:hover {
+        opacity: 0.8;
+    }
 }

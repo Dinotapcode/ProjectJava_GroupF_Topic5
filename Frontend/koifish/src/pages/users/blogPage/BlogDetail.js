@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './detail.scss';
+const API_BASE_URL = "http://localhost:8083/api";
 
 const BlogDetail = () => {
   // Lấy id từ URL
@@ -17,7 +18,7 @@ const BlogDetail = () => {
       setLoading(true); // Đặt lại loading = true khi bắt đầu tải dữ liệu
 
       // Fetch dữ liệu bài viết từ API
-      fetch(`http://localhost:8083/post/get/${id}`)
+      fetch(`${API_BASE_URL}/public/post/get/${id}`)
         .then(response => response.json())
         .then(data => {
           console.log('Fetched data:', data);  // Kiểm tra dữ liệu nhận được

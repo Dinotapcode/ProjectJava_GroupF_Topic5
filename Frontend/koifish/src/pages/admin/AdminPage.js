@@ -3,12 +3,8 @@ import ProductManagement from './ProductManagement';
 import PostManagement from './PostManagement';
 import UserManagement from './UserManagement';
 import PaymentManagement from './PaymentManagement';
-<<<<<<< HEAD
-import SearchManagement from './SearchManagement'; // Import component mới
-=======
 import ConsultationSchedule from './ConsultationSchedule';
 import FateManagement from './FateManagement';
->>>>>>> f819474dc012cfa00db1fe8761d4676f6da07f0b
 import './style.scss';
 
 const AdminPage = () => {
@@ -16,10 +12,7 @@ const AdminPage = () => {
     const [products, setProducts] = useState([]);
     const [posts, setPosts] = useState([]);
     const [users, setUsers] = useState([]);
-<<<<<<< HEAD
-=======
     const [fates, setFates] = useState([]);
->>>>>>> f819474dc012cfa00db1fe8761d4676f6da07f0b
     const [subscriptions, setSubscriptions] = useState([]);
 
     const renderContent = () => {
@@ -35,9 +28,6 @@ const AdminPage = () => {
                     </div>
                 );
             case 'productManagement':
-<<<<<<< HEAD
-                return <ProductManagement products={products} setProducts={setProducts} />;
-=======
                 return (
                     <ProductManagement products={products} setProducts={setProducts} />
                 );
@@ -45,17 +35,11 @@ const AdminPage = () => {
                 return (
                     <ConsultationSchedule />
                 );
->>>>>>> f819474dc012cfa00db1fe8761d4676f6da07f0b
             case 'blogManagement':
                 return <PostManagement posts={posts} setPosts={setPosts} />;
             case 'userManagement':
                 return <UserManagement users={users} setUsers={setUsers} />;
             case 'servicePackageManagement':
-<<<<<<< HEAD
-                return <PaymentManagement subscriptions={subscriptions} setSubscriptions={setSubscriptions} />;
-            case 'searchManagement': // Thêm logic để hiển thị phần quản lý tra cứu
-                return <SearchManagement />;
-=======
                 return (
                     <PaymentManagement subscriptions={subscriptions} setSubscriptions={setSubscriptions} />
                 );
@@ -63,7 +47,6 @@ const AdminPage = () => {
                 return (
                     <FateManagement fates={fates} setFates={setFates} />
                 );
->>>>>>> f819474dc012cfa00db1fe8761d4676f6da07f0b
             default:
                 return null;
         }

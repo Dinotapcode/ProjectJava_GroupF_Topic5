@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './PaymentManagement.scss';
+const API_BASE_URL = "http://localhost:8083/api";
 
 
 const SubscriptionManagement = () => {
@@ -15,7 +16,7 @@ const SubscriptionManagement = () => {
     useEffect(() => {
         const fetchSubscriptions = async () => {
             try {
-                const response = await fetch('http://localhost:8083/subscriptions/admin/all');
+                const response = await fetch(`${API_BASE_URL}/public/subscriptions/all`);
                 const data = await response.json();
                 setSubscriptions(data);
             } catch (error) {
@@ -29,7 +30,7 @@ const SubscriptionManagement = () => {
     const handlePauseSubscription = async (index) => {
         const subscription = subscriptions[index];
         try {
-            const response = await fetch(`http://localhost:8083/subscriptions/pause/${subscription.subscriptionId}`, {
+            const response = await fetch(`${API_BASE_URL}/public/subscriptions/pause/${subscription.subscriptionId}`, {
                 method: 'PUT',
             });
             if (!response.ok) {
@@ -49,7 +50,7 @@ const SubscriptionManagement = () => {
     const handleResumeSubscription = async (index) => {
         const subscription = subscriptions[index];
         try {
-            const response = await fetch(`http://localhost:8083/subscriptions/resume/${subscription.subscriptionId}`, {
+            const response = await fetch(`${API_BASE_URL}/public/subscriptions/resume/${subscription.subscriptionId}`, {
                 method: 'PUT',
             });
             if (!response.ok) {
@@ -69,7 +70,7 @@ const SubscriptionManagement = () => {
     const handleDeleteSubscription = async (index) => {
         const subscription = subscriptions[index];
         try {
-            const response = await fetch(`http://localhost:8083/subscriptions/delete/${subscription.subscriptionId}`, {
+            const response = await fetch(`${API_BASE_URL}/public/subscriptions/delete/${subscription.subscriptionId}`, {
                 method: 'DELETE',
             });
             if (!response.ok) {
@@ -87,7 +88,7 @@ const SubscriptionManagement = () => {
     // Thêm mới subscription
     const handleAddSubscription = async () => {
         try {
-            const response = await fetch('http://localhost:8083/subscriptions/add', {
+            const response = await fetch('${API_BASE_URL}/public/subscriptions/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -113,7 +114,7 @@ const SubscriptionManagement = () => {
     };
 
     return (
-        <div>
+        <div class = "payment-management">
             <h2>Subscription Management</h2>
 
             {/* Form Thêm Subscription */}
