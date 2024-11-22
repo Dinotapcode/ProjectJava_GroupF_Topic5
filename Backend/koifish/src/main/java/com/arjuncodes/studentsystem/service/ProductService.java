@@ -34,6 +34,10 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm với id: " + id)); // Kiểm tra xem sản phẩm có tồn tại không
     }
 
+    public long countProducts() {
+        return productRepository.count();
+    }
+
     private static final String UPLOAD_DIR = "Frontend/koifish/public/img_products";
 
 

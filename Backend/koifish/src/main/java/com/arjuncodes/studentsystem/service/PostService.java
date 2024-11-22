@@ -25,6 +25,10 @@ public class PostService {
                 .orElseThrow(() -> new RuntimeException("Not found post with id: " + id));
     }
 
+    public long countPosts() {
+        return postRepository.count();
+    }
+
     public void updatePostStatus(int id, String status) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found"));

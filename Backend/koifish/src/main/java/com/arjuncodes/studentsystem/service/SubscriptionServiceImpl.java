@@ -28,6 +28,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         return subscriptionRepository.findAll();
     }
 
+    public long countSubscriptions() {
+        return subscriptionRepository.count();
+    }
+
     @Override
     public Subscription getSubscriptionById(int id) {
         return subscriptionRepository.findById(id).orElse(null);

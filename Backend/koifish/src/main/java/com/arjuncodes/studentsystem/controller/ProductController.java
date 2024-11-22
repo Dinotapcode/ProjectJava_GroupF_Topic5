@@ -33,6 +33,12 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    @GetMapping("/admin/products/count")
+    public ResponseEntity<Long> countProduct() {
+        long count = productService.countProducts();
+        return ResponseEntity.ok(count);
+    }
+
     // Lấy sản phẩm theo ID
     @GetMapping("/public/product/detail")
     public Product getProductById(@RequestParam Integer id) {

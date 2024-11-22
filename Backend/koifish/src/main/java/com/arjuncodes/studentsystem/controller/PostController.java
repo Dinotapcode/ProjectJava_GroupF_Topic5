@@ -67,6 +67,12 @@ public class PostController {
         }
     }
 
+    @GetMapping("/admin/posts/count")
+    public ResponseEntity<Long> countPost() {
+        long count = postService.countPosts();
+        return ResponseEntity.ok(count);
+    }
+
     @GetMapping("/public/post/all/active")
     public List<Post> getActivePosts() {
         return postService.getActivePosts();

@@ -45,6 +45,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public long countUsers() {
+        return userRepository.count();
+    }
+
     public void updateUserStatus(int id, boolean enabled) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));

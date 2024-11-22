@@ -3,6 +3,7 @@ package com.arjuncodes.studentsystem.controller;
 import com.arjuncodes.studentsystem.model.Subscription;
 import com.arjuncodes.studentsystem.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,12 @@ public class SubscriptionController {
     @GetMapping("/admin/subscriptions/all")
     public List<Subscription> getAllSubscriptions() {
         return subscriptionService.getAllSubscriptions();
+    }
+
+    @GetMapping("/admin/subscriptions/count")
+    public ResponseEntity<Long> countSubscriptions() {
+        long count = subscriptionService.countSubscriptions();
+        return ResponseEntity.ok(count);
     }
 
     @GetMapping("/public/subscriptions/all/active")
