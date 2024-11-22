@@ -35,7 +35,7 @@ public class ConsultationController {
     }
 
     // API để lấy danh sách tất cả consultations
-    @GetMapping("/public/consultation/all")
+    @GetMapping("/admin/consultation/all")
     public ResponseEntity<?> getAllConsultations() {
         try {
             // Gọi service để lấy danh sách consultations
@@ -46,7 +46,7 @@ public class ConsultationController {
             return new ResponseEntity<>("Đã xảy ra lỗi khi lấy danh sách consultations", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PutMapping("/public/consultation/update/{id}")
+    @PutMapping("/admin/consultation/update/{id}")
     public ResponseEntity<String> updateConsultation(@PathVariable Integer id, @RequestBody Consultations consultation) {
         try {
             // Kiểm tra nếu id là hợp lệ và nếu lịch tư vấn tồn tại
@@ -63,7 +63,7 @@ public class ConsultationController {
 
 
     // API để xóa lịch tư vấn
-    @DeleteMapping("/public/consultation/delete/{id}")
+    @DeleteMapping("/admin/consultation/delete/{id}")
     public ResponseEntity<String> deleteConsultation(@PathVariable Integer id) {
         try {
             boolean isDeleted = consultationsService.deleteConsultation(id);

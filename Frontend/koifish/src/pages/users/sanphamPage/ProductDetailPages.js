@@ -10,8 +10,8 @@ const ProductDetailPage = () => {
     const [user, setUser] = useState(null); // state để lưu thông tin người dùng
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const userId = sessionStorage.getItem('userId');
-    // Lấy thông tin sản phẩm và người dùng
+   
+    // Lấy thông tin sản phẩm và người dùng trang này có phân quyền ko
     useEffect(() => {
         const fetchProductAndUser = async () => {
             try {
@@ -24,14 +24,7 @@ const ProductDetailPage = () => {
                 setProduct(productData);
 
                 // Fetch thông tin người dùng
-                const userResponse = await fetch(`${API_BASE_URL}/public/user/${userId}`); // Giả sử ID người dùng là 1
-                if (!userResponse.ok) {
-                    throw new Error('Không thể lấy thông tin người dùng');
-                }
-                const userData = await userResponse.json();
-                setUser(userData);
-
-                setLoading(false);
+                
             } catch (err) {
                 setError(err.message);
                 setLoading(false);
@@ -56,8 +49,8 @@ const ProductDetailPage = () => {
 
     return (
         <div className="product-detail-page">
-            {product && user ? (
-                <ProductDetail product={product} user={user} />
+            {product ? (
+                <ProductDetail product={product}  />
             ) : (
                 <p>Sản phẩm hoặc người dùng không tồn tại.</p>
             )}

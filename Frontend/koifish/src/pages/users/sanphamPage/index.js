@@ -112,7 +112,7 @@ const SanphamPage = () => {
                 {filteredProducts.map(product => (
                     <div className="sanpham-page__item" key={product.id}>
                         <Link to={`/san-pham-phong-thuy/${product.id}`}>
-                            <img src={`/img_products/${product.img}`} alt={product.name} />
+                            <img src={`/uploads/img_products/${product.img}`} alt={product.name} />
                         </Link>
                         <h2>{product.name}</h2>
                         <p>Giá: {product.price.toLocaleString('vi-VN')} VND</p>
