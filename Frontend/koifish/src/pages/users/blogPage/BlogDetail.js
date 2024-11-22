@@ -49,7 +49,7 @@ const BlogDetail = () => {
         {/* Ngày đăng bài viết */}
         <p className="date">{post.date}</p>
         {/* Hiển thị ảnh nếu có */}
-        {post.image && <img src={require(`../../../assets/admin/img_blog/${post.image}`)} alt={post.title} className="blog-image" />}
+        {post.image && <img src={`uploads/img_blog/${post.image}`} alt={post.title} className="blog-image" />}
         {/* Nội dung bài viết */}
         <p>{post.content}</p>
 

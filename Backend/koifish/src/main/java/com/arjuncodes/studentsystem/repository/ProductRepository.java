@@ -10,4 +10,5 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("SELECT DISTINCT k.type FROM Product k")
     List<String> findTypeProductBy();
+    long count();
 }

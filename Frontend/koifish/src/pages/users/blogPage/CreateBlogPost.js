@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './style.scss';
+
 const API_BASE_URL = "http://localhost:8083/api";
 
 const CreateBlogPostPopup = ({ onClose, onCreate, onSuccess }) => {
@@ -8,6 +9,23 @@ const CreateBlogPostPopup = ({ onClose, onCreate, onSuccess }) => {
   const [username, setUsername] = useState('');
   const [image, setImage] = useState(null);
 
+  const userId = sessionStorage.getItem("userId");  // Retrieve userId from sessionStorage
+
+  useEffect(() => {
+    if (userId) {
+      const fetchUserName = async () => {
+        try {
+          const response = await fetch(`${API_BASE_URL}/user/${userId}`);
+          const data = await response.json();
+          setUsername(data.userName);
+        } catch (error) {
+          console.error('Error fetching username:', error);
+        }
+      };
+      fetchUserName();
+    }
+  }, [userId]);
+
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
@@ -15,29 +33,26 @@ const CreateBlogPostPopup = ({ onClose, onCreate, onSuccess }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Random user_id for demo purposes
-    const userId = Math.floor(Math.random() * 1000) + 1;
-
     // Creating FormData object
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
     formData.append('image', image);
-    onSuccess('Your post will be reviewed');
-    onClose();
+    formData.append('userId', userId);  // Add userId to the FormData
+    onSuccess('Your post will be reviewed');  // Success message
+    onClose();  // Close the popup
     // Sending the data to backend
     fetch(`${API_BASE_URL}/public/post/add`, {
       method: 'POST',
       body: formData,
     })
-    .then(response => response.json())
-    .then(newPost => {
-      onCreate(newPost);
-      console.log('New blog post added');
-    })
-    .catch(error => {
-      console.error('Error creating post:', error);
-    });
+      .then(response => response.json())
+      .then(newPost => {
+        onCreate(newPost);
+      })
+      .catch(error => {
+        console.error('Error creating post:', error);
+      });
   };
 
   return (

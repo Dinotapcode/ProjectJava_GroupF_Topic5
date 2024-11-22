@@ -28,6 +28,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         return subscriptionRepository.findAll();
     }
 
+    public long countSubscriptions() {
+        return subscriptionRepository.count();
+    }
+
     @Override
     public Subscription getSubscriptionById(int id) {
         return subscriptionRepository.findById(id).orElse(null);
@@ -37,4 +41,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public void deleteSubscription(Subscription subscription) {
         subscriptionRepository.delete(subscription);
     }
+
+    @Override
+    public boolean existsById(int subscriptionId) {
+        return subscriptionRepository.existsById(subscriptionId);
+    }
+
 }

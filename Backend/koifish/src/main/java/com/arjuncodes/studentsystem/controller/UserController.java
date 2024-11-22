@@ -63,6 +63,12 @@ public class UserController {
         }
     }
 
+    @GetMapping("/admin/users/count")
+    public ResponseEntity<Long> countUser() {
+        long count = userService.countUsers();
+        return ResponseEntity.ok(count);
+    }
+
     @PutMapping("/user/update/{id}")
     public ResponseEntity<User> updateUser(
             @PathVariable Integer id,
@@ -124,5 +130,4 @@ public class UserController {
         userService.updateUserStatus(id, enabled);
         return enabled ? "User is now active" : "User has been banned";
     }
-
 }

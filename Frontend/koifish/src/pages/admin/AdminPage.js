@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProductManagement from './ProductManagement';
 import PostManagement from './PostManagement';
 import UserManagement from './UserManagement';
@@ -22,16 +22,63 @@ const AdminPage = () => {
     if (role !== "ROLE_ADMIN") {
         navigate(ROUTERS.USER.HOME);
     }
+    const [counts, setCounts] = useState({
+        users: 0,
+        posts: 0,
+        products: 0,
+        subscriptions: 0,
+        });
+
+    const fetchCounts = async () => {
+        try {
+            // Gọi API đồng thời
+            const [usersResponse, postsResponse, productsResponse, subscriptionsResponse] = await Promise.all([
+                fetch("http://localhost:8083/api/admin/users/count",{
+                    headers: { Authorization: sessionStorage.getItem('authHeader') },
+                }),
+                fetch("http://localhost:8083/api/admin/posts/count",{
+                    headers: { Authorization: sessionStorage.getItem('authHeader') },
+                }),
+                fetch("http://localhost:8083/api/admin/products/count",{
+                    headers: { Authorization: sessionStorage.getItem('authHeader') },
+                }),
+                fetch("http://localhost:8083/api/admin/subscriptions/count",{
+                    headers: { Authorization: sessionStorage.getItem('authHeader') },
+                }),
+            ]);
+
+            // Parse dữ liệu JSON
+            const usersCount = await usersResponse.json();
+            const postsCount = await postsResponse.json();
+            const productsCount = await productsResponse.json();
+            const subscriptionsCount = await subscriptionsResponse.json();
+
+            // Cập nhật state counts
+            setCounts({
+                users: usersCount,
+                posts: postsCount,
+                products: productsCount,
+                subscriptions: subscriptionsCount,
+            });
+        } catch (error) {
+            console.error("Error fetching counts:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchCounts();
+    }, []);
+
     const renderContent = () => {
         switch (activeTab) {
             case 'dashboard':
                 return (
                     <div className="dashboard-stats">
                         <h1>Dashboard</h1>
-                        <div className="stat-item">Số lượng truy cập: 1000</div>
-                        <div className="stat-item">Số lượng bài viết: {posts.length}</div>
-                        <div className="stat-item">Số lượng sản phẩm: {products.length}</div>
-                        <div className="stat-item">Số lượng gói đã đăng ký: 10</div>
+                        <div className="stat-item">Số lượng người dùng: {counts.users}</div>
+                        <div className="stat-item">Số lượng bài viết: {counts.posts}</div>
+                        <div className="stat-item">Số lượng sản phẩm: {counts.products}</div>
+                        <div className="stat-item">Số lượng gói đã đăng ký: {counts.subscriptions} </div>
                     </div>
                 );
             case 'productManagement':

@@ -1,11 +1,13 @@
 package com.arjuncodes.studentsystem.model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Table(name = "user")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")  // Mapping to the user_id column
@@ -34,7 +36,8 @@ public class User {
 
     private boolean enabled;
 
-    private String wallet;
+    @Column(name = "wallet")
+    private BigDecimal wallet;  // Use BigDecimal for better precision
 
     // Default constructor
     public User() {}
@@ -139,11 +142,11 @@ public class User {
         this.enabled = enabled;
     }
 
-    public String getWallet() {
+    public BigDecimal getWallet() {
         return wallet;
     }
 
-    public void setWallet(String wallet) {
+    public void setWallet(BigDecimal wallet) {
         this.wallet = wallet;
     }
 

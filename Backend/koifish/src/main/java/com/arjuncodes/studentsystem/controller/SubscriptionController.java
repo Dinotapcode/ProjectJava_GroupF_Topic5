@@ -3,6 +3,7 @@ package com.arjuncodes.studentsystem.controller;
 import com.arjuncodes.studentsystem.model.Subscription;
 import com.arjuncodes.studentsystem.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,15 +16,21 @@ public class SubscriptionController {
     @Autowired
     private SubscriptionService subscriptionService;
 
-    @PostMapping("/public/subscriptions/add")
+    @PostMapping("/admin/subscriptions/add")
     public String add(@RequestBody Subscription subscription) {
         subscriptionService.saveSubscription(subscription);
         return "New subscription is added";
     }
 
-    @GetMapping("/public/subscriptions/all")
+    @GetMapping("/admin/subscriptions/all")
     public List<Subscription> getAllSubscriptions() {
         return subscriptionService.getAllSubscriptions();
+    }
+
+    @GetMapping("/admin/subscriptions/count")
+    public ResponseEntity<Long> countSubscriptions() {
+        long count = subscriptionService.countSubscriptions();
+        return ResponseEntity.ok(count);
     }
 
     @GetMapping("/public/subscriptions/all/active")
@@ -31,7 +38,7 @@ public class SubscriptionController {
         return subscriptionService.getActiveSubscription();
     }
 
-    @PutMapping("/public/subscriptions/pause/{id}")
+    @PutMapping("/admin/subscriptions/pause/{id}")
     public String pauseSubscription(@PathVariable("id") int id) {
         Subscription subscription = subscriptionService.getSubscriptionById(id);
         if (subscription != null) {
@@ -43,7 +50,7 @@ public class SubscriptionController {
         }
     }
 
-    @DeleteMapping("/public/subscriptions/delete/{id}")
+    @DeleteMapping("/admin/subscriptions/delete/{id}")
     public String deleteSubscription(@PathVariable("id") int id) {
         Subscription subscription = subscriptionService.getSubscriptionById(id);
         if (subscription != null) {
@@ -54,7 +61,7 @@ public class SubscriptionController {
         }
     }
 
-    @PutMapping("/public/subscriptions/resume/{id}")
+    @PutMapping("/admin/subscriptions/resume/{id}")
     public String resumeSubscription(@PathVariable int id) {
         Subscription subscription = subscriptionService.getSubscriptionById(id);
         if (subscription == null) {

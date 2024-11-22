@@ -16,7 +16,7 @@ const SubscriptionManagement = () => {
     useEffect(() => {
         const fetchSubscriptions = async () => {
             try {
-                const response = await fetch(`${API_BASE_URL}/public/subscriptions/all`);
+                const response = await fetch(`${API_BASE_URL}/admin/subscriptions/all`, {headers: {Authorization: sessionStorage.getItem('authHeader')}});
                 const data = await response.json();
                 setSubscriptions(data);
             } catch (error) {
@@ -30,8 +30,9 @@ const SubscriptionManagement = () => {
     const handlePauseSubscription = async (index) => {
         const subscription = subscriptions[index];
         try {
-            const response = await fetch(`${API_BASE_URL}/public/subscriptions/pause/${subscription.subscriptionId}`, {
+            const response = await fetch(`${API_BASE_URL}/admin/subscriptions/pause/${subscription.subscriptionId}`, {
                 method: 'PUT',
+                headers: {Authorization: sessionStorage.getItem('authHeader')}
             });
             if (!response.ok) {
                 throw new Error('Failed to pause subscription');
@@ -50,8 +51,9 @@ const SubscriptionManagement = () => {
     const handleResumeSubscription = async (index) => {
         const subscription = subscriptions[index];
         try {
-            const response = await fetch(`${API_BASE_URL}/public/subscriptions/resume/${subscription.subscriptionId}`, {
+            const response = await fetch(`${API_BASE_URL}/admin/subscriptions/resume/${subscription.subscriptionId}`, {
                 method: 'PUT',
+                headers: {Authorization: sessionStorage.getItem('authHeader')}
             });
             if (!response.ok) {
                 throw new Error('Failed to resume subscription');
@@ -70,8 +72,9 @@ const SubscriptionManagement = () => {
     const handleDeleteSubscription = async (index) => {
         const subscription = subscriptions[index];
         try {
-            const response = await fetch(`${API_BASE_URL}/public/subscriptions/delete/${subscription.subscriptionId}`, {
+            const response = await fetch(`${API_BASE_URL}/admin/subscriptions/delete/${subscription.subscriptionId}`, {
                 method: 'DELETE',
+                headers: {Authorization: sessionStorage.getItem('authHeader')}
             });
             if (!response.ok) {
                 throw new Error('Failed to delete subscription');
@@ -88,10 +91,11 @@ const SubscriptionManagement = () => {
     // Thêm mới subscription
     const handleAddSubscription = async () => {
         try {
-            const response = await fetch('${API_BASE_URL}/public/subscriptions/add', {
+            const response = await fetch(`${API_BASE_URL}/admin/subscriptions/add`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                Authorization: sessionStorage.getItem('authHeader'),
+                'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(newSubscription),
             });
