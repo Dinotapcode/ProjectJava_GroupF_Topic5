@@ -9,38 +9,28 @@
         margin-bottom: 20px;
     }
 
-    button {
-        background-color: #00c4cc;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-            background-color: #00a4a9;
-        }
-    }
+    
 
     table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 20px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 2px black solid;
         
         th, td {
-            padding: 12px;
+            padding: 5px;
             text-align: center;
-            border-bottom: 1px solid black;
+            border: 1px solid black;
             vertical-align: middle; 
+            font-size: 1.7rem;
         }
 
         th {
             background-color: #f9fafc;
             color: black;
             font-weight: bold;
-            font-size: 1.5rem;
+            font-size: 1.7rem;
         }
 
         tr:hover {
@@ -48,8 +38,8 @@
         }
 
         .product-image {
-            width: 50px;
-            height: 50px;
+            width: 12vw;
+            height: 15vh;
             object-fit: cover;
             border-radius: 5px;
         }
@@ -59,30 +49,33 @@
             gap: 10px;
         }
 
-        .edit-btn,
-        .delete-btn {
+        .btn-product-edit,
+        .btn-product-delete {
+            width: 4vw;
+            height: 6vh;
             padding: 8px 12px;
             border: none;
             border-radius: 4px;
             color: #fff;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 1.5rem;
             transition: background-color 0.3s ease;
+          
         }
 
-        .edit-btn {
+        .btn-product-edit{
             background-color: #4caf50;
-
+          
             &:hover {
-                background-color: #43a047;
+                background-color: #1c8821;
             }
         }
-
-        .delete-btn {
+        .btn-product-delete{
+            margin-left: 5px;
+            
             background-color: #f44336;
-
             &:hover {
-                background-color: #e53935;
+                background-color: #a71c1c;
             }
         }
     }
@@ -223,14 +216,16 @@
     justify-content: space-between;
 
     .btn-add {
+        font-size: 1.5rem;
         font-weight: bold;
         width: 150px;
         height: 50px;
         border: 2px solid #00c4cc;
         color: black;
-        background-color: transparent;
+        background-color: #00c4cc;
         box-shadow: 0 0 40px 40px #00c4cc inset, 0 0 0 0 #00c4cc;
         transition: all 150ms ease-in-out;
+        border-radius: 5px;
 
         &:hover {
             color: white;
@@ -238,6 +233,4 @@
         }
     }
 }
-.btn-product{
-    margin: 10px;
-}
+

@@ -20,10 +20,12 @@ const Header = () => {
     useEffect(() => {
         if (userId) {
             // Assuming you have a token stored in localStorage or a state
-
-            fetch(`http://localhost:8083/api/public/${userId}`, {
+            const authHeader = sessionStorage.getItem('authHeader'); // Lấy thông tin xác thực
+            fetch(`http://localhost:8083/api/user/${userId}`, {
                 method: 'GET',
-                credentials: 'include',
+                headers: {
+                    'Authorization': authHeader, // Thêm Basic Auth header
+                },
             })
                 .then(response => response.json())
                 .then(data => {

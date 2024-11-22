@@ -37,8 +37,6 @@ function LoginPage() {
         }
     };
 
-
-
     const handleLogin = async (email, password) => {
         try {
             const credentials = btoa(`${email}:${password}`);
@@ -59,6 +57,7 @@ function LoginPage() {
             }
 
             if (response.ok) {
+                sessionStorage.setItem('authHeader', `Basic ${credentials}`);
                 sessionStorage.setItem('role', data.role);
                 sessionStorage.setItem('userId', data.userId);
                 alert('Đăng nhập thành công');
@@ -108,7 +107,7 @@ function LoginForm({ handleLogin, switchToRegister }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        handleLogin(email, password);
+          handleLogin(email, password);
     };
 
     return (
@@ -143,13 +142,13 @@ function LoginForm({ handleLogin, switchToRegister }) {
                 <button
                     type="button"
                     className="actions__btn-forgot"
-                    onClick={() => alert('Chức năng quên mật khẩu chưa được triển khai.')}
+                    onClick={switchToRegister}
                 >
-                    Quên mật khẩu?
+                    Đăng ký
                 </button>
             </section>
-            <button type="button" className="btn-switch" onClick={switchToRegister}>
-                Bạn chưa có tài khoản? Đăng kí thôi
+            <button type="button" className="btn-switch" onClick={() => alert('Chức năng quên mật khẩu chưa được triển khai.')}>
+                Bạn quên mật khẩu?
             </button>
         </form>
     );
@@ -173,10 +172,11 @@ function RegisterForm({ handleRegister, switchToLogin }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (formData.password !== formData.confirmPassword) {
-            setError('Mật khẩu và xác nhận mật khẩu không khớp');
+        if (formData.password.length < 6) {
+            alert('Mật khẩu phải có ít nhất 6 ký tự');
+        } else if (formData.password !== formData.confirmPassword) {
+            alert('Mật khẩu và xác nhận mật khẩu không khớp');
         } else {
-            setError('');
             handleRegister(formData);
         }
     };

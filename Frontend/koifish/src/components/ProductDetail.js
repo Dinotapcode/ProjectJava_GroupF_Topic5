@@ -33,10 +33,35 @@ const ProductDetail = ({ product, user }) => {
         }
     };
 
+    // Kiểm tra hợp lệ số điện thoại (chỉ kiểm tra nếu là số)
+    const isPhoneNumberValid = (phone) => {
+        const phonePattern = /^[0-9]+$/;  // Kiểm tra xem có phải là số hay không
+        return phonePattern.test(phone);
+    };
+
+    // Kiểm tra hợp lệ email (phải chứa @ và .)
+    const isEmailValid = (email) => {
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailPattern.test(email);
+    };
+
     // Hàm xử lý khi submit form
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+
+        // Kiểm tra hợp lệ liên hệ (SDT hoặc Email)
+        if (!contact) {
+            setErrorMessage('Vui lòng nhập số điện thoại hoặc email.');
+            setIsSubmitting(false);
+            return;
+        }
+
+        if (!isPhoneNumberValid(contact) && !isEmailValid(contact)) {
+            setErrorMessage('Số điện thoại không hợp lệ hoặc email không hợp lệ.');
+            setIsSubmitting(false);
+            return;
+        }
 
         const consultationData = {
             user_id: user.id,
@@ -47,7 +72,7 @@ const ProductDetail = ({ product, user }) => {
         };
 
         try {
-            const response = await fetch('http://localhost:8083/api/v1/consultations/schedule', {
+            const response = await fetch('http://localhost:8083/api/public/consultation/schedule', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -129,13 +154,13 @@ const ProductDetail = ({ product, user }) => {
                             <input type="hidden" name="product_id" value={product.id} />
                             <input type="hidden" name="user_id" value={user.id} />
                             <label>
-                                Email:
+                                Liên hệ:
                                 <input
-                                    type="email"
+                                    type="text"
                                     name="contact"
                                     value={contact}
                                     onChange={handleChange}
-                                    placeholder="example@gmail.com"
+                                    placeholder="Nhập sdt hoặc email"
                                     required
                                 />
                             </label>
