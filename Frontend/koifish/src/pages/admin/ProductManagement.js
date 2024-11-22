@@ -30,24 +30,32 @@ const ProductManagement = ({ products, setProducts }) => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            // Kiểm tra loại tệp và kích thước ảnh nếu cần
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!validTypes.includes(file.type)) {
+                alert('Vui lòng chọn tệp hình ảnh hợp lệ.');
+                return;
+            }
             setNewProduct({ ...newProduct, img: file });
         }
     };
 
     // Thêm hoặc cập nhật sản phẩm
     const handleAddProduct = async () => {
-        if (!newProduct.name || !newProduct.item  || !newProduct.price) {
-            alert('Vui lòng điền đầy đủ các trường bắt buộc!');
+        // Kiểm tra các trường bắt buộc
+        if (!newProduct.name || !newProduct.item || !newProduct.price || !newProduct.img) {
+            alert('Vui lòng điền đầy đủ các trường bắt buộc và chọn ảnh!');
             return;
         }
-
+    
         try {
             setIsLoading(true);
             const method = isEditing ? 'PUT' : 'POST';
             const url = isEditing
                 ? `${API_BASE_URL}/public/product/update/${products[editIndex].id}`
                 : `${API_BASE_URL}/public/product/add`;
-
+    
+            // Tạo FormData
             const formData = new FormData();
             formData.append('name', newProduct.name);
             formData.append('item', newProduct.item);
@@ -57,20 +65,32 @@ const ProductManagement = ({ products, setProducts }) => {
             formData.append('info1', newProduct.info1);
             formData.append('info2', newProduct.info2);
             formData.append('info3', newProduct.info3);
-            formData.append('image', newProduct.img);
-
+    
+            // Thêm ảnh vào FormData
+            if (newProduct.img) {
+                formData.append('image', newProduct.img);
+            }
+    
+            // Gửi yêu cầu đến server
             const response = await fetch(url, {
                 method,
                 body: formData,
             });
-
-            if (!response.ok) throw new Error('Không thể thêm hoặc cập nhật sản phẩm.');
-
+    
+            // Kiểm tra phản hồi từ server
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Error response:', errorText);
+                throw new Error('Không thể thêm hoặc cập nhật sản phẩm.');
+            }
+    
+            // Xử lý phản hồi nếu thành công
             const product = await response.json();
             const updatedProducts = isEditing
                 ? products.map((p, index) => (index === editIndex ? product : p))
                 : [...products, product];
-
+    
+            // Cập nhật danh sách sản phẩm
             setProducts(updatedProducts);
             setShowPopup(false);
             resetForm();
@@ -81,6 +101,8 @@ const ProductManagement = ({ products, setProducts }) => {
             setIsLoading(false);
         }
     };
+    
+    
 
     // Reset form
     const resetForm = () => {
@@ -174,7 +196,6 @@ const ProductManagement = ({ products, setProducts }) => {
                             <th>Loại</th>
                             <th>Tên</th>
                             <th>Ảnh</th>
-                            <th>Nguồn gốc</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
@@ -192,10 +213,9 @@ const ProductManagement = ({ products, setProducts }) => {
                                         className="product-image"
                                     />
                                 </td>
-                                <td>{product.info3}</td>
                                 <td>
-                                    <button className="btn-product" onClick={() => handleEditProduct(index)}>Sửa</button>
-                                    <button className="btn-product" onClick={() => handleDeleteProduct(index)}>Xóa</button>
+                                    <button className="btn-product-edit" onClick={() => handleEditProduct(index)}>Sửa</button>
+                                    <button className="btn-product-delete" onClick={() => handleDeleteProduct(index)}>Xóa</button>
                                 </td>
                             </tr>
                         ))}

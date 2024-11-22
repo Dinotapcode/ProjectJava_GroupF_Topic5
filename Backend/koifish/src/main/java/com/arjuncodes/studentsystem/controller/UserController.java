@@ -43,7 +43,7 @@ public class UserController {
 //        }
 //    }
 
-    @GetMapping("/public/user/getAll")
+    @GetMapping("/admin/user/getAll")
     public ResponseEntity<List<User>> getAllUsers() {
         try {
             List<User> users = userService.getAllUsers();
@@ -63,7 +63,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/public/user/update/{id}")
+    @PutMapping("/user/update/{id}")
     public ResponseEntity<User> updateUser(
             @PathVariable Integer id,
             @RequestParam String userName,
@@ -118,12 +118,8 @@ public class UserController {
         }
     }
 
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    public ResponseEntity<String> handleMaxSizeException(MaxUploadSizeExceededException exc) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File size exceeds the maximum limit.");
-    }
 
-    @PutMapping("/public/user/actions/{id}")
+    @PutMapping("/admin/user/actions/{id}")
     public String updateUserStatus(@PathVariable int id, @RequestParam boolean enabled) {
         userService.updateUserStatus(id, enabled);
         return enabled ? "User is now active" : "User has been banned";

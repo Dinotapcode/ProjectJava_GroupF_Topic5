@@ -5,14 +5,17 @@
 
   .sidebar {
     width: 280px;
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #ddd;
 
     .user-profile {
       text-align: center;
       padding: 20px 0;
       border-bottom: 1px solid #eee;
+      background-color: #f9f9f9;
+      border-radius: 8px;
 
       .avatar {
         width: 120px;
@@ -20,17 +23,21 @@
         border-radius: 50%;
         margin-bottom: 15px;
         object-fit: cover;
+        transition: transform 0.3s ease;
       }
 
       h3 {
         margin: 10px 0;
         color: #333;
+        font-weight: bold;
+        font-size: 1.5rem;
       }
 
       .role {
         color: #666;
-        font-size: 14px;
+        font-size: 1.2rem;
         margin-bottom: 15px;
+        font-style: italic;
       }
 
       .action-buttons {
@@ -45,15 +52,26 @@
           border-radius: 5px;
           cursor: pointer;
           font-size: 12px;
+          transition: background-color 0.3s ease, transform 0.3s ease;
 
           &.primary {
             background-color: #4caf50;
             color: white;
+
+            &:hover {
+              background-color: #45a049;
+              transform: scale(1.05);
+            }
           }
 
           &.danger {
             background-color: #f44336;
             color: white;
+
+            &:hover {
+              background-color: #e53935;
+              transform: scale(1.05);
+            }
           }
         }
       }
@@ -61,17 +79,20 @@
 
     .menu-list {
       margin-top: 20px;
+      background-color: #f0f0f0;
+      border-radius: 8px;
 
       .menu-item {
         display: flex;
         align-items: center;
-        padding: 15px 20px;
+        padding: 15px 25px;
         margin: 5px 0;
         border-radius: 5px;
         cursor: pointer;
         color: #666;
         transition: all 0.3s ease;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
+        transition: background-color 0.3s ease, color 0.3s ease;
 
         svg {
           font-size: 1.2rem;
@@ -86,6 +107,7 @@
         &.active {
           background-color: #e3f2fd;
           color: #1976d2;
+          font-weight: bold;
         }
       }
     }
@@ -94,15 +116,18 @@
   .main-content {
     flex: 1;
     padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
     .welcome-message {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       color: #333;
       text-align: center;
       margin-top: 100px;
+      font-weight: bold;
     }
   }
-
 
   @keyframes slideIn {
     from {
@@ -121,7 +146,7 @@
     left: 50%;
     bottom: 40px;
     transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 15px 25px;
     border-radius: 5px;
@@ -163,7 +188,7 @@
   }
 
   .title-edit {
-    font-size: 24px;
+    font-size: 2rem;
     margin-top: 0;
     margin-bottom: 30px;
     padding-bottom: 10px;
@@ -172,7 +197,6 @@
   }
 
   .profile-container {
-    background-color: #a83838;
     height: 100%;
     width: 100%;
     padding: 20px;
@@ -192,6 +216,7 @@
         object-fit: cover; // Đảm bảo ảnh không bị méo
         display: block;
         margin: 0 auto;
+        transition: transform 0.3s ease;
       }
 
       label {
@@ -204,12 +229,23 @@
     .profile-form {
       background-color: #fff;
       width: 40%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
       button {
         position: absolute;
         bottom: 0;
         align-self: center;
         width: 150px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+
+        &:hover {
+          background-color: #1976d2;
+          color: white;
+          transform: scale(1.05);
+        }
       }
 
       .form-group {
@@ -220,7 +256,47 @@
           box-sizing: border-box;
           align-self: center;
           min-width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          transition: border-color 0.3s ease;
+          background-color: #f0f0f0;
+
+          &:focus {
+            border-color: #1976d2;
+          }
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .personal-page {
+    flex-direction: column;
+    height: auto;
+
+    .main-content {
+      order: 1;
+      padding: 15px;
+    }
+
+    .sidebar {
+      width: 100%;
+      border-right: none;
+      box-shadow: none;
+      order: 2;
+    }
+
+    .profile-container {
+      flex-direction: column;
+
+      .avatar-section {
+        width: 100%;
+      }
+
+      .profile-form {
+        width: 100%;
       }
     }
   }
