@@ -55,74 +55,124 @@ function FateManagement() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
-    setFormData((prev) => ({ ...prev, image: e.target.files[0] }));
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]; // Lấy tệp ảnh người dùng chọn
+    if (file) {
+      const fileType = file.type;
+      const allowedTypes = ["image/jpeg", "image/png", "image/gif"]; // Kiểm tra định dạng ảnh
+  
+      if (allowedTypes.includes(fileType)) {
+        setFormData({
+          ...formData,
+          image: file, // Lưu tệp ảnh vào formData
+        });
+      } else {
+        alert("Vui lòng chọn tệp ảnh hợp lệ (JPEG, PNG, GIF).");
+      }
+    }
   };
+  
+
 
   const handleAddOrUpdate = async () => {
-    const isPond = selectedType === "pond";
-    const isEditing = !!formData.id;
+    const isPond = selectedType === "pond"; // Kiểm tra nếu là hồ
+    const isEditing = !!formData.id; // Kiểm tra nếu là chỉnh sửa
     const url = `${API_BASE_URL}/admin/${isPond ? "pond" : "koi"}/${isEditing ? `update/${formData.id}` : "add"}`;
     const method = isEditing ? "PUT" : "POST";
 
-    let payload;
+    let payload = {};
 
+    // Kiểm tra thông tin hồ
     if (isPond) {
-      // Tạo payload dưới dạng JSON cho hồ
+      if (!formData.element || !formData.shape || !formData.location || !formData.direction) {
+        alert("Vui lòng điền đầy đủ thông tin");
+        return;
+      }
       payload = {
         pondId: formData.id || "",
         element: formData.element,
         shape: formData.shape,
         location: formData.location,
-        direction: formData.direction
+        direction: formData.direction,
       };
     } else {
-      // Tạo payload dưới dạng JSON cho cá koi
+      // Kiểm tra các trường dữ liệu của cá
+      if (!formData.element || !formData.species || !formData.quantity || !formData.description) {
+        alert("Vui lòng điền đầy đủ thông tin");
+        return;
+      }
+
+      // Chuẩn bị payload
       payload = {
         koiId: formData.id || "",
         element: formData.element,
         species: formData.species,
         quantity: formData.quantity,
-        description: formData.description
+        description: formData.description,
       };
-      // Nếu có file hình ảnh, thêm vào FormData
-      if (formData.image) {
-        const formDataPayload = new FormData();
-        for (const key in payload) {
-          formDataPayload.append(key, payload[key]);
-        }
-        formDataPayload.append("file", formData.image);
-        try {
-          await fetch(url, {
-            method,
-            body: formDataPayload,
-            headers: { Authorization: sessionStorage.getItem('authHeader') }
-          });
-          alert("Thao tác thành công!");
-        } catch (error) {
-          console.error("Error saving data with image:", error);
-        }
-        return;
+
+      // Tạo FormData cho ảnh
+      const formDataPayload = new FormData();
+      for (const key in payload) {
+        formDataPayload.append(key, payload[key]);
       }
+
+      if (formData.image) {
+        formDataPayload.append("file", formData.image); // Thêm ảnh vào FormData
+      } else if (formData.currentImage) {
+        formDataPayload.append("currentImage", formData.currentImage); // Thêm ảnh hiện tại nếu có
+      }
+
+      try {
+        const response = await fetch(url, {
+          method: method,
+          body: formDataPayload,
+          headers: {
+            'Authorization': sessionStorage.getItem('authHeader'), // Xác thực
+          },
+        });
+
+        if (response.ok) {
+          alert("Thao tác thành công!");
+          await fetchAllData(); // Cập nhật lại dữ liệu
+          resetFormData(); // Reset form
+          setIsFormVisible(false); // Ẩn form
+        } else {
+          const errorText = await response.text();
+          console.error("Error:", errorText);
+          alert(`Có lỗi xảy ra: ${errorText}`);
+        }
+      } catch (error) {
+        console.error("Error saving data with image:", error);
+        alert("Có lỗi xảy ra khi lưu dữ liệu với ảnh.");
+      }
+      return;
     }
 
-    // Gửi JSON nếu không có hình ảnh
+    // Xử lý khi không phải là cá (chỉ có hồ)
     try {
-      await fetch(url, {
+      const response = await fetch(url, {
         method,
         body: JSON.stringify(payload),
         headers: {
-          'Content-Type': 'application/json',  // Đảm bảo là JSON
-          'Authorization': sessionStorage.getItem('authHeader')
+          'Content-Type': 'application/json',
+          'Authorization': sessionStorage.getItem('authHeader'),
         },
       });
 
-      await fetchAllData();
-      resetFormData();
-      setIsFormVisible(false);
-      alert("Thao tác thành công!");
+      if (response.ok) {
+        await fetchAllData();
+        resetFormData();
+        setIsFormVisible(false);
+        alert("Thao tác thành công!");
+      } else {
+        const errorText = await response.text();
+        console.error("Error:", errorText);
+        alert(`Có lỗi xảy ra: ${errorText}`);
+      }
     } catch (error) {
       console.error("Error saving data:", error);
+      alert("Có lỗi xảy ra khi lưu dữ liệu.");
     }
   };
 
@@ -253,71 +303,201 @@ const FormComponent = ({
   handleFileChange,
   handleAddOrUpdate,
   handleCancelForm,
-}) => (
-  <div className="form-container">
-    <h2>{selectedType === "pond" ? "Thêm/Sửa Hồ" : "Thêm/Sửa Cá"}</h2>
-    <button className="form-close-btn" onClick={handleCancelForm}>
-      &times;
-    </button>
-    <input
-      type="text"
-      name="element"
-      placeholder="Mệnh"
-      value={formData.element}
-      onChange={handleInputChange}
-    />
-    {selectedType === "pond" ? (
-      <>
-        <input
-          type="text"
-          name="shape"
-          placeholder="Hình dạng"
-          value={formData.shape}
+}) => {
+  const [koiSpeciesOptions, setKoiSpeciesOptions] = useState([]);
+  const [pondShapeOptions, setPondShapeOptions] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const koiSpeciesResponse = await fetch("http://localhost:8083/api/public/koiSpecies");
+        const pondShapeResponse = await fetch("http://localhost:8083/api/public/pondShape");
+
+        if (!koiSpeciesResponse.ok || !pondShapeResponse.ok) {
+          throw new Error("Không thể truy cập API");
+        }
+
+        const koiSpeciesData = await koiSpeciesResponse.json();
+        const pondShapeData = await pondShapeResponse.json();
+
+        setKoiSpeciesOptions(koiSpeciesData);
+        setPondShapeOptions(pondShapeData);
+      } catch (err) {
+        setError("Có lỗi xảy ra khi truy cập API.");
+      }
+    };
+
+    fetchOptions();
+  }, []);
+
+  const elementOptions = ["Kim", "Mộc", "Thủy", "Hỏa", "Thổ"];
+  const koiQuantityOptions = ["Chẵn", "Lẻ"];
+  const locationOptions = [
+    "Phía Bắc",
+    "Phía Nam",
+    "Phía Đông",
+    "Phía Tây",
+    "Phía Tây Bắc",
+    "Phía Đông Nam",
+    "Phía Đông Bắc",
+    "Phía Tây Nam",
+  ];
+  const directionOptions = [
+    "Bắc",
+    "Nam",
+    "Đông",
+    "Tây",
+    "Đông Bắc",
+    "Đông Nam",
+    "Tây Bắc",
+    "Tây Nam",
+  ];
+
+  const isPond = selectedType === "pond";
+
+  return (
+    <div className="form-container">
+      <h2>{isPond ? "Thêm/Sửa Hồ" : "Thêm/Sửa Cá"}</h2>
+      <button className="form-close-btn" onClick={handleCancelForm}>
+        &times;
+      </button>
+
+      <div className="input__group">
+        <label htmlFor="element">Mệnh:</label>
+        <select
+          id="element"
+          name="element"
+          value={formData.element}
           onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="location"
-          placeholder="Vị trí"
-          value={formData.location}
-          onChange={handleInputChange}
-        />
-        <input
-          type="text"
-          name="direction"
-          placeholder="Hướng"
-          value={formData.direction}
-          onChange={handleInputChange}
-        />
-      </>
-    ) : (
-      <>
-        <input
-          type="text"
-          name="species"
-          placeholder="Loài"
-          value={formData.species}
-          onChange={handleInputChange}
-        />
-        <input
-          type="number"
-          name="quantity"
-          placeholder="Số lượng"
-          value={formData.quantity}
-          onChange={handleInputChange}
-        />
-        <textarea
-          name="description"
-          placeholder="Mô tả"
-          value={formData.description}
-          onChange={handleInputChange}
-        />
-        <input type="file" name="image" onChange={handleFileChange} />
-      </>
-    )}
-    <button onClick={handleAddOrUpdate}>Lưu</button>
-  </div>
-);
+        >
+          <option value="">-- Chọn --</option>
+          {elementOptions.map((element) => (
+            <option key={element} value={element}>
+              {element}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {isPond ? (
+        <>
+          <div className="input__group">
+            <label htmlFor="shape">Hình dạng hồ:</label>
+            <select
+              id="shape"
+              name="shape"
+              value={formData.shape}
+              onChange={handleInputChange}
+            >
+              <option value="">-- Chọn --</option>
+              {pondShapeOptions.length > 0 &&
+                pondShapeOptions.map((shape) => (
+                  <option key={shape} value={shape}>
+                    {shape}
+                  </option>
+                ))}
+            </select>
+          </div>
+
+          <div className="input__group">
+            <label htmlFor="location">Vị trí:</label>
+            <select
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleInputChange}
+            >
+              <option value="">-- Chọn --</option>
+              {locationOptions.map((loc) => (
+                <option key={loc} value={loc}>
+                  {loc}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="input__group">
+            <label htmlFor="direction">Hướng:</label>
+            <select
+              id="direction"
+              name="direction"
+              value={formData.direction}
+              onChange={handleInputChange}
+            >
+              <option value="">-- Chọn --</option>
+              {directionOptions.map((dir) => (
+                <option key={dir} value={dir}>
+                  {dir}
+                </option>
+              ))}
+            </select>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="input__group">
+            <label htmlFor="species">Loài cá:</label>
+            <select
+              id="species"
+              name="species"
+              value={formData.species}
+              onChange={handleInputChange}
+            >
+              <option value="">-- Chọn --</option>
+              {koiSpeciesOptions.length > 0 &&
+                koiSpeciesOptions.map((species) => (
+                  <option key={species} value={species}>
+                    {species}
+                  </option>
+                ))}
+            </select>
+          </div>
+
+          <div className="input__group">
+            <label htmlFor="quantity">Số lượng:</label>
+            <select
+              id="quantity"
+              name="quantity"
+              value={formData.quantity}
+              onChange={handleInputChange}
+            >
+              <option value="">-- Chọn --</option>
+              {koiQuantityOptions.map((qty) => (
+                <option key={qty} value={qty}>
+                  {qty}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="input__group">
+            <label htmlFor="description">Mô tả:</label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="input__group">
+            <label htmlFor="image">Hình ảnh:</label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+          </div>
+        </>
+      )}
+
+      <button onClick={handleAddOrUpdate}>Lưu</button>
+    </div>
+  );
+};
 
 const ListComponent = ({ data, selectedType, handleEdit, handleDelete }) => (
   <div className="list-container">
@@ -361,7 +541,7 @@ const ListComponent = ({ data, selectedType, handleEdit, handleDelete }) => (
                 <td>{item.quantity}</td>
                 <td>{item.description}</td>
                 <td>
-                  <img src={item.image || ""} alt="Koi" width={50} />
+                  <img src={`uploads/img_tracuu/${item.image}`} alt="Koi" width={50} />
                 </td>
               </>
             )}
