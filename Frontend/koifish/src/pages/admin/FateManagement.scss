@@ -31,43 +31,67 @@ $non-active-background: #ffffff;
         }
     }
 
-    .fate__search {
+    .fate__fuction {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        gap: 5px;
-        /* Khoảng cách giữa các phần tử */
-        padding: 10px;
-        width: fit-content;
-    }
+        align-items: center;
+        padding: 0 20px;
 
-    .fate__search select {
-        padding: 8px 12px;
-        font-size: 14px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        background-color: #fff;
-        outline: none;
-        transition: border-color 0.3s ease;
+        .fate__search {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5px;
+            /* Khoảng cách giữa các phần tử */
+            padding: 10px;
+            width: fit-content;
 
-        /* Thay đổi màu viền khi focus */
-        &:focus {
-            border-color: #4caf50;
+            select {
+                padding: 8px 12px;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                background-color: #fff;
+                outline: none;
+                transition: border-color 0.3s ease;
+
+                /* Thay đổi màu viền khi focus */
+                &:focus {
+                    border-color: #4caf50;
+                }
+            }
+
+            button {
+                padding: 8px 16px;
+                font-size: 14px;
+                background-color: #f44336;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #d32f2f;
+                }
+            }
         }
-    }
 
-    .fate__search button {
-        padding: 8px 16px;
-        font-size: 14px;
-        background-color: #f44336;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
+        .faction-add {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            height: fit-content;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: fit-content;
+            transition: background-color 0.3s;
 
-        &:hover {
-            background-color: #d32f2f;
+            &:hover {
+                background-color: darken(#4CAF50, 10%);
+            }
         }
     }
 
@@ -100,6 +124,111 @@ $non-active-background: #ffffff;
 
                 &:hover {
                     background-color: #e53935;
+                }
+            }
+        }
+    }
+
+    .fate__content {
+        display: flex;
+        flex-direction: row;
+        padding: 0 20px;
+        gap: 10px;
+        box-sizing: border-box;
+
+        .form-container {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 150px;
+            min-width: 150px;
+            height: 100%;
+            position: relative;
+
+
+            h2 {
+                color: #333;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .close-btn {
+                position: absolute;
+                top: 15px;
+                right: 15px;
+                width: 30px;
+                aspect-ratio: 1 / 1;
+                border-radius: 50%;
+                border: none;
+                font-size: 1.5rem;
+                font-weight: bold;
+                color: #333;
+                cursor: pointer;
+                background-color: transparent;
+                transition: color 0.5s ease, background-color 0.5s ease;
+
+                .close-icon {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    height: 30px;
+                    width: 30px;
+                }
+
+
+                &:hover {
+                    color: white;
+                    background-color: #fc0404;
+                }
+            }
+
+            .input__group {
+                margin-bottom: 15px;
+
+                label {
+                    display: block;
+                    color: #555;
+                    margin-bottom: 5px;
+                }
+
+                select,
+                textarea,
+                input[type="file"] {
+                    width: 100%;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    background-color: #fff;
+                    transition: border-color 0.3s;
+
+                    &:focus {
+                        border-color: #4CAF50;
+                        outline: none;
+                    }
+                }
+
+                textarea {
+                    resize: vertical;
+                    height: 100px;
+                }
+            }
+
+            button {
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                padding: 10px 15px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+                width: 100%;
+                transition: background-color 0.3s;
+
+                &:hover {
+                    background-color: darken(#4CAF50, 10%);
                 }
             }
         }

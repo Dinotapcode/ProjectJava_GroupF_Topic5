@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { IoClose } from "react-icons/io5";
 import "./FateManagement.scss";
 
 const API_BASE_URL = "http://localhost:8083/api";
@@ -60,7 +61,7 @@ function FateManagement() {
     if (file) {
       const fileType = file.type;
       const allowedTypes = ["image/jpeg", "image/png", "image/gif"]; // Kiểm tra định dạng ảnh
-  
+
       if (allowedTypes.includes(fileType)) {
         setFormData({
           ...formData,
@@ -71,7 +72,7 @@ function FateManagement() {
       }
     }
   };
-  
+
 
 
   const handleAddOrUpdate = async () => {
@@ -249,49 +250,51 @@ function FateManagement() {
           Quản lý Cá
         </button>
       </div>
+      <div className="fate__fuction">
+        <div className="fate__search">
+          <select value={search} onChange={(e) => setSearch(e.target.value)}>
+            <option value="">-- Chọn --</option>
+            {(selectedType === "pond" ? ponds : kois).map((item) => (
+              <option
+                key={item[selectedType === "pond" ? "pondId" : "koiId"]}
+                value={item[searchType]}
+              >
+                {item[searchType]}
+              </option>
+            ))}
+          </select>
+          <select value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+            <option value="element">Mệnh</option>
+            {selectedType === "pond" ? (
+              <option value="shape">Hình dạng</option>
+            ) : (
+              <option value="species">Loài</option>
+            )}
+          </select>
+          <button onClick={handleClearFilter}>Hủy Lọc</button>
+        </div>
 
-      <div className="fate__search">
-        <select value={search} onChange={(e) => setSearch(e.target.value)}>
-          <option value="">-- Chọn --</option>
-          {(selectedType === "pond" ? ponds : kois).map((item) => (
-            <option
-              key={item[selectedType === "pond" ? "pondId" : "koiId"]}
-              value={item[searchType]}
-            >
-              {item[searchType]}
-            </option>
-          ))}
-        </select>
-        <select value={searchType} onChange={(e) => setSearchType(e.target.value)}>
-          <option value="element">Mệnh</option>
-          {selectedType === "pond" ? (
-            <option value="shape">Hình dạng</option>
-          ) : (
-            <option value="species">Loài</option>
-          )}
-        </select>
-        <button onClick={handleClearFilter}>Hủy Lọc</button>
+        <button className="faction-add" onClick={handleAdd}>Thêm Mới</button>
       </div>
+      <div className="fate__content">
+        {isFormVisible && (
+          <FormComponent
+            formData={formData}
+            selectedType={selectedType}
+            handleInputChange={handleInputChange}
+            handleFileChange={handleFileChange}
+            handleAddOrUpdate={handleAddOrUpdate}
+            handleCancelForm={handleCancelForm}
+          />
+        )}
 
-      <button onClick={handleAdd}>Thêm Mới</button>
-
-      {isFormVisible && (
-        <FormComponent
-          formData={formData}
+        <ListComponent
+          data={filteredData}
           selectedType={selectedType}
-          handleInputChange={handleInputChange}
-          handleFileChange={handleFileChange}
-          handleAddOrUpdate={handleAddOrUpdate}
-          handleCancelForm={handleCancelForm}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
         />
-      )}
-
-      <ListComponent
-        data={filteredData}
-        selectedType={selectedType}
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
-      />
+      </div>
     </div>
   );
 }
@@ -359,8 +362,8 @@ const FormComponent = ({
   return (
     <div className="form-container">
       <h2>{isPond ? "Thêm/Sửa Hồ" : "Thêm/Sửa Cá"}</h2>
-      <button className="form-close-btn" onClick={handleCancelForm}>
-        &times;
+      <button className="close-btn" onClick={handleCancelForm}>
+        <IoClose className="close-icon" />
       </button>
 
       <div className="input__group">
