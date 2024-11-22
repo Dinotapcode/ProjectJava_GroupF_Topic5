@@ -110,7 +110,7 @@ public class UserController {
     private String uploadAvatarFile(MultipartFile uploadfile) {
         String fileName = UUID.randomUUID() + "_" + uploadfile.getOriginalFilename();
         // Sử dụng đường dẫn tuyệt đối hoặc tương đối
-        Path destinationPath = Paths.get("Frontend/koifish/src/assets/admin/avatar_user/uploads").resolve(fileName);
+        Path destinationPath = Paths.get("Frontend/koifish/public/uploads/img_avatar").resolve(fileName);
 
         try {
             // Tạo thư mục nếu nó không tồn tại

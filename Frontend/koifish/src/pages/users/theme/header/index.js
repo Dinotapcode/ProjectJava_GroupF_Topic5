@@ -144,8 +144,8 @@ const Header = () => {
                                     <img
                                         src={
                                             user.avatar
-                                                ? require(`../../../../assets/admin/avatar_user/uploads/${user.avatar}`)
-                                                : require(`../../../../assets/admin/avatar_user/defaults/default_avatar.png`)
+                                            ? `uploads/img_avatar/${user.avatar}`
+                                            : `uploads/img_avatar/default_avatar.png`
                                         }
                                         alt="Avatar"
                                         className="avatar"
