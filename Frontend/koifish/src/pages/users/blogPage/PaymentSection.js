@@ -1,49 +1,88 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.scss';
 
-const PaymentSection = ({ onConfirmPayment, subscriptions, onClose }) => {
+const API_BASE_URL = "http://localhost:8083/api";
+
+const PaymentSection = ({ userId, onConfirmPayment, subscriptions, onClose }) => {
+  const [userName, setUserName] = useState(''); // Trực tiếp lưu userName
   const [subscriptionId, setSubscriptionId] = useState('');
-  const [userId, setUserId] = useState('');
   const [amount, setAmount] = useState('');
-  const [status] = useState('INACTIVE');
-  const [paymentDate] = useState(new Date().toISOString());
   const [selectedPackage, setSelectedPackage] = useState('');
 
-  // Handle package selection
+  useEffect(() => {
+    const fetchUsername = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await fetch(`${API_BASE_URL}/user/${userId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            alert('Unauthorized. Please log in again.');
+          } else {
+            alert('Error fetching user data');
+          }
+          return;
+        }
+
+        const data = await response.json();
+        if (data) {
+          setUserName(data.userName); // Đảm bảo đúng field từ API
+        }
+      } catch (error) {
+        console.error('Error fetching username:', error);
+      }
+    };
+
+    if (userId) {
+      fetchUsername();
+    }
+  }, [userId]);
+
   const handlePackageSelect = (pkg) => {
-    console.log('Selected package:', pkg); // For debugging
     setSelectedPackage(pkg);
     setSubscriptionId(pkg.subscriptionId);
     setAmount(pkg.price);
-    setUserId(Math.floor(Math.random() * 1000000)); // Example: Generate random user ID
   };
-
-  const handleSubmit = (e) => {
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const token = localStorage.getItem('token');
     const paymentData = {
-      subscriptionId,
-      userId,
-      amount,
-      paymentDate,
-      status,
+      amount: amount,
+      paymentDate: new Date().toISOString().split('T')[0],
+      status: "Completed",
+      subscriptionId: subscriptionId,
+      userId: userId,
     };
 
-    fetch('http://localhost:8083/payments/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(paymentData),
-    })
-      .then(response => response.json())
-      .then(data => {
-        alert('Payment processed successfully');
-        onConfirmPayment(data);
-        console.log('Payment data:', data);
-      })
-      .catch(error => {
-        console.error('Error processing payment:', error);
+    try {
+      const response = await fetch(`${API_BASE_URL}/public/payment/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(paymentData),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(`Error: ${errorData.message || 'Something went wrong'}`);
+        return;
+      }
+
+      alert('Payment created successfully');
+      onConfirmPayment();
+    } catch (error) {
+      console.error('Error submitting payment:', error);
+      alert('Error submitting payment');
+    }
   };
 
   return (
@@ -58,6 +97,7 @@ const PaymentSection = ({ onConfirmPayment, subscriptions, onClose }) => {
               <p><strong>Name:</strong> {selectedPackage.subscriptionName}</p>
               <p><strong>Price:</strong> {selectedPackage.price} VND</p>
               <p><strong>Description:</strong> {selectedPackage.description}</p>
+              <p><strong>Subscription ID:</strong> {selectedPackage.subscriptionId}</p>
             </div>
           ) : (
             <p>No package selected</p>
@@ -66,19 +106,22 @@ const PaymentSection = ({ onConfirmPayment, subscriptions, onClose }) => {
 
         <form onSubmit={handleSubmit}>
           <label>Name:</label>
-          <input type="text" value={selectedPackage.subscriptionName} readOnly required />
+          <input type="text" value={userName} readOnly required />
 
-          <label>User Name:</label>
+          <label>User ID:</label>
           <input type="text" value={userId} readOnly required />
+
+          <label>Subscription Name:</label>
+          <input type="text" value={selectedPackage.subscriptionName} readOnly required />
 
           <label>Amount (VND):</label>
           <input type="number" value={amount} readOnly required />
 
           <label>Payment Date:</label>
-          <input type="text" value={paymentDate} readOnly />
+          <input type="text" value={new Date().toISOString().split('T')[0]} readOnly />
 
           <label>Status:</label>
-          <input type="text" value={status} readOnly />
+          <input type="text" value="Completed" readOnly />
 
           <div className="form-buttons">
             <button type="submit">Tạo</button>

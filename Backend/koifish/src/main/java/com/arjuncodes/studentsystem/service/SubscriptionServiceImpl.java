@@ -37,4 +37,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public void deleteSubscription(Subscription subscription) {
         subscriptionRepository.delete(subscription);
     }
+
+    @Override
+    public boolean existsById(int subscriptionId) {
+        return subscriptionRepository.existsById(subscriptionId);
+    }
+
 }

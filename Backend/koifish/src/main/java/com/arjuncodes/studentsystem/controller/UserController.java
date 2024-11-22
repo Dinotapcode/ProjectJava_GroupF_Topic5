@@ -128,5 +128,4 @@ public class UserController {
         userService.updateUserStatus(id, enabled);
         return enabled ? "User is now active" : "User has been banned";
     }
-
 }

@@ -9,4 +9,6 @@ public interface SubscriptionService {
     List<Subscription> getActiveSubscription(); // Đúng tên phương thức
     Subscription getSubscriptionById(int id);
     void deleteSubscription(Subscription subscription);
+    boolean existsById(int subscriptionId);
+
 }

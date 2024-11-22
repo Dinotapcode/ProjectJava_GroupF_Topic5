@@ -2,49 +2,29 @@ package com.arjuncodes.studentsystem.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
-@Table(name = "payments")
 public class Payment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int paymentId;
+    private Long paymentId;
 
-    private int subscriptionId;
+    private BigDecimal amount; // Use BigDecimal for currency values
+    private Date paymentDate;
+    private String status; // Use String or Enum for payment status
+
+    private Long subscriptionId;
     private int userId;
 
-    @Column(nullable = false)
-    private BigDecimal amount;
-
-    @Column(name = "payment_date", nullable = false)
-    private LocalDate paymentDate;
-
-    private String status;
-
-    // Getters and Setters
-    public int getPaymentId() {
+    // Getters and setters
+    public Long getPaymentId() {
         return paymentId;
     }
 
-    public void setPaymentId(int paymentId) {
+    public void setPaymentId(Long paymentId) {
         this.paymentId = paymentId;
-    }
-
-    public int getSubscriptionId() {
-        return subscriptionId;
-    }
-
-    public void setSubscriptionId(int subscriptionId) {
-        this.subscriptionId = subscriptionId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public BigDecimal getAmount() {
@@ -55,11 +35,11 @@ public class Payment {
         this.amount = amount;
     }
 
-    public LocalDate getPaymentDate() {
+    public Date getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(LocalDate paymentDate) {
+    public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
     }
 
@@ -69,5 +49,21 @@ public class Payment {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Long getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(Long subscriptionId) {
+        this.subscriptionId = subscriptionId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
