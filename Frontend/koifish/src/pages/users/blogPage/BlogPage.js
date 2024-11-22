@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { MdOutlinePayments } from "react-icons/md";
 import "./style.scss";
 import CreateBlogPostPopup from "./CreateBlogPost";
 import PaymentSection from "./PaymentSection";
-
+import { ROUTERS } from "../../../utils/router";
 const API_BASE_URL = "http://localhost:8083/api";
 
 const BlogPage = () => {
@@ -16,15 +16,10 @@ const BlogPage = () => {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [paymentVerified, setPaymentVerified] = useState(false);
   const [hasSubscription, setHasSubscription] = useState(false);
-
+  const navigate = useNavigate();
   const userId = sessionStorage.getItem("userId");
 
   useEffect(() => {
-    console.log("User ID:", userId);
-    if (!userId) {
-      alert("Please log in to access the blog");
-      return;
-    }
 
     // Fetch blog posts
     fetch(`${API_BASE_URL}/public/post/all/active`)
@@ -39,18 +34,20 @@ const BlogPage = () => {
       });
 
     // Fetch user subscription status
-    fetch(`${API_BASE_URL}/public/payment/check-subscription/${userId}`)
-    .then((response) => {
-      if (!response.ok) throw new Error("Subscription check failed");
-      return response.text(); // Đọc phản hồi dạng chuỗi
-    })
-    .then((message) => {
-      setHasSubscription(message === "Người dùng đã đăng ký dịch vụ.");
-    })
-    .catch((error) => {
-      console.error("Error checking subscription:", error);
-    });
-  
+    if (userId) {
+      fetch(`${API_BASE_URL}/public/payment/check-subscription/${userId}`)
+        .then((response) => {
+          if (!response.ok) throw new Error("Subscription check failed");
+          return response.text(); // Đọc phản hồi dạng chuỗi
+        })
+        .then((message) => {
+          setHasSubscription(message === "Người dùng đã đăng ký dịch vụ.");
+        })
+        .catch((error) => {
+          console.error("Error checking subscription:", error);
+        });
+    };
+
 
     // Fetch available subscriptions
     fetch(`${API_BASE_URL}/public/subscriptions/all/active`)
@@ -91,15 +88,21 @@ const BlogPage = () => {
   };
 
   const handlePostButtonClick = () => {
-    console.log("Has subscription:", hasSubscription);
-    if (hasSubscription) {
-      setShowPopup(true);
-    } else {
-      alert("You need an active subscription to create a post.");
-      setShowPaymentForm(true);
+    if (userId) {
+      console.log("Has subscription:", hasSubscription);
+      if (hasSubscription) {
+        setShowPopup(true);
+      } else {
+        alert("You need an active subscription to create a post.");
+        setShowPaymentForm(true);
+      }
+    }
+    else {
+      alert("You need to login to create a post.");
+      navigate(ROUTERS.USER.LOGIN);
     }
   };
-  
+
 
   return (
     <div className="container">
@@ -124,27 +127,33 @@ const BlogPage = () => {
           />
         )}
 
-        {showPaymentForm && (
-          <div className="popup-overlay">
-            <div className="popup-content">
-              <PaymentSection
-                userId={userId}
-                subscriptions={subscriptions}
-                onConfirmPayment={(paymentDetails) => {
-                  verifyPayment(paymentDetails);
-                  setShowPaymentForm(false);
-                }}
-                onClose={() => setShowPaymentForm(false)}
-              />
-              <button
-                className="close-payment-btn"
-                onClick={() => setShowPaymentForm(false)}
-              >
-                Close
-              </button>
+        {showPaymentForm &&
+          (userId ? (
+            <div className="popup-overlay">
+              <div className="popup-content">
+                <PaymentSection
+                  userId={userId}
+                  subscriptions={subscriptions}
+                  onConfirmPayment={(paymentDetails) => {
+                    verifyPayment(paymentDetails);
+                    setShowPaymentForm(false);
+                  }}
+                  onClose={() => setShowPaymentForm(false)}
+                />
+                <button
+                  className="close-payment-btn"
+                  onClick={() => setShowPaymentForm(false)}
+                >
+                  Close
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          ) : (
+            (() => {
+              alert("You need to login to create a post.");
+              navigate(ROUTERS.USER.LOGIN);
+            })()
+          ))}
 
         {loading ? (
           <p>Loading blog posts...</p>
@@ -152,7 +161,7 @@ const BlogPage = () => {
           blogPosts.map((post) => (
             <div key={post.postId} className="blog-post">
               <img
-                src={require(`../../../assets/admin/img_blog/${post.image}`)}
+                src={`uploads/img_blog/${post.image}`}
                 alt={post.title}
                 className="blog-image"
               />

@@ -104,7 +104,7 @@ const TuVan = () => {
                             {result.supportingKoi.map((koi, index) => (
                                 <img className="result-image"
                                     key={index}
-                                    src={require(`../assets/users/images/img_tracuu/result/uploads/${koi.image}`)}
+                                    src={`uploads/img_tracuu/${koi.image}`}
                                     alt={`Hình ảnh cá Koi: ${koi.species}`}
                                 />
                             ))}

@@ -7,7 +7,9 @@ const PostManagement = () => {
 
     // Fetch tất cả bài viết khi component được mount
     useEffect(() => {
-        fetch(`${API_BASE_URL}/public/post/all`) // API để lấy tất cả bài viết
+        fetch(`${API_BASE_URL}/admin/post/all`,{headers: {Authorization: sessionStorage.getItem('authHeader')}},
+    )
+             // API để lấy tất cả bài viết
             .then(response => response.json())
             .then(data => setPosts(data))  // Cập nhật danh sách bài viết
             .catch(error => {
@@ -17,9 +19,10 @@ const PostManagement = () => {
 
     // Function để cập nhật trạng thái bài viết (ACTIVE / INACTIVE)
     const handleUpdateStatus = async (postId, status) => {
-        const response = await fetch(`${API_BASE_URL}/public/post/update-status/${postId}?status=${status}`, {
+        const response = await fetch(`${API_BASE_URL}/admin/post/update-status/${postId}?status=${status}`, {
             method: 'PUT', // PUT method để cập nhật bài viết
             headers: {
+                 Authorization: sessionStorage.getItem('authHeader'),
                 'Content-Type': 'application/json',
             },
         })
@@ -62,7 +65,7 @@ const PostManagement = () => {
                             <td>{post.userId}</td>
                             <td>{post.title}</td>
                             <td>{post.content}</td>
-                            <td><img src={`${API_BASE_URL}/public/uploads/${post.image}`} alt="Post" width="50" height="50" /></td>
+                            <td><img src={`uploads/img_blog/${post.image}`} alt="Post" width="50" height="50" /></td>
                             <td>{post.date}</td>
                             <td>{post.status}</td> {/* Hiển thị status của bài viết */}
                             <td>

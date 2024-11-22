@@ -72,7 +72,7 @@ public class PostController {
         return postService.getActivePosts();
     }
 
-    @GetMapping("/public/post/all")
+    @GetMapping("/admin/post/all")
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
@@ -82,7 +82,7 @@ public class PostController {
         return postService.getPostById(id);
     }
 
-    @PutMapping("/public/post/update-status/{id}")
+    @PutMapping("/admin/post/update-status/{id}")
     public ResponseEntity<String> updatePostStatus(@PathVariable int id, @RequestParam String status) {
         try {
             Post post = postService.getPostById(id);
