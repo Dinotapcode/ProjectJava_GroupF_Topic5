@@ -10,7 +10,9 @@ const UserManagement = () => {
         const fetchUsers = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch('http://localhost:8083/api/admin/user/getAll');
+                const response = await fetch('http://localhost:8083/api/admin/user/getAll', {
+                    headers : { Authorization: sessionStorage.getItem('authHeader') },
+                });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -46,6 +48,7 @@ const UserManagement = () => {
             const response = await fetch(`http://localhost:8083/api/admin/user/actions/${updatedUser.id}?role=${updatedRole}`, {
                 method: 'PUT',
                 headers: {
+                    Authorization: sessionStorage.getItem('authHeader'),
                     'Content-Type': 'application/json',
                 },
             });
@@ -71,6 +74,7 @@ const UserManagement = () => {
             const response = await fetch(`http://localhost:8083/api/admin/user/actions/${updatedUser.id}?enabled=${newStatus}`, {
                 method: 'PUT',
                 headers: {
+                    Authorization: sessionStorage.getItem('authHeader'),
                     'Content-Type': 'application/json',
                 },
             });
