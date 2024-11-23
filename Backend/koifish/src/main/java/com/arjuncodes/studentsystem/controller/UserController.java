@@ -33,15 +33,6 @@ public class UserController {
 
 
 
-//    @PostMapping("/admin/add")
-//    public ResponseEntity<User> add(@RequestBody User user) {
-//        try {
-//            User savedUser = userRepository.save(user);
-//            return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 
     @GetMapping("/admin/user/getAll")
     public ResponseEntity<List<User>> getAllUsers() {

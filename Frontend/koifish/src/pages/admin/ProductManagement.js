@@ -52,8 +52,8 @@ const ProductManagement = ({ products, setProducts }) => {
             setIsLoading(true);
             const method = isEditing ? 'PUT' : 'POST';
             const url = isEditing
-                ? `${API_BASE_URL}/public/product/update/${products[editIndex].id}`
-                : `${API_BASE_URL}/public/product/add`;
+                ? `${API_BASE_URL}/admin/product/update/${products[editIndex].id}`
+                : `${API_BASE_URL}/admin/product/add`;
     
             // Tạo FormData
             const formData = new FormData();
@@ -75,6 +75,9 @@ const ProductManagement = ({ products, setProducts }) => {
             const response = await fetch(url, {
                 method,
                 body: formData,
+                headers: {
+                    Authorization: sessionStorage.getItem('authHeader'),
+                },
             });
     
             // Kiểm tra phản hồi từ server
@@ -94,6 +97,7 @@ const ProductManagement = ({ products, setProducts }) => {
             setProducts(updatedProducts);
             setShowPopup(false);
             resetForm();
+            alert('Sản phẩm được thêm hoặc cập nhật thành công.');
         } catch (error) {
             console.error('Có lỗi xảy ra:', error);
             alert('Không thể thêm hoặc cập nhật sản phẩm.');
@@ -141,8 +145,11 @@ const ProductManagement = ({ products, setProducts }) => {
 
         const productToDelete = products[index];
         try {
-            const response = await fetch(`${API_BASE_URL}/public/product/delete/${productToDelete.id}`, {
+            const response = await fetch(`${API_BASE_URL}/admin/product/delete/${productToDelete.id}`, {
                 method: 'DELETE',
+                headers: {
+                    Authorization: sessionStorage.getItem('authHeader'),
+                }
             });
 
             if (response.ok) {
@@ -205,10 +212,10 @@ const ProductManagement = ({ products, setProducts }) => {
                                 <td>{index + 1}</td>
                                 <td>{product.item}</td>
                                 <td>{product.type}</td>
-                                <td>{product.name}</td>
+                                <td>{product.name}</td> 
                                 <td>
                                     <img
-                                        src={`/img_products/${product.img}`}
+                                        src={`/uploads/img_products/${product.img}`}
                                         alt={product.name}
                                         className="product-image"
                                     />

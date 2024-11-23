@@ -46,7 +46,7 @@ public class ProductController {
     }
 
     // Thêm sản phẩm mới kèm hình ảnh
-    @PostMapping("/public/product/add")
+    @PostMapping("/admin/product/add")
     public ResponseEntity<?> addProduct(
             @RequestParam("name") String name,
             @RequestParam("item") String item,
@@ -95,7 +95,7 @@ public class ProductController {
     private String uploadImageFile(MultipartFile uploadfile) {
         String fileName = UUID.randomUUID() + "_" + uploadfile.getOriginalFilename();
         // Sử dụng đường dẫn tuyệt đối hoặc tương đối
-        Path destinationPath = Paths.get("Frontend/koifish/public/img_products").resolve(fileName);
+        Path destinationPath = Paths.get("Frontend/koifish/public/uploads/img_products").resolve(fileName);
 
         try {
             // Tạo thư mục nếu nó không tồn tại
@@ -108,7 +108,7 @@ public class ProductController {
             return null; // Handle error appropriately
         }
     }
-    @PutMapping("/public/product/update/{id}")
+    @PutMapping("/admin/product/update/{id}")
     public ResponseEntity<?> updateProduct(
             @PathVariable Integer id,
             @RequestParam("name") String name,
@@ -144,7 +144,7 @@ public class ProductController {
     }
 
     // Xóa sản phẩm theo ID
-    @DeleteMapping("/public/product/delete/{id}")
+    @DeleteMapping("/admin/product/delete/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable Integer id) {
         try {

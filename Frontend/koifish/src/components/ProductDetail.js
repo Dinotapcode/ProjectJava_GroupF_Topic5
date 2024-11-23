@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ProductDetail = ({ product, user }) => {
+const ProductDetail = ({ product }) => {
     const [contact, setContact] = useState('');
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
@@ -8,9 +8,28 @@ const ProductDetail = ({ product, user }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-
+const userId = sessionStorage.getItem('userId');
+const [user, setUser] = useState({
+    userName: '',
+    
+});
     // Hàm mở popup khi nhấn vào "Đặt lịch tư vấn"
     const handleConsultationClick = () => {
+        if (userId){
+            fetch(`http://localhost:8083/api/user/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': sessionStorage.getItem('authHeader'), // Thêm Basic Auth header
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setUser(data); // Lưu thông tin người dùng vào state
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                });
+        }
         setIsPopupVisible(true);
     };
 
@@ -106,7 +125,7 @@ const ProductDetail = ({ product, user }) => {
         <div className="product-detail">
             <div className="product-detail-container">
                 <div className="product-image">
-                    <img src={`/img_products/${product.img}`} alt={product.name} />
+                    <img src={`/uploads/img_products/${product.img}`} alt={product.name} />
                 </div>
                 <div className="product-info">
                     <h1>{product.name}</h1>
