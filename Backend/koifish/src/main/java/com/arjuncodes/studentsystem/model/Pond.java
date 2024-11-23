@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "ponds")
 public class Pond {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int pondId;
     private String element;
     private String shape;

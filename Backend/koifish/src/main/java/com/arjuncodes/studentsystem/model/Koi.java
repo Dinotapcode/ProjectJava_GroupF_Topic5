@@ -6,16 +6,19 @@ import javax.persistence.*;
 @Table(name = "koi")
 public class Koi {
     @Id
-    private int koiId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer koiId; // Change from int to Integer
     private String element;
     private String species;
     private String quantity;
     private String image;
     private String description;
 
+    public Koi() {}
+
     // Getters and Setters
-    public int getKoiId() { return koiId; }
-    public void setKoiId(int koiId) { this.koiId = koiId; }
+    public Integer getKoiId() { return koiId; }
+    public void setKoiId(Integer koiId) { this.koiId = koiId; }
     public String getElement() { return element; }
     public void setElement(String element) { this.element = element; }
     public String getSpecies() { return species; }

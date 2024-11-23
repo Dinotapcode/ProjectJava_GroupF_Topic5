@@ -18,6 +18,7 @@ const HomePage = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]); // Định nghĩa products là một mảng
+  const [posts, setPosts] = useState([]); // Định nghĩa products là một mảng
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemWidth = 25; // Mỗi item chiếm 25% chiều rộng
@@ -58,6 +59,26 @@ const HomePage = () => {
     };
 
     fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(`${API_BASE_URL}/public/post/all/active`);
+        if (!response.ok) throw new Error("Không thể tải danh sách bài viết.");
+
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error("Có lỗi xảy ra:", error);
+        alert("Không thể tải danh sách bài viết.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPosts();
   }, []);
 
   return (
@@ -144,7 +165,7 @@ const HomePage = () => {
               {isLoading ? (
                 <p>Đang tải sản phẩm...</p>
               ) : (
-                products.map((post, index) => (
+                posts.map((post, index) => (
                   <div className="slide-card" key={index}>
                     <div className="slide-card-image">
                       <img

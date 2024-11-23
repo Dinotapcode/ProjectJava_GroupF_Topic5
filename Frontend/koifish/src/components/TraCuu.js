@@ -20,8 +20,8 @@ const TraCuu = () => {
     useEffect(() => {
         const fetchOptions = async () => {
             try {
-                const koiSpeciesResponse = await fetch("http://localhost:8083/api/v1/user/koiSpecies");
-                const pondShapeResponse = await fetch("http://localhost:8083/api/v1/user/pondShape");
+                const koiSpeciesResponse = await fetch("http://localhost:8083/api/public/koiSpecies");
+                const pondShapeResponse = await fetch("http://localhost:8083/api/public/pondShape");
 
                 if (!koiSpeciesResponse.ok || !pondShapeResponse.ok) {
                     throw new Error("Không thể truy cập API");
@@ -78,7 +78,7 @@ const TraCuu = () => {
 
         try {
             const response = await fetch(
-                `http://localhost:8083/api/v1/user/compatibility?birthDate=${dateAndSex.birthDate}&gender=${dateAndSex.gender}&species=${koiSpecies}&quantity=${koiQuantity}&pondShape=${pondShape}&location=${location}&direction=${direction}`
+                `http://localhost:8083/api/public/compatibility?birthDate=${dateAndSex.birthDate}&gender=${dateAndSex.gender}&species=${koiSpecies}&quantity=${koiQuantity}&pondShape=${pondShape}&location=${location}&direction=${direction}`
             );
             if (!response.ok) {
                 throw new Error("Không thể truy cập API");

@@ -15,7 +15,13 @@ const CreateBlogPostPopup = ({ onClose, onCreate, onSuccess }) => {
     if (userId) {
       const fetchUserName = async () => {
         try {
-          const response = await fetch(`${API_BASE_URL}/user/${userId}`);
+          const response = await fetch(`${API_BASE_URL}/user/${userId}`,
+            {
+              headers: {
+                'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+              },
+            }
+          );
           const data = await response.json();
           setUsername(data.userName);
         } catch (error) {

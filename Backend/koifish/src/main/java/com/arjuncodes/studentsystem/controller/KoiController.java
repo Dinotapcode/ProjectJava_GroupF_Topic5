@@ -3,12 +3,17 @@ package com.arjuncodes.studentsystem.controller;
 import com.arjuncodes.studentsystem.model.Koi;
 import com.arjuncodes.studentsystem.service.KoiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,40 +25,80 @@ public class KoiController {
     @Autowired
     private KoiService koiService;
 
-    private static final String UPLOAD_DIR = "Frontend/koifish/src/assets/admin/img_tracuu/";
+    private static final String UPLOAD_DIR = "Frontend/koifish/public/uploads/img_tracuu/";
 
     // Thêm mới Koi
     @PostMapping("/admin/koi/add")
-    public ResponseEntity<Koi> addKoi(@RequestParam("koi") Koi koi,
-                                      @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> addKoi(@ModelAttribute Koi koi,
+                                    @RequestParam("file") MultipartFile file) {
         try {
-            // Lưu ảnh và đổi tên file
+            // Lưu ảnh và lấy tên file đã lưu
             String fileName = saveImage(file);
 
-            // Cập nhật đường dẫn ảnh vào đối tượng koi
+            // Gán tên file ảnh cho đối tượng Koi
             koi.setImage(fileName);
 
-            // Lưu koi vào database
+            // Lưu đối tượng koi vào cơ sở dữ liệu
             Koi savedKoi = koiService.saveKoi(koi);
-            return ResponseEntity.ok(savedKoi);
-        } catch (IOException e) {
-            return ResponseEntity.status(500).body(null); // Trả về lỗi nếu có ngoại lệ
+            return ResponseEntity.ok(savedKoi); // Trả về Koi đã được lưu thành công
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error saving Koi: " + e.getMessage()); // Trả về thông báo lỗi dạng String
         }
     }
 
     // Lưu ảnh lên server và trả về tên file đã đổi
-    private String saveImage(MultipartFile file) throws IOException {
-        // Lấy tên file và đổi tên để tránh trùng
-        String originalFileName = file.getOriginalFilename();
-        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-        String newFileName = UUID.randomUUID().toString() + fileExtension;
+    private String saveImage(MultipartFile uploadfile) {
+        // Tạo tên file duy nhất với phần mở rộng của file gốc
+        String fileName = UUID.randomUUID() + "_" + uploadfile.getOriginalFilename();
 
-        // Lưu ảnh vào thư mục
-        File dest = new File(UPLOAD_DIR + newFileName);
-        file.transferTo(dest);
+        // Định nghĩa đường dẫn lưu ảnh
+        Path destinationPath = Paths.get(UPLOAD_DIR).resolve(fileName);
 
-        return newFileName;
+        try {
+            // Tạo thư mục nếu chưa tồn tại
+            Files.createDirectories(destinationPath.getParent());
+
+            // Lưu ảnh vào đường dẫn đích
+            Files.copy(uploadfile.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+            return fileName; // Trả về tên file đã được tạo
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error saving image: " + e.getMessage());
+        }
     }
+
+    // Cập nhật thông tin koi (sửa thông tin)
+    @PutMapping("/admin/koi/update/{id}")
+    public ResponseEntity<?> updateKoi(@PathVariable int id,
+                                       @ModelAttribute Koi koi,
+                                       @RequestParam(value = "file", required = false) MultipartFile file) {
+        try {
+            Optional<Koi> existingKoi = koiService.getKoiById(id);
+            if (!existingKoi.isPresent()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Koi not found"); // Trả về thông báo lỗi nếu không tìm thấy koi
+            }
+
+            // Nếu có file ảnh mới, cập nhật ảnh
+            if (file != null && !file.isEmpty()) {
+                String fileName = saveImage(file);
+                koi.setImage(fileName);
+            } else {
+                // Nếu không có file mới, giữ nguyên ảnh cũ
+                koi.setImage(existingKoi.get().getImage());
+            }
+
+            koi.setKoiId(id); // Cập nhật lại ID cho koi
+            Koi updatedKoi = koiService.saveKoi(koi); // Lưu lại koi đã sửa
+            return ResponseEntity.ok(updatedKoi); // Trả về Koi đã được cập nhật
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error updating Koi: " + e.getMessage()); // Trả về thông báo lỗi dạng String
+        }
+    }
+
 
     // Lấy danh sách tất cả các koi
     @GetMapping("/admin/koi/all")
@@ -69,40 +114,12 @@ public class KoiController {
     }
 
     // Xoá koi theo ID
-    @DeleteMapping("/admin/koi/delete/{id}")
-    public ResponseEntity<Void> deleteKoi(@PathVariable int id) {
+    @DeleteMapping("/admin/koi/{id}")
+    public ResponseEntity<Void> deletePond(@PathVariable int id) {
         koiService.deleteKoi(id);
         return ResponseEntity.noContent().build();
     }
-
     // Cập nhật thông tin koi (sửa thông tin)
-    @PutMapping("/admin/koi/update/{id}")
-    public ResponseEntity<Koi> updateKoi(@PathVariable int id,
-                                         @RequestParam("koi") Koi koi,
-                                         @RequestParam(value = "file", required = false) MultipartFile file) {
-        try {
-            Optional<Koi> existingKoi = koiService.getKoiById(id);
-            if (!existingKoi.isPresent()) {
-                return ResponseEntity.notFound().build();
-            }
-
-            // Nếu có file ảnh mới, cập nhật ảnh
-            if (file != null && !file.isEmpty()) {
-                String fileName = saveImage(file);
-                koi.setImage(fileName);
-            } else {
-                // Giữ nguyên ảnh cũ nếu không có file mới
-                koi.setImage(existingKoi.get().getImage());
-            }
-
-            koi.setKoiId(id); // Cập nhật lại ID cho koi
-            Koi updatedKoi = koiService.saveKoi(koi); // Lưu lại koi đã sửa
-            return ResponseEntity.ok(updatedKoi);
-        } catch (IOException e) {
-            return ResponseEntity.status(500).build();
-        }
-    }
-
     // Lấy các lựa chọn loài koi
     @GetMapping("/public/koiSpecies")
     public List<String> getKoiSpeciesOptions() {
