@@ -16,7 +16,13 @@ const ConsultationSchedule = () => {
         const fetchSchedules = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch('http://localhost:8083/api/public/consultation/all');
+                const response = await fetch('http://localhost:8083/api/admin/consultation/all',
+                    {
+                        headers: {
+                            Authorization: sessionStorage.getItem('authHeader')
+                        }
+                    }
+                );
                 if (!response.ok) throw new Error('Could not fetch consultation schedules.');
                 const data = await response.json();
                 setSchedules(data);
@@ -44,9 +50,10 @@ const ConsultationSchedule = () => {
     // Handle update schedule
     const handleUpdateSchedule = async (id) => {
         try {
-            const response = await fetch(`http://localhost:8083/api/public/consultation/update/${id}`, {
+            const response = await fetch(`http://localhost:8083/api/admin/consultation/update/${id}`, {
                 method: 'PUT',
                 headers: {
+                    Authorization: sessionStorage.getItem('authHeader'),
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(newSchedule),
@@ -72,7 +79,10 @@ const ConsultationSchedule = () => {
         if (!window.confirm('Bạn có chắc chắn muốn xóa lịch tư vấn này?')) return;
 
         try {
-            const response = await fetch(`http://localhost:8083/api/public/consultation/delete/${id}`, {
+            const response = await fetch(`http://localhost:8083/api/admin/consultation/delete/${id}`, {
+                headers: {
+                    Authorization: sessionStorage.getItem('authHeader'),
+                },
                 method: 'DELETE',
             });
 
