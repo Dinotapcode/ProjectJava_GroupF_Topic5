@@ -5,13 +5,11 @@ import './ProductDetailPage.scss';
 
 const ProductDetailPage = () => {
     const API_BASE_URL = "http://localhost:8083/api";
-    const { id } = useParams();
+    const { id } = useParams(); // Lấy id từ URL
     const [product, setProduct] = useState(null);
-    const [user, setUser] = useState(null); // state để lưu thông tin người dùng
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-   
-    // Lấy thông tin sản phẩm và người dùng trang này có phân quyền ko
+
     useEffect(() => {
         const fetchProductAndUser = async () => {
             try {
@@ -22,17 +20,15 @@ const ProductDetailPage = () => {
                 }
                 const productData = await productResponse.json();
                 setProduct(productData);
-
-                // Fetch thông tin người dùng
-                
             } catch (err) {
                 setError(err.message);
-                setLoading(false);
+            } finally {
+                setLoading(false); // Dừng trạng thái tải
             }
         };
 
-        fetchProductAndUser();
-    }, [id]);
+        fetchProductAndUser(); // Gọi hàm khi component render
+    }, [id]); // Chạy lại khi `id` thay đổi
 
     if (loading) {
         return <p>Đang tải sản phẩm...</p>;
@@ -50,9 +46,9 @@ const ProductDetailPage = () => {
     return (
         <div className="product-detail-page">
             {product ? (
-                <ProductDetail product={product}  />
+                <ProductDetail product={product} />
             ) : (
-                <p>Sản phẩm hoặc người dùng không tồn tại.</p>
+                <p>Sản phẩm không tồn tại.</p>
             )}
         </div>
     );
