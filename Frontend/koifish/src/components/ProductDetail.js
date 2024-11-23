@@ -100,10 +100,11 @@ const [user, setUser] = useState({
             });
 
             if (response.ok) {
-                setSuccessMessage('Đặt lịch tư vấn thành công!');
+                alert('Đặt lịch tư vấn thành công!');
                 setContact('');
                 setDate('');
                 setTime('');
+                handleClosePopup();
             } else {
                 setErrorMessage('Đã xảy ra lỗi khi tạo lịch hẹn.');
             }
