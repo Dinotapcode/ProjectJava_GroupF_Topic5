@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './PaymentManagement.scss';
+import './SubscriptionManagement.scss';
 const API_BASE_URL = "http://localhost:8083/api";
-
 
 const SubscriptionManagement = () => {
     const [subscriptions, setSubscriptions] = useState([]);
@@ -13,17 +12,20 @@ const SubscriptionManagement = () => {
     });
 
     // Lấy danh sách subscription từ backend
+    const fetchSubscriptions = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/admin/subscriptions/all`, {
+                headers: { Authorization: sessionStorage.getItem('authHeader') }
+            });
+            const data = await response.json();
+            setSubscriptions(data);
+        } catch (error) {
+            console.error('Error fetching subscriptions:', error);
+        }
+    };
+
     useEffect(() => {
-        const fetchSubscriptions = async () => {
-            try {
-                const response = await fetch(`${API_BASE_URL}/admin/subscriptions/all`, {headers: {Authorization: sessionStorage.getItem('authHeader')}});
-                const data = await response.json();
-                setSubscriptions(data);
-            } catch (error) {
-                console.error('Error fetching subscriptions:', error);
-            }
-        };
-        fetchSubscriptions();
+        fetchSubscriptions(); // Gọi API khi component load
     }, []);
 
     // Tạm hoãn subscription
@@ -32,16 +34,14 @@ const SubscriptionManagement = () => {
         try {
             const response = await fetch(`${API_BASE_URL}/admin/subscriptions/pause/${subscription.subscriptionId}`, {
                 method: 'PUT',
-                headers: {Authorization: sessionStorage.getItem('authHeader')}
+                headers: { Authorization: sessionStorage.getItem('authHeader') }
             });
             if (!response.ok) {
                 throw new Error('Failed to pause subscription');
             }
 
-            // Cập nhật trạng thái "Paused"
-            const updatedSubscriptions = [...subscriptions];
-            updatedSubscriptions[index].status = 'Paused';
-            setSubscriptions(updatedSubscriptions);
+            // Sau khi tạm hoãn, gọi lại API để cập nhật danh sách
+            fetchSubscriptions();
         } catch (error) {
             console.error('Error pausing subscription:', error);
         }
@@ -53,16 +53,14 @@ const SubscriptionManagement = () => {
         try {
             const response = await fetch(`${API_BASE_URL}/admin/subscriptions/resume/${subscription.subscriptionId}`, {
                 method: 'PUT',
-                headers: {Authorization: sessionStorage.getItem('authHeader')}
+                headers: { Authorization: sessionStorage.getItem('authHeader') }
             });
             if (!response.ok) {
                 throw new Error('Failed to resume subscription');
             }
 
-            // Cập nhật trạng thái "Active"
-            const updatedSubscriptions = [...subscriptions];
-            updatedSubscriptions[index].status = 'Active';
-            setSubscriptions(updatedSubscriptions);
+            // Sau khi hủy tạm hoãn, gọi lại API để cập nhật danh sách
+            fetchSubscriptions();
         } catch (error) {
             console.error('Error resuming subscription:', error);
         }
@@ -74,15 +72,14 @@ const SubscriptionManagement = () => {
         try {
             const response = await fetch(`${API_BASE_URL}/admin/subscriptions/delete/${subscription.subscriptionId}`, {
                 method: 'DELETE',
-                headers: {Authorization: sessionStorage.getItem('authHeader')}
+                headers: { Authorization: sessionStorage.getItem('authHeader') }
             });
             if (!response.ok) {
                 throw new Error('Failed to delete subscription');
             }
 
-            // Cập nhật lại danh sách subscriptions
-            const updatedSubscriptions = subscriptions.filter((_, i) => i !== index);
-            setSubscriptions(updatedSubscriptions);
+            // Sau khi xóa, gọi lại API để cập nhật danh sách
+            fetchSubscriptions();
         } catch (error) {
             console.error('Error deleting subscription:', error);
         }
@@ -90,12 +87,16 @@ const SubscriptionManagement = () => {
 
     // Thêm mới subscription
     const handleAddSubscription = async () => {
+        if (!newSubscription.subscriptionName || !newSubscription.price || !newSubscription.description || !newSubscription.duration) {
+            alert('Vui lòng nhập đầy đủ thông tin gói subscription');
+            return;
+        }
         try {
             const response = await fetch(`${API_BASE_URL}/admin/subscriptions/add`, {
                 method: 'POST',
                 headers: {
-                Authorization: sessionStorage.getItem('authHeader'),
-                'Content-Type': 'application/json',
+                    Authorization: sessionStorage.getItem('authHeader'),
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(newSubscription),
             });
@@ -104,8 +105,8 @@ const SubscriptionManagement = () => {
                 throw new Error('Failed to add new subscription');
             }
 
-            const addedSubscription = await response.json();
-            setSubscriptions([...subscriptions, addedSubscription]);
+            // Sau khi thêm, gọi lại API để cập nhật danh sách
+            fetchSubscriptions();
             setNewSubscription({
                 subscriptionName: '',
                 price: '',
@@ -118,7 +119,7 @@ const SubscriptionManagement = () => {
     };
 
     return (
-        <div class = "payment-management">
+        <div className="payment-management">
             <h2>Subscription Management</h2>
 
             {/* Form Thêm Subscription */}

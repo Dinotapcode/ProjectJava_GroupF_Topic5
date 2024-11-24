@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ProductManagement from './ProductManagement';
 import PostManagement from './PostManagement';
 import UserManagement from './UserManagement';
-import PaymentManagement from './PaymentManagement';
+import PaymentManagement from './SubscriptionManagement';
 import ConsultationSchedule from './ConsultationSchedule';
 import FateManagement from './FateManagement';
 import './style.scss';
@@ -19,9 +19,11 @@ const AdminPage = () => {
     const role = sessionStorage.getItem("role");
     const userId = sessionStorage.getItem("userId");
     const navigate = useNavigate();
-    if (role !== "ROLE_ADMIN") {
+    
+    if (!userId || role !== "ROLE_ADMIN") {
         navigate(ROUTERS.USER.HOME);
     }
+
     const [counts, setCounts] = useState({
         users: 0,
         posts: 0,

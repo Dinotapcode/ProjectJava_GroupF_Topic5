@@ -11,13 +11,21 @@ const UserManagement = () => {
             setIsLoading(true);
             try {
                 const response = await fetch('http://localhost:8083/api/admin/user/getAll', {
-                    headers : { Authorization: sessionStorage.getItem('authHeader') },
+                    headers: { Authorization: sessionStorage.getItem('authHeader') },
                 });
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                setUsers(data); // Gán dữ liệu người dùng vào state
+                
+                // Sắp xếp người dùng theo quyền: Admin trước, User sau
+                data.sort((a, b) => {
+                    if (a.role === 'ROLE_ADMIN' && b.role !== 'ROLE_ADMIN') return -1;
+                    if (a.role === 'ROLE_USER' && b.role !== 'ROLE_USER') return 1;
+                    return 0;
+                });
+
+                setUsers(data); // Gán dữ liệu người dùng đã sắp xếp vào state
             } catch (error) {
                 console.error('Error fetching users:', error);
             } finally {
@@ -104,12 +112,11 @@ const UserManagement = () => {
                     <thead>
                         <tr>
                             <th>STT</th>
-                            <th>UserId</th>
-                            <th>UserName</th>
+                            <th>Tên tài khoản</th>
                             <th>Email</th>
-                            <th>Phone</th>
-                            <th>Enabled</th>
-                            <th>Role</th>
+                            <th>Số điện thoại</th>
+                            <th>Trạng thái</th>
+                            <th>Quyền</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -117,7 +124,6 @@ const UserManagement = () => {
                         {users.map((user, index) => (
                             <tr key={user.id}>
                                 <td>{index + 1}</td>
-                                <td>{user.id}</td>
                                 <td>{user.userName}</td>
                                 <td>{user.email}</td>
                                 <td>{user.phone}</td>

@@ -12,6 +12,7 @@ const Header = () => {
         userName: '',
         avatar: null
     });
+    const [menus, setMenus] = useState([]); // State for menus
     const menuRef = useRef(null); // Tham chiếu đến menu
     const role = sessionStorage.getItem('role');
     const userId = sessionStorage.getItem('userId');
@@ -19,8 +20,7 @@ const Header = () => {
 
     useEffect(() => {
         if (userId) {
-            // Assuming you have a token stored in localStorage or a state
-            const authHeader = sessionStorage.getItem('authHeader'); // Lấy thông tin xác thực
+            const authHeader = sessionStorage.getItem('authHeader');
             fetch(`http://localhost:8083/api/user/${userId}`, {
                 method: 'GET',
                 headers: {
@@ -37,7 +37,6 @@ const Header = () => {
         }
     }, [userId]);
 
-
     useEffect(() => {
         const handleScroll = () => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -50,7 +49,6 @@ const Header = () => {
     }, []);
 
     useEffect(() => {
-        // Đóng menu khi nhấn chuột ngoài menu
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
                 setIsMenuOpen(false);
@@ -66,7 +64,8 @@ const Header = () => {
         };
     }, [isMenuOpen]);
 
-    const [menus] = useState(() => {
+    // Cập nhật menus khi sessionStorage thay đổi
+    useEffect(() => {
         const baseMenus = [
             { name: "Giới Thiệu", path: ROUTERS.USER.GIOITHIEU },
             { name: "Blog tin tức", path: ROUTERS.USER.BLOG },
@@ -78,9 +77,8 @@ const Header = () => {
             baseMenus.push({ name: "Quản lý", path: ROUTERS.ADMIN });
         }
 
-        return baseMenus;
-    });
-
+        setMenus(baseMenus); // Cập nhật menus
+    }, [role, userId]); // Theo dõi sự thay đổi của role và userId
 
     const handleMenuToggle = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -90,8 +88,12 @@ const Header = () => {
         // Xóa thông tin đăng nhập khỏi sessionStorage
         sessionStorage.removeItem('userId');
         sessionStorage.removeItem('role');
+        sessionStorage.removeItem('authHeader'); // Xóa cả authHeader nếu có
         // Hiển thị thông báo
         alert('Đăng xuất thành công');
+
+        // Cập nhật lại menu sau khi đăng xuất
+        setMenus([]); // Đặt menus về trạng thái rỗng
 
         // Chuyển hướng người dùng về trang đăng nhập
         navigate(ROUTERS.USER.HOME);
@@ -109,7 +111,7 @@ const Header = () => {
                             <i className="fa-solid fa-phone"></i> 19008080
                         </li>
                         <li className="header__top-navbar-item">
-                            {sessionStorage.getItem('userId') ? (
+                            {userId ? (
                                 <span onClick={handleLogout} className="header__top-navbar-item header__top-navbar-item--member">
                                     Đăng xuất
                                 </span>
@@ -137,23 +139,18 @@ const Header = () => {
                                 <Link to={menu.path} className="header__main-navbar-link" onClick={() => setIsMenuOpen(false)}>{menu.name}</Link>
                             </li>
                         ))}
-                        {sessionStorage.getItem('userId') ? (
+                        {userId ? (
                             <li className="header__main-navbar-item header__top-navbar-item--member">
                                 <span>{user.userName}</span>
                                 <Link to={ROUTERS.USER.PROFILE} className="header__main-navbar-avatar">
                                     <img
-                                        src={
-                                            user.avatar
-                                            ? `uploads/img_avatar/${user.avatar}`
-                                            : `uploads/img_avatar/default_avatar.png`
-                                        }
+                                        src={user.avatar ? `uploads/img_avatar/${user.avatar}` : `uploads/img_avatar/default_avatar.png`}
                                         alt="Avatar"
                                         className="avatar"
                                     />
                                 </Link>
                             </li>
                         ) : null}
-
                     </ul>
                     <u className={`header__main-navbar-list header__main-navbar-menu-icon--close  ${isMenuOpen ? 'header__main-navbar-menu-icon--open' : ''} ${isShrunk ? 'shrink' : ''}`}>
                         <li className="header__main-navbar-item header__main-navbar-menu-icon">

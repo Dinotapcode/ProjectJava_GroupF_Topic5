@@ -6,7 +6,7 @@ const API_BASE_URL = "http://localhost:8083/api";
 const BlogDetail = () => {
   // Lấy id từ URL
   const { id } = useParams();  // Lấy id từ tham số URL
-  
+
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -44,17 +44,17 @@ const BlogDetail = () => {
   return (
     <div className="container">
       <div className="blog-detail">
-        {/* Tiêu đề bài viết */}
-        <h1>{post.title}</h1>
-        {/* Ngày đăng bài viết */}
-        <p className="date">{post.date}</p>
-        {/* Hiển thị ảnh nếu có */}
-        {post.image && <img src={`uploads/img_blog/${post.image}`} alt={post.title} className="blog-image" />}
-        {/* Nội dung bài viết */}
-        <p>{post.content}</p>
-
-        {/* Link để quay lại trang Blog */}
-        <Link to="/blog" className="back-to-blog">Back to Blog</Link>
+        <div className='blog__content'>
+          <h1>{post.title}</h1>
+          <p>{post.content}</p>
+        </div>
+        <div className="blog__image">
+          <img
+            src={`/uploads/img_blog/${post.image}`}
+            alt={post.title}
+          />
+          <p className="date">{post.date}</p>
+        </div>
       </div>
     </div>
   );

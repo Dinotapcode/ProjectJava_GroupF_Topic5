@@ -91,31 +91,31 @@ const HomePage = () => {
             phong thủy phù hợp nhất với bản thân...
           </p>
         </div>
-        <div className="product-sections">
+        <div className="news-sections">
           <div className="title">
-            Một số giống cá koi đẹp
+            Sản phẩm phong thuỷ nổi bật
             <hr />
           </div>
           <div className="slider-container">
-            <div 
-              className="product-cards"
+            <div
+              className="slide-cards"
               style={{ transform: `translateX(${updateSliderPosition()})`, transition: 'transform 0.3s ease' }}
             >
               {isLoading ? (
                 <p>Đang tải sản phẩm...</p>
               ) : (
                 products.map((product, index) => (
-                  <div className="product-card" key={index}>
-                    <div className="product-card-image">
+                  <div className="slide-card" key={index}>
+                    <div className="slide-card-image">
                       <img
                         src={`uploads/img_products/${product.img}`}
-                        alt={product.name}
+                        alt={product.title}
                       />
                     </div>
-                    <div className="product-card-title">{product.name}</div>
-                    <Link 
-                      to={`${ROUTERS.USER.SANPHAM}/${product.id}`} 
-                      className="product-card-description"
+                    <div className="slide-card-title">{product.title}</div>
+                    <Link
+                      to={`${ROUTERS.USER.SANPHAM}/${product.id}`}
+                      className="slide-card-description"
                     >
                       Xem Ngay
                     </Link>
@@ -141,7 +141,7 @@ const HomePage = () => {
             </div>
           </div>
           <div className="know-more">
-            <Link to={ROUTERS.USER.SANPHAM}>Xem thêm tại đây</Link>
+            <Link to={ROUTERS.USER.SANPHAM}>Xem Thêm Tại đây </Link>
           </div>
         </div>
         <div className="suggest-sections">
@@ -158,7 +158,7 @@ const HomePage = () => {
             <hr />
           </div>
           <div className="slider-container">
-            <div 
+            <div
               className="slide-cards"
               style={{ transform: `translateX(${updateSliderPosition()})`, transition: 'transform 0.3s ease' }}
             >
@@ -174,8 +174,8 @@ const HomePage = () => {
                       />
                     </div>
                     <div className="slide-card-title">{post.title}</div>
-                    <Link 
-                      to={`${ROUTERS.USER.BLOG}/${post.postId}`} 
+                    <Link
+                      to={`${ROUTERS.USER.BLOG}/${post.postId}`}
                       className="slide-card-description"
                     >
                       Xem Ngay

@@ -42,14 +42,14 @@ const TraCuu = () => {
 
     const koiQuantityOptions = ["Chẵn", "Lẻ"];
     const locationOptions = [
-        "Phía Bắc",
-        "Phía Nam",
-        "Phía Đông",
-        "Phía Tây",
-        "Phía Tây Bắc",
-        "Phía Đông Nam",
-        "Phía Đông Bắc",
-        "Phía Tây Nam",
+        "Bắc",
+        "Nam",
+        "Đông",
+        "Tây",
+        "Tây Bắc",
+        "Đông Nam",
+        "Đông Bắc",
+        "Tây Nam",
     ];
     const directionOptions = [
         "Bắc",

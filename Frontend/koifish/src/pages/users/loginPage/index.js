@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import './style.scss';
 import anh from "../../../assets/users/images/img_login/1.jpg";
+import { ROUTERS } from "../../../utils/router";
+import { Link, useNavigate } from "react-router-dom";
 
 
 function LoginPage() {
     const [activeForm, setActiveForm] = useState('login');
     const [loginResponse] = useState('');
     const [registerResponse] = useState('');
-
+    const navigate = useNavigate();
     const handleRegister = async (formData) => {
         try {
             const response = await fetch('http://localhost:8083/api/register', {
@@ -62,9 +64,9 @@ function LoginPage() {
                 sessionStorage.setItem('userId', data.userId);
                 alert('Đăng nhập thành công');
                 if (data.role === 'ROLE_USER') {
-                    window.location.href = '/';
+                    navigate(ROUTERS.USER.HOME);
                 } else if (data.role === 'ROLE_ADMIN') {
-                    window.location.href = '/admin';
+                    navigate(ROUTERS.ADMIN);
                 } else {
                     alert(data.message || 'Không xác định được quyền truy cập.');
                 }
