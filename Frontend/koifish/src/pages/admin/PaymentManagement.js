@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './PaymentManagement.scss';
-const API_BASE_URL = "http://localhost:8083/api";
 
+const API_BASE_URL = "http://localhost:8083/api";
 
 const SubscriptionManagement = () => {
     const [subscriptions, setSubscriptions] = useState([]);
@@ -12,11 +12,13 @@ const SubscriptionManagement = () => {
         duration: '',
     });
 
-    // Lấy danh sách subscription từ backend
+    // Fetch subscriptions from backend
     useEffect(() => {
         const fetchSubscriptions = async () => {
             try {
-                const response = await fetch(`${API_BASE_URL}/admin/subscriptions/all`, {headers: {Authorization: sessionStorage.getItem('authHeader')}});
+                const response = await fetch(`${API_BASE_URL}/admin/subscriptions/all`, {
+                    headers: { Authorization: sessionStorage.getItem('authHeader') }
+                });
                 const data = await response.json();
                 setSubscriptions(data);
             } catch (error) {
@@ -26,19 +28,18 @@ const SubscriptionManagement = () => {
         fetchSubscriptions();
     }, []);
 
-    // Tạm hoãn subscription
+    // Pause subscription
     const handlePauseSubscription = async (index) => {
         const subscription = subscriptions[index];
         try {
             const response = await fetch(`${API_BASE_URL}/admin/subscriptions/pause/${subscription.subscriptionId}`, {
                 method: 'PUT',
-                headers: {Authorization: sessionStorage.getItem('authHeader')}
+                headers: { Authorization: sessionStorage.getItem('authHeader') }
             });
             if (!response.ok) {
                 throw new Error('Failed to pause subscription');
             }
 
-            // Cập nhật trạng thái "Paused"
             const updatedSubscriptions = [...subscriptions];
             updatedSubscriptions[index].status = 'Paused';
             setSubscriptions(updatedSubscriptions);
@@ -47,19 +48,18 @@ const SubscriptionManagement = () => {
         }
     };
 
-    // Hủy tạm hoãn subscription
+    // Resume subscription
     const handleResumeSubscription = async (index) => {
         const subscription = subscriptions[index];
         try {
             const response = await fetch(`${API_BASE_URL}/admin/subscriptions/resume/${subscription.subscriptionId}`, {
                 method: 'PUT',
-                headers: {Authorization: sessionStorage.getItem('authHeader')}
+                headers: { Authorization: sessionStorage.getItem('authHeader') }
             });
             if (!response.ok) {
                 throw new Error('Failed to resume subscription');
             }
 
-            // Cập nhật trạng thái "Active"
             const updatedSubscriptions = [...subscriptions];
             updatedSubscriptions[index].status = 'Active';
             setSubscriptions(updatedSubscriptions);
@@ -68,19 +68,18 @@ const SubscriptionManagement = () => {
         }
     };
 
-    // Xóa subscription
+    // Delete subscription
     const handleDeleteSubscription = async (index) => {
         const subscription = subscriptions[index];
         try {
             const response = await fetch(`${API_BASE_URL}/admin/subscriptions/delete/${subscription.subscriptionId}`, {
                 method: 'DELETE',
-                headers: {Authorization: sessionStorage.getItem('authHeader')}
+                headers: { Authorization: sessionStorage.getItem('authHeader') }
             });
             if (!response.ok) {
                 throw new Error('Failed to delete subscription');
             }
 
-            // Cập nhật lại danh sách subscriptions
             const updatedSubscriptions = subscriptions.filter((_, i) => i !== index);
             setSubscriptions(updatedSubscriptions);
         } catch (error) {
@@ -88,14 +87,21 @@ const SubscriptionManagement = () => {
         }
     };
 
-    // Thêm mới subscription
+    // Add new subscription
     const handleAddSubscription = async () => {
+        // Validate form fields
+        const { subscriptionName, price, description, duration } = newSubscription;
+        if (!subscriptionName || !price || !description || !duration) {
+            alert('Please fill out all fields before adding a new subscription.');
+            return;
+        }
+
         try {
             const response = await fetch(`${API_BASE_URL}/admin/subscriptions/add`, {
                 method: 'POST',
                 headers: {
-                Authorization: sessionStorage.getItem('authHeader'),
-                'Content-Type': 'application/json',
+                    Authorization: sessionStorage.getItem('authHeader'),
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(newSubscription),
             });
@@ -118,12 +124,12 @@ const SubscriptionManagement = () => {
     };
 
     return (
-        <div class = "payment-management">
+        <div className="payment-management">
             <h2>Subscription Management</h2>
 
-            {/* Form Thêm Subscription */}
-            <div>
-                <h3>Thêm mới gói subscription</h3>
+            {/* Add Subscription Form */}
+            <div className="add-subscription">
+                <h3>Thêm mới gói dịch vụ </h3>
                 <input
                     type="text"
                     placeholder="Tên gói"
@@ -132,7 +138,7 @@ const SubscriptionManagement = () => {
                 />
                 <input
                     type="number"
-                    placeholder="Giá"
+                    placeholder="Gía"
                     value={newSubscription.price}
                     onChange={(e) => setNewSubscription({ ...newSubscription, price: e.target.value })}
                 />
@@ -148,16 +154,16 @@ const SubscriptionManagement = () => {
                     value={newSubscription.duration}
                     onChange={(e) => setNewSubscription({ ...newSubscription, duration: e.target.value })}
                 />
-                <button onClick={handleAddSubscription}>Thêm mới</button>
+                <button onClick={handleAddSubscription}>Add</button>
             </div>
 
-            {/* Danh sách Subscription */}
+            {/* Subscription List */}
             <table>
                 <thead>
                     <tr>
                         <th>STT</th>
                         <th>Tên gói</th>
-                        <th>Giá</th>
+                        <th>Gía</th>
                         <th>Mô tả</th>
                         <th>Thời gian</th>
                         <th>Trạng thái</th>
@@ -176,15 +182,15 @@ const SubscriptionManagement = () => {
                             <td>
                                 {subscription.status !== 'Paused' ? (
                                     <button className="btn-pause" onClick={() => handlePauseSubscription(index)}>
-                                        Tạm hoãn
+                                        Pause
                                     </button>
                                 ) : (
                                     <button className="btn-resume" onClick={() => handleResumeSubscription(index)}>
-                                        Hủy tạm hoãn
+                                        Resume
                                     </button>
                                 )}
                                 <button className="btn-delete" onClick={() => handleDeleteSubscription(index)}>
-                                    Xóa
+                                    Delete
                                 </button>
                             </td>
                         </tr>

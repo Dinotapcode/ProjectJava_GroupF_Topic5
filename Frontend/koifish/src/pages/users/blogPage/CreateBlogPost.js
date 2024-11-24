@@ -40,8 +40,7 @@ const CreateBlogPostPopup = ({ onClose, onCreate, onSuccess }) => {
     formData.append('image', image);
     formData.append('userId', userId);  // Add userId to the FormData
     onSuccess('Your post will be reviewed');  // Success message
-    onClose();  // Close the popup
-    // Sending the data to backend
+    onClose(); 
     fetch(`${API_BASE_URL}/public/post/add`, {
       method: 'POST',
       body: formData,
