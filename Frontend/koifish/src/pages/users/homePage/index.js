@@ -3,19 +3,8 @@ import { ROUTERS } from "../../../utils/router";
 import { memo } from "react";
 import "./style.scss";
 import { useEffect, useState } from "react";
-
-import koi1 from "../../../assets/users/images/img_sp/1.png";
-import ho1 from "../../../assets/users/images/img_sp/aquarium.jpg";
-import blog1 from "../../../assets/users/images/img_blog/anh1.jpg";
-import blog2 from "../../../assets/users/images/img_blog/anh2.jpg";
-import blog3 from "../../../assets/users/images/img_blog/anh3.jpg";
-import blog4 from "../../../assets/users/images/img_blog/anh4.jpg";
-
 const HomePage = () => {
   const API_BASE_URL = "http://localhost:8083/api";
-  const [showPopup, setShowPopup] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editIndex, setEditIndex] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]); // Định nghĩa products là một mảng
   const [posts, setPosts] = useState([]); // Định nghĩa products là một mảng

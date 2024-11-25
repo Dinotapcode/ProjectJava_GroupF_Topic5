@@ -96,7 +96,6 @@ $non-active-background: #ffffff;
     }
 
     .list-container {
-        padding: 20px;
         max-width: 100%;
         width: 100%;
         overflow-x: auto;
@@ -157,8 +156,8 @@ $non-active-background: #ffffff;
 
             .close-btn {
                 position: absolute;
-                top: 15px;
-                right: 15px;
+                top: 10px;
+                right: 10px;
                 width: 30px;
                 aspect-ratio: 1 / 1;
                 border-radius: 50%;
@@ -197,13 +196,14 @@ $non-active-background: #ffffff;
 
                 select,
                 textarea,
-                input[type="file"] {
+                input {
                     width: 100%;
                     padding: 10px;
                     border: 1px solid #ccc;
                     border-radius: 4px;
                     background-color: #fff;
                     transition: border-color 0.3s;
+                    box-sizing: border-box;
 
                     &:focus {
                         border-color: #4CAF50;

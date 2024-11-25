@@ -12,29 +12,6 @@
 
     }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        border: 2px solid black; // Khung cho bảng
-    }
-
-    th,
-    td {
-        padding: 10px;
-        text-align: center;
-        border: 1px solid black; // Khung cho mỗi ô trong bảng
-        font-size: 15px;
-    }
-
-    th {
-        background-color: #f0f0f0;
-        font-weight: bold;
-    }
-
     button {
         padding: 8px 15px;
         margin: 5px;

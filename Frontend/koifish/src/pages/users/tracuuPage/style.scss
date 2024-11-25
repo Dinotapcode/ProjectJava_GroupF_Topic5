@@ -152,6 +152,7 @@ $percentResult: "/assets/users/images/img_tracuu/result/percentResult.png";
         &__result {
             flex: 1.5;
             font-size: 16px;
+            padding-bottom: 20px;
 
             .result {
                 position: relative;
@@ -257,5 +258,14 @@ $percentResult: "/assets/users/images/img_tracuu/result/percentResult.png";
             outline: rgba(89, 122, 214, 0.2) solid 6px;
             outline-offset: 40px;
         }
+    }
+
+    .next-to-product {
+        width: 100%;
+        height: 50px;
+        color: map-get($theme-colors, "main-red");
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
     }
 }

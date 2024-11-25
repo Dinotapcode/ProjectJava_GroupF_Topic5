@@ -53,7 +53,7 @@ const UserManagement = () => {
         }
     
         try {
-            const response = await fetch(`http://localhost:8083/api/admin/user/actions/${updatedUser.id}?role=${updatedRole}`, {
+            const response = await fetch(`http://localhost:8083/api/admin/user/role/${updatedUser.id}?role=${updatedRole}`, {
                 method: 'PUT',
                 headers: {
                     Authorization: sessionStorage.getItem('authHeader'),

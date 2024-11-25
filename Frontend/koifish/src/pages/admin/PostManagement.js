@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './PostManagement.scss';
+
 const API_BASE_URL = "http://localhost:8083/api";
 
 const PostManagement = () => {
@@ -7,9 +8,11 @@ const PostManagement = () => {
 
     // Fetch tất cả bài viết khi component được mount
     useEffect(() => {
-        fetch(`${API_BASE_URL}/admin/post/all`,{headers: {Authorization: sessionStorage.getItem('authHeader')}},
-    )
-             // API để lấy tất cả bài viết
+        fetch(`${API_BASE_URL}/admin/post/all`, {
+            headers: {
+                Authorization: sessionStorage.getItem('authHeader')
+            }
+        })
             .then(response => response.json())
             .then(data => setPosts(data))  // Cập nhật danh sách bài viết
             .catch(error => {
@@ -20,24 +23,23 @@ const PostManagement = () => {
     // Function để cập nhật trạng thái bài viết (ACTIVE / INACTIVE)
     const handleUpdateStatus = async (postId, status) => {
         const response = await fetch(`${API_BASE_URL}/admin/post/update-status/${postId}?status=${status}`, {
-            method: 'PUT', // PUT method để cập nhật bài viết
+            method: 'PUT',  // PUT method để cập nhật bài viết
             headers: {
-                 Authorization: sessionStorage.getItem('authHeader'),
+                Authorization: sessionStorage.getItem('authHeader'),
                 'Content-Type': 'application/json',
             },
-        })
-        
-        if(response.ok){
+        });
+
+        if (response.ok) {
             // Sau khi thay đổi trạng thái, cập nhật lại danh sách bài viết
             const updatedPosts = posts.map(post =>
                 post.postId === postId ? { ...post, status: status } : post
             );
             alert('Thay đổi trạng thái bài viết thành công!');
             setPosts(updatedPosts);
-        }
-        else{
+        } else {
             alert('Thay đổi trạng thái bài viết thất bại!');
-        };
+        }
     };
 
     return (
@@ -69,18 +71,21 @@ const PostManagement = () => {
                             <td>{post.date}</td>
                             <td>{post.status}</td> {/* Hiển thị status của bài viết */}
                             <td>
-                                <button 
-                                    className="btn-approve" 
-                                    onClick={() => handleUpdateStatus(post.postId, 'ACTIVE')}
-                                >
-                                    Duyệt
-                                </button>
-                                <button 
-                                    className="btn-reject" 
-                                    onClick={() => handleUpdateStatus(post.postId, 'INACTIVE')}
-                                >
-                                    Không Duyệt
-                                </button>
+                                {post.status === 'ACTIVE' ? (
+                                    <button 
+                                        className="btn-reject" 
+                                        onClick={() => handleUpdateStatus(post.postId, 'INACTIVE')}
+                                    >
+                                        Huỷ Duyệt
+                                    </button>
+                                ) : (
+                                    <button 
+                                        className="btn-approve" 
+                                        onClick={() => handleUpdateStatus(post.postId, 'ACTIVE')}
+                                    >
+                                        Duyệt
+                                    </button>
+                                )}
                             </td>
                         </tr>
                     ))}

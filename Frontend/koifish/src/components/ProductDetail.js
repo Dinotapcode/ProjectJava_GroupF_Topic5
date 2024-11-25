@@ -29,8 +29,11 @@ const [user, setUser] = useState({
                 .catch(error => {
                     console.error('Error fetching user data:', error);
                 });
+                setIsPopupVisible(true);
+        }else{
+            setIsPopupVisible(false);
+            alert('Vui lớng đăng nhập để đặt lịch tư vấn.');
         }
-        setIsPopupVisible(true);
     };
 
     // Hàm đóng popup

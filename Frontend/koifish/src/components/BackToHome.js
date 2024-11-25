@@ -12,6 +12,7 @@ const BackToHome = () => {
             { path: '/tra-cuu-phong-thuy', label: 'Dịch vụ tư vấn' },
             { path: '/blog', label: 'Blog tin tức' },
             { path: '/san-pham-phong-thuy', label: 'Sản phẩm phong thủy' },
+            { path: '/dang-nhap', label: 'Đăng nhập' },
         ];
 
         const currentLink = navBottomLinks.find(link =>

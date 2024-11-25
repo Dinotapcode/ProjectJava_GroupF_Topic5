@@ -179,15 +179,21 @@ function FateManagement() {
 
 
   const handleDelete = async (id) => {
-    const url = `${API_BASE_URL}/admin/${selectedType}/${id}`;
-    try {
-      await fetch(url, { method: "DELETE", headers: { Authorization: sessionStorage.getItem('authHeader') }, });
-      await fetchAllData();
-      alert("Xóa thành công!");
-    } catch (error) {
-      console.error("Error deleting item:", error);
+    // Hiển thị thông báo xác nhận
+    const confirmDelete = window.confirm("Bạn có chắc chắn muốn xoá mục này?");
+    
+    if (confirmDelete) {
+      const url = `${API_BASE_URL}/admin/${selectedType}/${id}`;
+      try {
+        await fetch(url, { method: "DELETE", headers: { Authorization: sessionStorage.getItem('authHeader') } });
+        await fetchAllData();
+        alert("Xóa thành công!");
+      } catch (error) {
+        console.error("Error deleting item:", error);
+      }
     }
   };
+  
 
   const handleEdit = (item) => {
     setFormData({
@@ -337,14 +343,14 @@ const FormComponent = ({
   const elementOptions = ["Kim", "Mộc", "Thủy", "Hỏa", "Thổ"];
   const koiQuantityOptions = ["Chẵn", "Lẻ"];
   const locationOptions = [
-    "Phía Bắc",
-    "Phía Nam",
-    "Phía Đông",
-    "Phía Tây",
-    "Phía Tây Bắc",
-    "Phía Đông Nam",
-    "Phía Đông Bắc",
-    "Phía Tây Nam",
+    "Bắc",
+    "Nam",
+    "Đông",
+    "Tây",
+    "Tây Bắc",
+    "Đông Nam",
+    "Đông Bắc",
+    "Tây Nam",
   ];
   const directionOptions = [
     "Bắc",
@@ -387,20 +393,13 @@ const FormComponent = ({
         <>
           <div className="input__group">
             <label htmlFor="shape">Hình dạng hồ:</label>
-            <select
+            <input
+              type="text"
               id="shape"
               name="shape"
               value={formData.shape}
               onChange={handleInputChange}
-            >
-              <option value="">-- Chọn --</option>
-              {pondShapeOptions.length > 0 &&
-                pondShapeOptions.map((shape) => (
-                  <option key={shape} value={shape}>
-                    {shape}
-                  </option>
-                ))}
-            </select>
+            />
           </div>
 
           <div className="input__group">
@@ -441,20 +440,13 @@ const FormComponent = ({
         <>
           <div className="input__group">
             <label htmlFor="species">Loài cá:</label>
-            <select
+            <input
+              type="text"
               id="species"
               name="species"
-              value={formData.species}
+              value={formData.species}              
               onChange={handleInputChange}
-            >
-              <option value="">-- Chọn --</option>
-              {koiSpeciesOptions.length > 0 &&
-                koiSpeciesOptions.map((species) => (
-                  <option key={species} value={species}>
-                    {species}
-                  </option>
-                ))}
-            </select>
+            />
           </div>
 
           <div className="input__group">

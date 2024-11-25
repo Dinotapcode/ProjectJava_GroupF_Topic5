@@ -5,7 +5,7 @@ import { MdOutlinePayments } from "react-icons/md";
 import "./style.scss";
 import CreateBlogPostPopup from "./CreateBlogPost";
 import PaymentSection from "./PaymentSection";
-import { ROUTERS } from "../../../utils/router";
+
 const API_BASE_URL = "http://localhost:8083/api";
 
 const BlogPage = () => {
@@ -19,90 +19,84 @@ const BlogPage = () => {
   const navigate = useNavigate();
   const userId = sessionStorage.getItem("userId");
 
+  // Fetch blog posts
   useEffect(() => {
-
-    // Fetch blog posts
-    fetch(`${API_BASE_URL}/public/post/all/active`)
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchBlogPosts = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/public/post/all/active`);
+        const data = await response.json();
         setBlogPosts(data);
-        setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching blog posts:", error);
+      } finally {
         setLoading(false);
-      });
-
-    // Fetch user subscription status
-    if (userId) {
-      fetch(`${API_BASE_URL}/public/payment/check-subscription/${userId}`)
-        .then((response) => {
-          if (!response.ok) throw new Error("Subscription check failed");
-          return response.text(); // Đọc phản hồi dạng chuỗi
-        })
-        .then((message) => {
-          setHasSubscription(message === "Người dùng đã đăng ký dịch vụ.");
-        })
-        .catch((error) => {
-          console.error("Error checking subscription:", error);
-        });
+      }
     };
+    fetchBlogPosts();
+  }, []);
 
-
-    // Fetch available subscriptions
-    fetch(`${API_BASE_URL}/public/subscriptions/all/active`)
-      .then((response) => response.json())
-      .then((data) => setSubscriptions(data))
-      .catch((error) => {
-        console.error("Error fetching subscriptions:", error);
-      });
+  // Check user subscription status
+  useEffect(() => {
+    if (userId) {
+      const checkSubscription = async () => {
+        try {
+          const response = await fetch(`${API_BASE_URL}/public/payment/check-subscription/${userId}`);
+          if (!response.ok) throw new Error("Subscription check failed");
+          const message = await response.text();
+          setHasSubscription(message === "Người dùng đã đăng ký dịch vụ.");
+        } catch (error) {
+          console.error("Error checking subscription:", error);
+        }
+      };
+      checkSubscription();
+    }
   }, [userId]);
+
+  // Fetch available subscriptions
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/public/subscriptions/all/active`);
+        const data = await response.json();
+        setSubscriptions(data);
+      } catch (error) {
+        console.error("Error fetching subscriptions:", error);
+      }
+    };
+    fetchSubscriptions();
+  }, []);
 
   const handleCreatePost = (newPost) => {
     setBlogPosts([newPost, ...blogPosts]);
     setShowPopup(false);
   };
 
-  const verifyPayment = (paymentDetails) => {
-    console.log("Payment details being sent:", paymentDetails);
-
-    fetch(`${API_BASE_URL}/public/payment/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(paymentDetails),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          setPaymentVerified(true);
-          alert("Payment verified successfully!");
-        } else {
-          alert("Payment verification failed. Please try again.");
-        }
-      })
-      .catch((error) => {
-        console.error("Payment verification failed:", error);
-      });
-  };
-
   const handlePostButtonClick = () => {
     if (userId) {
-      console.log("Has subscription:", hasSubscription);
       if (hasSubscription) {
         setShowPopup(true);
       } else {
-        alert("You need an active subscription to create a post.");
         setShowPaymentForm(true);
       }
-    }
-    else {
-      alert("You need to login to create a post.");
-      navigate(ROUTERS.USER.LOGIN);
+    } else {
+      alert("Vui lòng đăng nhập để đăng bài viết.");
     }
   };
 
+  const handlePaymentButtonClick = () => {
+    if (userId) {
+      if (hasSubscription) {
+        setShowPaymentForm(true);
+      }
+    } else {
+      alert("Vui lòng đăng nhập để đăng bài viết.");
+    }
+  };
+
+  const verifyPayment = (paymentDetails) => {
+    setPaymentVerified(true);
+    setShowPaymentForm(false);
+  };
 
   return (
     <div className="container">
@@ -112,10 +106,7 @@ const BlogPage = () => {
           <button className="create-blog-btn" onClick={handlePostButtonClick}>
             <FaPlus />
           </button>
-          <button
-            className="payment-btn"
-            onClick={() => setShowPaymentForm(true)}
-          >
+          <button className="payment-btn" onClick={handlePaymentButtonClick}>
             <MdOutlinePayments />
           </button>
         </div>
@@ -127,33 +118,24 @@ const BlogPage = () => {
           />
         )}
 
-        {showPaymentForm &&
-          (userId ? (
-            <div className="popup-overlay">
-              <div className="popup-content">
-                <PaymentSection
-                  userId={userId}
-                  subscriptions={subscriptions}
-                  onConfirmPayment={(paymentDetails) => {
-                    verifyPayment(paymentDetails);
-                    setShowPaymentForm(false);
-                  }}
-                  onClose={() => setShowPaymentForm(false)}
-                />
-                <button
-                  className="close-payment-btn"
-                  onClick={() => setShowPaymentForm(false)}
-                >
-                  Close
-                </button>
-              </div>
+        {showPaymentForm && userId ? (
+          <div className="popup-overlay">
+            <div className="popup-content">
+              <PaymentSection
+                userId={userId}
+                subscriptions={subscriptions}
+                onConfirmPayment={verifyPayment}
+                onClose={() => setShowPaymentForm(false)}
+              />
+              <button
+                className="close-payment-btn"
+                onClick={() => setShowPaymentForm(false)}
+              >
+                Close
+              </button>
             </div>
-          ) : (
-            (() => {
-              alert("You need to login to create a post.");
-              navigate(ROUTERS.USER.LOGIN);
-            })()
-          ))}
+          </div>
+        ) : null}
 
         {loading ? (
           <p>Loading blog posts...</p>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './style.scss';
+import { IoClose } from "react-icons/io5";
 
 const API_BASE_URL = "http://localhost:8083/api";
 
@@ -8,7 +9,8 @@ const PaymentSection = ({ userId, onConfirmPayment, subscriptions, onClose }) =>
   const [subscriptionId, setSubscriptionId] = useState('');
   const [amount, setAmount] = useState('');
   const [selectedPackage, setSelectedPackage] = useState(null);
-
+  
+  // Fetch username on component mount
   useEffect(() => {
     const fetchUsername = async () => {
       try {
@@ -42,14 +44,21 @@ const PaymentSection = ({ userId, onConfirmPayment, subscriptions, onClose }) =>
     }
   }, [userId]);
 
+  // Handle package selection
   const handlePackageSelect = (pkg) => {
     setSelectedPackage(pkg);
     setSubscriptionId(pkg.subscriptionId);
     setAmount(pkg.price);
   };
 
+  // Handle form submission and payment processing
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!selectedPackage) {
+      alert('Vui lồng chọn gói đăng ký');
+      return;
+    }
 
     const paymentData = {
       amount: amount,
@@ -75,19 +84,17 @@ const PaymentSection = ({ userId, onConfirmPayment, subscriptions, onClose }) =>
         return;
       }
 
-      alert('Payment created successfully');
+      alert('Thanh toán thành công');
       onConfirmPayment();
     } catch (error) {
       console.error('Error submitting payment:', error);
-      alert('Error submitting payment');
+      alert('Đã xảy ra lỗi khi xử lý thanh toán');
     }
   };
 
   return (
     <div className="popup-overlay">
       <div className="popup-content">
-        <h2>Thanh toán</h2>
-
         <div className="subscription-selection">
           <h3>Chọn gói đăng ký</h3>
           {subscriptions.length > 0 ? (
@@ -105,32 +112,40 @@ const PaymentSection = ({ userId, onConfirmPayment, subscriptions, onClose }) =>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <label>Tên người dùng:</label>
-          <input type="text" value={userName} readOnly required />
 
-          <label>ID người dùng:</label>
-          <input type="text" value={userId} readOnly required />
+          <div className='form-input'>
+            <label>Tên người dùng:</label>
+            <input type="text" value={userName} readOnly required />
+          </div>
 
-          <label>Tên gói:</label>
-          <input
-            type="text"
-            value={selectedPackage ? selectedPackage.subscriptionName : ''}
-            readOnly
-            required
-          />
+          <div className='form-input'>
+            <label>Tên gói:</label>
+            <input
+              type="text"
+              value={selectedPackage ? selectedPackage.subscriptionName : ''}
+              readOnly
+              required
+            />
+          </div>
 
-          <label>Số tiền (VND):</label>
-          <input type="number" value={amount} readOnly required />
+          <div className='form-input'>
+            <label>Số tiền (VND):</label>
+            <input type="number" value={amount} readOnly required />
+          </div>
 
-          <label>Ngày thanh toán:</label>
-          <input type="text" value={new Date().toISOString().split('T')[0]} readOnly />
+          <div className='form-input'>
+            <label>Ngày thanh toán:</label>
+            <input type="text" value={new Date().toISOString().split('T')[0]} readOnly />
+          </div>
 
-          <label>Trạng thái:</label>
-          <input type="text" value="Completed" readOnly />
+          <div className='form-input'>
+            <label>Trạng thái:</label>
+            <input type="text" value="Completed" readOnly />
+          </div>
 
           <div className="form-buttons">
-            <button type="submit">Xác nhận thanh toán</button>
-            <button type="button" onClick={onClose} className="cancel-button">Hủy</button>
+            <button className="confirm-btn" type="submit">Xác nhận thanh toán</button>
+            <button className="close-btn" onClick={onClose}><IoClose className="close-icon" /></button>
           </div>
         </form>
       </div>

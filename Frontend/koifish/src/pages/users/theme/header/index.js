@@ -172,7 +172,7 @@ const Header = () => {
                     </u>
                 </nav>
             </header>
-            <div className="container"><BackToHome /></div>
+            <BackToHome />
         </>
     );
 };

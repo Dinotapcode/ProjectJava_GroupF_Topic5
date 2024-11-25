@@ -363,6 +363,7 @@ $back-to-top-text-color: white; // Màu chữ cho nút
 
 .backToHome {
     margin: 70px 0 5px 0;
+    padding: $theme-padding;
 
     &-container {
         margin-top: 100px;

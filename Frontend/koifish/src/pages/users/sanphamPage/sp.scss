@@ -92,4 +92,27 @@
             transform: scale(1.25);
         }
     }
+
+    .sanpham-page__controls {
+        position: relative;
+
+        button {
+            z-index: 2;
+        }
+
+        .control__filter {
+            z-index: 1;
+            padding: 15px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: start;
+            gap: 20px;
+            border-radius: 10px;
+            background-color: #c2d1db;
+        }
+    }
 }

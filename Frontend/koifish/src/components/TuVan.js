@@ -1,18 +1,18 @@
 import React, { useState, useCallback } from "react";
+import { Link } from "react-router-dom";
+import { ROUTERS } from "../utils/router";
 import DateAndSex from "./DateAndSex";
 import ResultSection from "./ResultSection";
 
-// Component chính cho tư vấn phong thủy cá Koi
 const TuVan = () => {
     const [dateAndSex, setDateAndSex] = useState(false);
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // Memoize the handleResult function to prevent unnecessary re-renders
     const handleResult = useCallback((result) => {
         setDateAndSex(result);
-    }, []); // Empty dependency array ensures it's stable
+    }, []); 
 
     const handleLookup = async () => {
         if (!dateAndSex?.birthDate || !dateAndSex?.gender) {
@@ -40,6 +40,16 @@ const TuVan = () => {
         }
     };
 
+    const handleSaveToSession = () => {
+        if (result) {
+            const koiNames = result.supportingKoi.map(koi => koi.species).join(", ");
+            const pondShapes = result.supportingPond.map(pond => pond.shape).join(", ");
+            
+            sessionStorage.setItem("koiNames", koiNames);
+            sessionStorage.setItem("pondShapes", pondShapes);
+        }
+    };
+
     return (
         <section id="tuVan">
             <article className="layout">
@@ -49,12 +59,12 @@ const TuVan = () => {
                     <button
                         className="input__btnResult"
                         onClick={handleLookup}
-                        disabled={loading} // Vô hiệu hóa nút khi đang tải
+                        disabled={loading} 
                     >
                         {loading ? "Đang tra cứu..." : "Tra cứu"}
                     </button>
 
-                    {error && <p className="error">{error}</p>} {/* Hiển thị lỗi nếu có */}
+                    {error && <p className="error">{error}</p>}
                 </section>
 
                 <section className="layout__result">
@@ -114,6 +124,13 @@ const TuVan = () => {
                             <p>
                                 {result.supportingKoi.map(koi => koi.description).join(". ")}
                             </p>
+                            <Link
+                                to={ROUTERS.USER.SANPHAM}
+                                className="next-to-product"
+                                onClick = {handleSaveToSession}
+                            >
+                                Xem các sản phẩm phù hợp với bạn
+                            </Link>
                         </div>
                     ) : (
                         <ResultSection />

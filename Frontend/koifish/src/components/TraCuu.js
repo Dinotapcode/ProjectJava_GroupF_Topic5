@@ -11,6 +11,7 @@ const TraCuu = () => {
     const [location, setLocation] = useState("");
     const [direction, setDirection] = useState("");
     const [result, setResult] = useState(null);
+    const [percent, setPercent] = useState(0);
 
     const [dateAndSex, setDateAndSex] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -85,6 +86,7 @@ const TraCuu = () => {
             }
             const data = await response.json();
             setResult(data);
+            setPercent(data.score);
         } catch (err) {
             setError("Có lỗi xảy ra khi truy cập API.");
         } finally {
@@ -92,6 +94,21 @@ const TraCuu = () => {
         }
     };
 
+    useEffect(() => {
+        if (result && result.score > 0) { // Kiểm tra result không phải null
+            let current = 0;
+            const interval = setInterval(() => {
+                current += 1; // Tăng giá trị mỗi bước
+                if (current > result.score) {
+                    clearInterval(interval); // Dừng khi đạt giá trị cuối
+                } else {
+                    setPercent(current);
+                }
+            }, 20); // Tốc độ thay đổi
+            return () => clearInterval(interval); // Dọn dẹp hiệu ứng
+        }
+    }, [result]);
+    
     return (
         <section id="traCuu">
             <article className="layout">
@@ -181,6 +198,7 @@ const TraCuu = () => {
 
                     <button className="input__btnResult" onClick={handleLookup} disabled={loading}>
                         {loading ? "Đang tra cứu..." : "Tra cứu"}
+                        {error && <p className="error">{error}</p>}
                     </button>
                 </section>
 
@@ -190,10 +208,10 @@ const TraCuu = () => {
                             <h3>Mức độ phù hợp với cá Koi của bạn</h3>
                             <div className="result__percent">
                                 <div className="percent">
-                                    <div className="percent-value">{result.score}%</div>
+                                    <div className="percent-value">{percent}%</div>
                                     <div
                                         className="percent-loading"
-                                        style={{ top: `calc(100% - ${result.score}% - 20%)` }}
+                                        style={{ top: `calc(100% - ${percent}% *1.2)` }}
                                     ></div>
                                 </div>
                             </div>
