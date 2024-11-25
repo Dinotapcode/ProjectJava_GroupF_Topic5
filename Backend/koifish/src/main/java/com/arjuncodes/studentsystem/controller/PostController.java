@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequestMapping("/api")
 @CrossOrigin
 public class PostController {
-    private static final String UPLOAD_DIR = "Frontend/koifish/src/assets/admin/img_blog";
+    private static final String UPLOAD_DIR = "Frontend/koifish/public/uploads/img_blog";
 
     @Autowired
     private PostService postService;

@@ -121,4 +121,28 @@ public class UserController {
         userService.updateUserStatus(id, enabled);
         return enabled ? "User is now active" : "User has been banned";
     }
+
+    @PutMapping("/admin/user/role")
+    public ResponseEntity<User> updateUserRole(
+            @PathVariable int id,
+            @RequestParam User.Role role) {
+        try {
+            // Lấy người dùng theo id
+            User user = userService.getUserById(id);
+
+            if (user == null) {
+                return ResponseEntity.notFound().build();  // Nếu không tìm thấy người dùng
+            }
+
+            // Cập nhật vai trò
+            user.setRole(role);
+
+            // Lưu người dùng với vai trò mới
+            User updatedUser = userService.saveUser(user, null);  // Pass null because avatar upload isn't required here
+
+            return ResponseEntity.ok(updatedUser);  // Trả về thông tin người dùng đã được cập nhật
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();  // Trả về lỗi server nếu có sự cố
+        }
+    }
 }
