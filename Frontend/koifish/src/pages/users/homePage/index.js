@@ -9,24 +9,44 @@ const HomePage = () => {
   const [products, setProducts] = useState([]); // Định nghĩa products là một mảng
   const [posts, setPosts] = useState([]); // Định nghĩa products là một mảng
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const itemWidth = 25; // Mỗi item chiếm 25% chiều rộng
-  const maxIndex = Math.max(0, products.length - 4); // Tổng số item có thể trượt (4 item hiển thị tại một thời điểm)
+  const [productCurrentIndex, setProductCurrentIndex] = useState(0);
+  const [blogCurrentIndex, setBlogCurrentIndex] = useState(0);
 
-  const updateSliderPosition = () => {
-    const offset = -currentIndex * itemWidth;
+  const itemWidth = 25; // Mỗi item chiếm 25% chiều rộng
+  const maxProductIndex = Math.max(0, products.length - 4); // Tổng số item có thể trượt (4 item hiển thị tại một thời điểm)
+  const maxBlogIndex = Math.max(0, posts.length - 4); // Tổng số item có thể trượt (4 item hiển thị tại một thời điểm)
+
+  const updateProductSliderPosition = () => {
+    const offset = -productCurrentIndex * itemWidth;
     return `${offset}%`;
   };
 
-  const handlePrevClick = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
+  const updateBlogSliderPosition = () => {
+    const offset = -blogCurrentIndex * itemWidth;
+    return `${offset}%`;
+  };
+
+  const handleProductPrevClick = () => {
+    if (productCurrentIndex > 0) {
+      setProductCurrentIndex(productCurrentIndex - 1);
     }
   };
 
-  const handleNextClick = () => {
-    if (currentIndex < maxIndex) {
-      setCurrentIndex(currentIndex + 1);
+  const handleProductNextClick = () => {
+    if (productCurrentIndex < maxProductIndex) {
+      setProductCurrentIndex(productCurrentIndex + 1);
+    }
+  };
+
+  const handleBlogPrevClick = () => {
+    if (blogCurrentIndex > 0) {
+      setBlogCurrentIndex(blogCurrentIndex - 1);
+    }
+  };
+
+  const handleBlogNextClick = () => {
+    if (blogCurrentIndex < maxBlogIndex) {
+      setBlogCurrentIndex(blogCurrentIndex + 1);
     }
   };
 
@@ -88,7 +108,7 @@ const HomePage = () => {
           <div className="slider-container">
             <div
               className="slide-cards"
-              style={{ transform: `translateX(${updateSliderPosition()})`, transition: 'transform 0.3s ease' }}
+              style={{ transform: `translateX(${updateProductSliderPosition()})`, transition: 'transform 0.3s ease' }}
             >
               {isLoading ? (
                 <p>Đang tải sản phẩm...</p>
@@ -115,15 +135,15 @@ const HomePage = () => {
             <div className="slider-controls">
               <button
                 className="slide-btn"
-                onClick={handlePrevClick}
-                disabled={currentIndex === 0}
+                onClick={handleProductPrevClick}
+                disabled={productCurrentIndex === 0}
               >
                 &lt;
               </button>
               <button
                 className="slide-btn"
-                onClick={handleNextClick}
-                disabled={currentIndex === maxIndex}
+                onClick={handleProductNextClick}
+                disabled={productCurrentIndex === maxProductIndex}
               >
                 &gt;
               </button>
@@ -149,7 +169,7 @@ const HomePage = () => {
           <div className="slider-container">
             <div
               className="slide-cards"
-              style={{ transform: `translateX(${updateSliderPosition()})`, transition: 'transform 0.3s ease' }}
+              style={{ transform: `translateX(${updateBlogSliderPosition()})`, transition: 'transform 0.3s ease' }}
             >
               {isLoading ? (
                 <p>Đang tải sản phẩm...</p>
@@ -176,15 +196,15 @@ const HomePage = () => {
             <div className="slider-controls">
               <button
                 className="slide-btn"
-                onClick={handlePrevClick}
-                disabled={currentIndex === 0}
+                onClick={handleBlogPrevClick}
+                disabled={blogCurrentIndex === 0}
               >
                 &lt;
               </button>
               <button
                 className="slide-btn"
-                onClick={handleNextClick}
-                disabled={currentIndex === maxIndex}
+                onClick={handleBlogNextClick}
+                disabled={blogCurrentIndex === maxBlogIndex}
               >
                 &gt;
               </button>
