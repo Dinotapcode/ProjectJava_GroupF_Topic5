@@ -35,6 +35,7 @@ public class Subscription {
         this.subscriptionId = subscriptionId;
     }
 
+
     public String getSubscriptionName() {
         return subscriptionName;
     }
