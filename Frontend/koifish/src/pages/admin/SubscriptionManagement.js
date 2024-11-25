@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD:Frontend/koifish/src/pages/admin/SubscriptionManagement.js
 import './SubscriptionManagement.scss';
 const API_BASE_URL = "http://localhost:8083/api";
 
-=======
-import './PaymentManagement.scss';
-
-const API_BASE_URL = "http://localhost:8083/api";
-
->>>>>>> 7cbc0a09a4a1e5da3df2d76049d2850e1acc9bc6:Frontend/koifish/src/pages/admin/PaymentManagement.js
 const SubscriptionManagement = () => {
     const [subscriptions, setSubscriptions] = useState([]);
     const [newSubscription, setNewSubscription] = useState({
@@ -18,7 +11,6 @@ const SubscriptionManagement = () => {
         duration: '',
     });
 
-<<<<<<< HEAD:Frontend/koifish/src/pages/admin/SubscriptionManagement.js
     // Lấy danh sách subscription từ backend
     const fetchSubscriptions = async () => {
         try {
@@ -34,22 +26,6 @@ const SubscriptionManagement = () => {
 
     useEffect(() => {
         fetchSubscriptions(); // Gọi API khi component load
-=======
-    // Fetch subscriptions from backend
-    useEffect(() => {
-        const fetchSubscriptions = async () => {
-            try {
-                const response = await fetch(`${API_BASE_URL}/admin/subscriptions/all`, {
-                    headers: { Authorization: sessionStorage.getItem('authHeader') }
-                });
-                const data = await response.json();
-                setSubscriptions(data);
-            } catch (error) {
-                console.error('Error fetching subscriptions:', error);
-            }
-        };
-        fetchSubscriptions();
->>>>>>> 7cbc0a09a4a1e5da3df2d76049d2850e1acc9bc6:Frontend/koifish/src/pages/admin/PaymentManagement.js
     }, []);
 
     // Pause subscription
@@ -64,14 +40,8 @@ const SubscriptionManagement = () => {
                 throw new Error('Failed to pause subscription');
             }
 
-<<<<<<< HEAD:Frontend/koifish/src/pages/admin/SubscriptionManagement.js
             // Sau khi tạm hoãn, gọi lại API để cập nhật danh sách
             fetchSubscriptions();
-=======
-            const updatedSubscriptions = [...subscriptions];
-            updatedSubscriptions[index].status = 'Paused';
-            setSubscriptions(updatedSubscriptions);
->>>>>>> 7cbc0a09a4a1e5da3df2d76049d2850e1acc9bc6:Frontend/koifish/src/pages/admin/PaymentManagement.js
         } catch (error) {
             console.error('Error pausing subscription:', error);
         }
@@ -89,14 +59,8 @@ const SubscriptionManagement = () => {
                 throw new Error('Failed to resume subscription');
             }
 
-<<<<<<< HEAD:Frontend/koifish/src/pages/admin/SubscriptionManagement.js
             // Sau khi hủy tạm hoãn, gọi lại API để cập nhật danh sách
             fetchSubscriptions();
-=======
-            const updatedSubscriptions = [...subscriptions];
-            updatedSubscriptions[index].status = 'Active';
-            setSubscriptions(updatedSubscriptions);
->>>>>>> 7cbc0a09a4a1e5da3df2d76049d2850e1acc9bc6:Frontend/koifish/src/pages/admin/PaymentManagement.js
         } catch (error) {
             console.error('Error resuming subscription:', error);
         }
@@ -114,13 +78,8 @@ const SubscriptionManagement = () => {
                 throw new Error('Failed to delete subscription');
             }
 
-<<<<<<< HEAD:Frontend/koifish/src/pages/admin/SubscriptionManagement.js
             // Sau khi xóa, gọi lại API để cập nhật danh sách
             fetchSubscriptions();
-=======
-            const updatedSubscriptions = subscriptions.filter((_, i) => i !== index);
-            setSubscriptions(updatedSubscriptions);
->>>>>>> 7cbc0a09a4a1e5da3df2d76049d2850e1acc9bc6:Frontend/koifish/src/pages/admin/PaymentManagement.js
         } catch (error) {
             console.error('Error deleting subscription:', error);
         }
@@ -128,20 +87,10 @@ const SubscriptionManagement = () => {
 
     // Add new subscription
     const handleAddSubscription = async () => {
-<<<<<<< HEAD:Frontend/koifish/src/pages/admin/SubscriptionManagement.js
         if (!newSubscription.subscriptionName || !newSubscription.price || !newSubscription.description || !newSubscription.duration) {
             alert('Vui lòng nhập đầy đủ thông tin gói subscription');
             return;
         }
-=======
-        // Validate form fields
-        const { subscriptionName, price, description, duration } = newSubscription;
-        if (!subscriptionName || !price || !description || !duration) {
-            alert('Please fill out all fields before adding a new subscription.');
-            return;
-        }
-
->>>>>>> 7cbc0a09a4a1e5da3df2d76049d2850e1acc9bc6:Frontend/koifish/src/pages/admin/PaymentManagement.js
         try {
             const response = await fetch(`${API_BASE_URL}/admin/subscriptions/add`, {
                 method: 'POST',
