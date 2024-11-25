@@ -31,17 +31,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-
-
-
-    @GetMapping("/admin/user/getAll")
-    public ResponseEntity<List<User>> getAllUsers() {
-        try {
-            List<User> users = userService.getAllUsers();
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    @GetMapping("/admin/user/all")
+    public List<User> getAllUsers() {
+            return userService.getAllUsers();
     }
 
     @GetMapping("/user/{id}")
@@ -122,7 +114,7 @@ public class UserController {
         return enabled ? "User is now active" : "User has been banned";
     }
 
-    @PutMapping("/admin/user/role")
+    @PutMapping("/admin/user/role/{id}")
     public ResponseEntity<User> updateUserRole(
             @PathVariable int id,
             @RequestParam User.Role role) {

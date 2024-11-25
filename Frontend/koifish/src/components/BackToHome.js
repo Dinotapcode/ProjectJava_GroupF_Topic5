@@ -13,6 +13,8 @@ const BackToHome = () => {
             { path: '/blog', label: 'Blog tin tức' },
             { path: '/san-pham-phong-thuy', label: 'Sản phẩm phong thủy' },
             { path: '/dang-nhap', label: 'Đăng nhập' },
+            { path: '/tai-khoan-ca-nhan', label: 'Tài khoản cá nhân' },
+            { path: '/admin', label: 'Quản lý' },
         ];
 
         const currentLink = navBottomLinks.find(link =>
