@@ -10,7 +10,7 @@ const UserManagement = () => {
         const fetchUsers = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch('http://localhost:8083/api/admin/user/getAll', {
+                const response = await fetch('http://localhost:8083/api/admin/user/all', {
                     headers: { Authorization: sessionStorage.getItem('authHeader') },
                 });
                 if (!response.ok) {
