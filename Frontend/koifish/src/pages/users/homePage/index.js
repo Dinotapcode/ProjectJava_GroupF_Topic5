@@ -12,9 +12,9 @@ const HomePage = () => {
   const [productCurrentIndex, setProductCurrentIndex] = useState(0);
   const [blogCurrentIndex, setBlogCurrentIndex] = useState(0);
 
-  const itemWidth = 25; // Mỗi item chiếm 25% chiều rộng
-  const maxProductIndex = Math.max(0, products.length - 4); // Tổng số item có thể trượt (4 item hiển thị tại một thời điểm)
-  const maxBlogIndex = Math.max(0, posts.length - 4); // Tổng số item có thể trượt (4 item hiển thị tại một thời điểm)
+  const itemWidth = 25;
+  const maxProductIndex = Math.max(0, products.length - 4);
+  const maxBlogIndex = Math.max(0, posts.length - 4);
 
   const updateProductSliderPosition = () => {
     const offset = -productCurrentIndex * itemWidth;

@@ -39,11 +39,11 @@ const SubscriptionManagement = () => {
             if (!response.ok) {
                 throw new Error('Failed to pause subscription');
             }
-
-            // Sau khi tạm hoãn, gọi lại API để cập nhật danh sách
+            alert('Đã tạm dừng gói dịch vụ thành công!');
             fetchSubscriptions();
         } catch (error) {
             console.error('Error pausing subscription:', error);
+            alert('Có lỗi xảy ra khi tạm dừng gói dịch vụ!');
         }
     };
 
@@ -58,37 +58,39 @@ const SubscriptionManagement = () => {
             if (!response.ok) {
                 throw new Error('Failed to resume subscription');
             }
-
-            // Sau khi hủy tạm hoãn, gọi lại API để cập nhật danh sách
+            alert('Đã kích hoạt gói dịch vụ thành công!');
             fetchSubscriptions();
         } catch (error) {
             console.error('Error resuming subscription:', error);
+            alert('Có lỗi xảy ra khi kích hoạt gói dịch vụ!');
         }
     };
 
     // Delete subscription
     const handleDeleteSubscription = async (index) => {
         const subscription = subscriptions[index];
-        try {
-            const response = await fetch(`${API_BASE_URL}/admin/subscriptions/delete/${subscription.subscriptionId}`, {
-                method: 'DELETE',
-                headers: { Authorization: sessionStorage.getItem('authHeader') }
-            });
-            if (!response.ok) {
-                throw new Error('Failed to delete subscription');
+        if (window.confirm('Bạn có chắc chắn muốn xóa gói dịch vụ này?')) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/admin/subscriptions/delete/${subscription.subscriptionId}`, {
+                    method: 'DELETE',
+                    headers: { Authorization: sessionStorage.getItem('authHeader') }
+                });
+                if (!response.ok) {
+                    throw new Error('Failed to delete subscription');
+                }
+                alert('Đã xóa gói dịch vụ thành công!');
+                fetchSubscriptions();
+            } catch (error) {
+                console.error('Error deleting subscription:', error);
+                alert('Có lỗi xảy ra khi xóa gói dịch vụ!');
             }
-
-            // Sau khi xóa, gọi lại API để cập nhật danh sách
-            fetchSubscriptions();
-        } catch (error) {
-            console.error('Error deleting subscription:', error);
         }
     };
 
     // Add new subscription
     const handleAddSubscription = async () => {
         if (!newSubscription.subscriptionName || !newSubscription.price || !newSubscription.description || !newSubscription.duration) {
-            alert('Vui lòng nhập đầy đủ thông tin gói subscription');
+            alert('Vui lòng nhập đầy đủ thông tin gói dịch vụ!');
             return;
         }
         try {
@@ -104,8 +106,7 @@ const SubscriptionManagement = () => {
             if (!response.ok) {
                 throw new Error('Failed to add new subscription');
             }
-
-            // Sau khi thêm, gọi lại API để cập nhật danh sách
+            alert('Đã thêm gói dịch vụ mới thành công!');
             fetchSubscriptions();
             setNewSubscription({
                 subscriptionName: '',
@@ -115,16 +116,17 @@ const SubscriptionManagement = () => {
             });
         } catch (error) {
             console.error('Error adding subscription:', error);
+            alert('Có lỗi xảy ra khi thêm gói dịch vụ mới!');
         }
     };
 
     return (
         <div className="payment-management">
-            <h2>Subscription Management</h2>
+            <h2>Quản Lý Gói Dịch Vụ</h2>
 
-            {/* Add Subscription Form */}
+            {/* Form Thêm Gói Dịch Vụ */}
             <div className="add-subscription">
-                <h3>Thêm mới gói dịch vụ </h3>
+                <h3>Thêm mới gói dịch vụ</h3>
                 <input
                     type="text"
                     placeholder="Tên gói"
@@ -133,7 +135,7 @@ const SubscriptionManagement = () => {
                 />
                 <input
                     type="number"
-                    placeholder="Gía"
+                    placeholder="Giá"
                     value={newSubscription.price}
                     onChange={(e) => setNewSubscription({ ...newSubscription, price: e.target.value })}
                 />
@@ -149,20 +151,20 @@ const SubscriptionManagement = () => {
                     value={newSubscription.duration}
                     onChange={(e) => setNewSubscription({ ...newSubscription, duration: e.target.value })}
                 />
-                <button onClick={handleAddSubscription}>Add</button>
+                <button onClick={handleAddSubscription}>Thêm mới</button>
             </div>
 
-            {/* Subscription List */}
+            {/* Danh sách gói dịch vụ */}
             <table>
                 <thead>
                     <tr>
                         <th>STT</th>
                         <th>Tên gói</th>
-                        <th>Gía</th>
+                        <th>Giá</th>
                         <th>Mô tả</th>
                         <th>Thời gian</th>
                         <th>Trạng thái</th>
-                        <th>Actions</th>
+                        <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -173,19 +175,19 @@ const SubscriptionManagement = () => {
                             <td>{subscription.price}</td>
                             <td>{subscription.description}</td>
                             <td>{subscription.duration}</td>
-                            <td>{subscription.status || 'Active'}</td>
+                            <td>{subscription.status === 'Paused' ? 'Tạm dừng' : 'Hoạt động'}</td>
                             <td>
                                 {subscription.status !== 'Paused' ? (
                                     <button className="btn-pause" onClick={() => handlePauseSubscription(index)}>
-                                        Pause
+                                        Tạm dừng
                                     </button>
                                 ) : (
                                     <button className="btn-resume" onClick={() => handleResumeSubscription(index)}>
-                                        Resume
+                                        Kích hoạt
                                     </button>
                                 )}
                                 <button className="btn-delete" onClick={() => handleDeleteSubscription(index)}>
-                                    Delete
+                                    Xóa
                                 </button>
                             </td>
                         </tr>

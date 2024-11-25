@@ -19,6 +19,7 @@ const ProductManagement = ({ products, setProducts }) => {
         info2: "",
         info3: "",
     });
+    const [filterItem, setFilterItem] = useState('all');
 
     // Xử lý thay đổi input
     const handleInputChange = (e) => {
@@ -185,10 +186,26 @@ const ProductManagement = ({ products, setProducts }) => {
         fetchProducts();
     }, [setProducts]);
 
+    // Lọc sản phẩm dựa trên filterItem
+    const filteredProducts = products.filter(product => 
+        filterItem === 'all' ? true : product.item === filterItem
+    );
+
     return (
         <div className="product-management">
             <div className="setting-add-product-btn">
                 <h1>Quản lý sản phẩm</h1>
+                <div className="filter-container">
+                    <select 
+                        value={filterItem} 
+                        onChange={(e) => setFilterItem(e.target.value)}
+                        className="filter-select"
+                    >
+                        <option value="all">Tất cả</option>
+                        <option value="fish">Cá</option>
+                        <option value="aquarium">Hồ</option>
+                    </select>
+                </div>
                 <button className="btn-add" onClick={() => setShowPopup(true)}>Thêm sản phẩm</button>
             </div>
 
@@ -207,7 +224,7 @@ const ProductManagement = ({ products, setProducts }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((product, index) => (
+                        {filteredProducts.map((product, index) => (
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{product.item}</td>

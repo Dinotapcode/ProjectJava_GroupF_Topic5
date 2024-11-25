@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaUser, FaBox, FaWallet } from "react-icons/fa";
+import { FaUser, FaWallet } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTERS } from "../../../utils/router";
 import "./style.scss";
@@ -116,13 +116,47 @@ const PersonalPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Kiểm tra tên người dùng
+    if (!newUser.userName.trim()) {
+      alert("Tên người dùng không được để trống!");
+      return;
+    }
+
+    if (newUser.userName.trim().length < 2 || newUser.userName.trim().length > 32) {
+      alert("Tên người dùng phải từ 2 đến 32 ký tự!");
+      return;
+    }
+
+    // Kiểm tra số điện thoại
+    const phoneRegex = /^\d{9,13}$/;
+    if (!phoneRegex.test(newUser.phone)) {
+      alert("Số điện thoại phải từ 9 đến 13 chữ số!");
+      return;
+    }
+
+    // Kiểm tra độ tuổi (16-100 tuổi)
+    const birthDate = new Date(newUser.birthday);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    if (age < 16 || (age === 16 && monthDiff < 0)) {
+      alert("Bạn phải trên 16 tuổi!");
+      return;
+    }
+
+    if (age > 100 || (age === 100 && monthDiff > 0)) {
+      alert("Vui lòng kiểm tra lại ngày sinh!");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("userName", newUser.userName);
     formData.append("email", newUser.email);
     formData.append("phone", newUser.phone);
     formData.append("birthday", newUser.birthday);
 
-    // Chỉ append avatar nếu có file mới
+    // Chỉ thêm avatar nếu có file mới
     if (newUser.avatar instanceof File) {
       formData.append("avatar", newUser.avatar);
     }
@@ -144,32 +178,29 @@ const PersonalPage = () => {
       }
 
       const resultText = await response.text();
-      setMessage("Cập nhật thành công!");
+      alert("Cập nhật thông tin thành công!");
 
-      // Lấy tên file avatar mới từ response
-      const newAvatarPath = resultText.split("avatar: ")[1];
-
-      // Cập nhật state với avatar mới
+      // Cập nhật thông tin người dùng
       setUser((prev) => ({
         ...prev,
         userName: newUser.userName,
         email: newUser.email,
         phone: newUser.phone,
         birthday: newUser.birthday,
-        avatar: newAvatarPath,
+        avatar: resultText.split("avatar: ")[1],
       }));
 
-      // Reset preview URL
+      // Xóa preview URL
       if (previewUrl) {
         URL.revokeObjectURL(previewUrl);
         setPreviewUrl(null);
       }
 
       navigate(0);
-      setActiveMenu(null); // Reset to show welcome message
+      setActiveMenu(null);
     } catch (error) {
       console.error("Error:", error);
-      setMessage("Có lỗi xảy ra. Vui lòng thử lại.");
+      alert("Có lỗi xảy ra. Vui lòng thử lại.");
     } finally {
       setLoading(false);
     }
@@ -216,12 +247,6 @@ const PersonalPage = () => {
             onClick={() => setActiveMenu("profile")}
           >
             <FaUser /> Cập nhật thông tin cá nhân
-          </div>
-          <div
-            className={`menu-item ${activeMenu === "orders" ? "active" : ""}`}
-            onClick={() => setActiveMenu("orders")}
-          >
-            <FaBox /> Quản lý lịch hẹn
           </div>
           <div
             className={`menu-item ${activeMenu === "wallet" ? "active" : ""}`}

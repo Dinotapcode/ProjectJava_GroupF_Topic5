@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './sp.scss';
 
@@ -16,6 +16,24 @@ const SanphamPage = () => {
     // Retrieve session data
     const selectedKoi = sessionStorage.getItem('selectedKoi');
     const selectedPondShape = sessionStorage.getItem('selectedPondShape');
+
+    // Add new ref for the filter container
+    const filterRef = useRef(null);
+
+    // Add click outside handler
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (filterRef.current && !filterRef.current.contains(event.target) && 
+                !event.target.classList.contains('button-filter')) {
+                setIsFilterVisible(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     useEffect(() => {
         const fetchOptions = async () => {
@@ -92,7 +110,7 @@ const SanphamPage = () => {
                             {isFilterVisible ? 'Ẩn bộ lọc' : 'Hiện bộ lọc'}
                         </button>
                         {isFilterVisible && (
-                            <div className="control__filter">
+                            <div className="control__filter" ref={filterRef}>
                                 <label>
                                     Lọc theo loại:
                                     <select value={filterItem} onChange={(e) => setFilterItem(e.target.value)}>

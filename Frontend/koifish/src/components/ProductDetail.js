@@ -49,8 +49,41 @@ const [user, setUser] = useState({
         if (name === "contact") {
             setContact(value);
         } else if (name === "date") {
+            const selectedDate = new Date(value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            if (selectedDate < today) {
+                alert('Không thể chọn ngày trong quá khứ');
+                return;
+            }
+            setErrorMessage('');
             setDate(value);
+            setTime('');
         } else if (name === "time") {
+            const selectedTime = value;
+            const [selectedHour, selectedMinute] = selectedTime.split(':').map(Number);
+            
+            // Kiểm tra giờ hành chính (7:00 - 17:00)
+            if (selectedHour < 7 || selectedHour > 17 || (selectedHour === 17 && selectedMinute > 0)) {
+                alert('Vui lòng chọn giờ trong khung giờ hành chính (7:00 - 17:00)');
+                return;
+            }
+
+            const selectedDate = new Date(date);
+            const now = new Date();
+
+            // Nếu ngày được chọn là ngày hiện tại, kiểm tra thêm với giờ hiện tại
+            if (selectedDate.toDateString() === now.toDateString()) {
+                const currentHour = now.getHours();
+                const currentMinute = now.getMinutes();
+
+                if (selectedHour < currentHour || 
+                    (selectedHour === currentHour && selectedMinute < currentMinute)) {
+                    alert('Không thể chọn thời gian trong quá khứ');
+                    return;
+                }
+            }
             setTime(value);
         }
     };
@@ -193,6 +226,7 @@ const [user, setUser] = useState({
                                     type="date"
                                     name="date"
                                     value={date}
+                                    min={new Date().toISOString().split('T')[0]}
                                     onChange={handleChange}
                                     required
                                 />

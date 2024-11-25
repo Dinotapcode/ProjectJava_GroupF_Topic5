@@ -101,5 +101,28 @@ public class PostController {
         }
     }
 
+    @DeleteMapping("/admin/post/delete/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable int id) {
+        try {
+            // Lấy thông tin post trước khi xóa để lấy tên file ảnh
+            Post post = postService.getPostById(id);
+            String imageName = post.getImage();
+
+            // Xóa file ảnh từ thư mục uploads
+            if (imageName != null && !imageName.isEmpty()) {
+                File imageFile = new File(UPLOAD_DIR + File.separator + imageName);
+                if (imageFile.exists()) {
+                    imageFile.delete();
+                }
+            }
+
+            // Xóa bài viết từ database
+            postRepository.deleteById(id);
+
+            return ResponseEntity.ok("Xóa bài viết thành công");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Lỗi khi xóa bài viết: " + e.getMessage());
+        }
+    }
 
 }
