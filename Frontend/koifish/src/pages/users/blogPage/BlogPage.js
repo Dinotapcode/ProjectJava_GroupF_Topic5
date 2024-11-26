@@ -85,9 +85,9 @@ const BlogPage = () => {
 
   const handlePaymentButtonClick = () => {
     if (userId) {
-      if (hasSubscription) {
+      
         setShowPaymentForm(true);
-      }
+      
     } else {
       alert("Vui lòng đăng nhập để đăng bài viết.");
     }

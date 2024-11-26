@@ -56,7 +56,7 @@ const PaymentSection = ({ userId, onConfirmPayment, subscriptions, onClose }) =>
     e.preventDefault();
 
     if (!selectedPackage) {
-      alert('Vui lồng chọn gói đăng ký');
+      alert('Vui lòng chọn gói đăng ký');
       return;
     }
 

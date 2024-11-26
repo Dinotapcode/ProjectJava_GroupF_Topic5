@@ -31,7 +31,7 @@ function LoginPage() {
                 alert('Đăng ký thành công!');
                 setActiveForm('login');
             } else {
-                alert(data.message || 'Đăng ký thất bại');
+                alert(data.message || 'Đăng ký thất bại, email đã tồn tại');
             }
         } catch (error) {
             console.error('Error:', error);
